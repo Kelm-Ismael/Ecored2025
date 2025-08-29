@@ -1,0 +1,37 @@
+/my-app-backend
+│
+├── src/
+│   ├── config/
+│   │   └── db.js              # Configuración y conexión a la BBDD
+│   ├── routes/
+│   │   ├── usuario.routes.js  # Rutas de usuarios
+│   │   └── ...                # Rutas por cada entidad
+│   ├── controllers/
+│   │   ├── usuario.controller.js
+│   │   └── ...
+│   ├── models/
+│   │   ├── usuario.model.js   # Acceso a datos SQL (queries)
+│   │   └── ...
+│   └── index.js               # Entrada principal del servidor
+│
+├── .env
+├── package.json
+└── README.md
+
+
+GUIA
+1. iniciar proyecto desde carpeta backend
+    cd backend
+    npm init -y
+    npm install express dotenv mysql2
+    npm install --save-dev nodemon
+
+2. crear .env
+    PORT=3000
+
+    DB_HOST=localhost
+    DB_USER=tu_usuario
+    DB_PASS=tu_contraseña
+    DB_NAME=nombre_de_tu_base_de_datos
+
+REF: https://medium.com/@carlosgarcia3535/c%C3%B3mo-iniciar-un-servidor-con-node-js-y-express-js-460b6fd672e6
