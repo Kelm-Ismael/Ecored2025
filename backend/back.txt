@@ -34,4 +34,20 @@ GUIA
     DB_PASS=tu_contraseña
     DB_NAME=nombre_de_tu_base_de_datos
 
+3. crear .gitignore
+    # dependencias
+    node_modules/
+
+    # entorno y configuración
+    .env
+    *.log
+
+    #base de datos local, por ej SQLite
+    *.sqlite
+
+    #sistema operativo o editores
+    .DS_Store
+    .vscode/
+    .idea/
+
 REF: https://medium.com/@carlosgarcia3535/c%C3%B3mo-iniciar-un-servidor-con-node-js-y-express-js-460b6fd672e6
