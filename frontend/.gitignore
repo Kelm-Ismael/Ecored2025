@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-# api front
-# API_URL = "IP"
-=======
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# api front
-# API_URL = "IP"
 
 # dependencies
 node_modules/
@@ -42,4 +35,3 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
->>>>>>> master
