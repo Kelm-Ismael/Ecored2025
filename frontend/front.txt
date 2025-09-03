@@ -1,0 +1,38 @@
+/ecored-front
+|
+├── assets/
+|
+├── components/
+|
+├── screens/
+|   ├── beneficios.js
+|   ├── desafios.js
+|   ├── infomracion.js
+|   ├── inicioSesion.js
+|   ├── perfilUsuario.js
+|   └── registroUsuario.js
+│
+├── App.js 
+├── app.json
+├── index.js
+├── package-lock.json
+└── package.json
+
+1. sobre ECORED2025 en bash
+    npx create-expo-app@latest --template blank
+
+2. ingresar nombre de proyecto 'frontend'
+
+3. cd frontend
+
+4. instalar:
+    npx expo install react-dom react-native-web @expo/metro-runtime
+    npx expo install react-native-screens react-native-safe-area-context
+    npx expo install react-native-gesture-handler react-native-reanimated
+    npx expo install react-native-safe-area-context
+    npm install @react-native-picker/picker
+    npm install react-native-vector-icons
+
+5. pull
+
+*** npx expo star -> levantar el proyecto
