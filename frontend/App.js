@@ -10,6 +10,7 @@ import ScreenInformacion from './screens/informacion'
 import ScreenUsuario from './screens/perfilUsuario'
 import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
+import ScreenLogin from './screens/inicioSesion'
 
 import { headerStyles, tabBarStyles } from './styles/styles';
 

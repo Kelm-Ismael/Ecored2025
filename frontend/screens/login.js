@@ -2,7 +2,7 @@
 
 // Credenciales de ejemplo (NO usar en producción)
 const USERNAME = "admin";
-const PASSWORD = "1234";
+const PASSWORD = "";
 
 // Función para manejar el inicio de sesión
 function login(event) {
