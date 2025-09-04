@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function ScreenLogin({ navigation }) {
+export default function ScreenRegistro({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
 
-  const handleLogin = () => {
-    // Aquí pondrías tu lógica real de autenticación
-    if (email && password) {
-      navigation.replace('PerfilUsuario'); 
-    } else {
-      alert('Por favor ingresa correo y contraseña');
+  const handleRegister = () => {
+    if (!email || !password) {
+      alert('Completa todos los campos');
+      return;
     }
+    if (password !== confirm) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    // Aquí guardarías el usuario en tu backend / firebase / etc.
+    alert('Registro exitoso');
+    navigation.replace('PerfilUsuario');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+      <Text style={styles.title}>Registro</Text>
       <TextInput
         style={styles.input}
         placeholder="Correo"
@@ -30,9 +37,16 @@ export default function ScreenLogin({ navigation }) {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Entrar" onPress={handleLogin} />
-      <Text style={styles.link} onPress={() => navigation.navigate('Registro')}>
-        ¿No tienes cuenta? Regístrate aquí
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar contraseña"
+        secureTextEntry
+        value={confirm}
+        onChangeText={setConfirm}
+      />
+      <Button title="Registrarme" onPress={handleRegister} />
+      <Text style={styles.link} onPress={() => navigation.goBack()}>
+        ¿Ya tienes cuenta? Inicia sesión
       </Text>
     </View>
   );

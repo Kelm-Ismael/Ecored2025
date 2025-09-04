@@ -7,10 +7,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 import ScreenInformacion from './screens/informacion'
-import ScreenUsuario from './screens/perfilUsuario'
+import AuthStack from './navigation/authStack';
+// import ScreenUsuario from './screens/perfilUsuario'
 import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
 import ScreenLogin from './screens/inicioSesion'
+
 
 import { headerStyles, tabBarStyles } from './styles/styles';
 
@@ -58,7 +60,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Usuario"
-            component={ScreenUsuario}
+            component={AuthStack}
             options={{
               title: 'Mi Perfil',
               ...headerStyles,
@@ -89,7 +91,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#e60808ff',
     alignItems: 'center',
     justifyContent: 'center',
   },
