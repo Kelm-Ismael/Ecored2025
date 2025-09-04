@@ -33,6 +33,9 @@ const tabScreenOptions = ({ route }) => ({
       case 'Desafios':
         iconName = focused ? 'flash' : 'flash-outline';
         break;
+      case 'Login':
+        iconName = focused ? 'flash' : 'flash-outline';
+        break;
     }
 
     return <Ionicons name={iconName} size={size} color={color} />;
