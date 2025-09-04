@@ -9,9 +9,10 @@ export default function ScreenUsuario() {
         <SafeAreaView style={commonStyles.safeArea}>
             <View style={commonStyles.container}>
                 <Text style={commonStyles.title}>
-                    Usuario
+                    Usuarios
                 </Text>
             </View>
         </SafeAreaView>
     );
 }
+
