@@ -1,46 +1,68 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { commonStyles } from '../styles/styles';
 
-export default function ScreenLogin({ navigation }) {
+export default function InicioSesion({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Aquí pondrías tu lógica real de autenticación
-    if (email && password) {
-      navigation.replace('PerfilUsuario'); 
-    } else {
-      alert('Por favor ingresa correo y contraseña');
+  const handleLogin = async () => {
+    try {
+      const res = await fetch('http://TU_IP:3000/api/usuarios/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        await AsyncStorage.setItem('token', data.token);
+        navigation.replace('PerfilUsuario');
+      } else {
+        Alert.alert('Error', data.error || 'Credenciales inválidas');
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Error', 'No se pudo conectar al servidor');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+    <View style={commonStyles.container}>
+      <Text style={commonStyles.title}>Iniciar Sesión</Text>
+
       <TextInput
-        style={styles.input}
+        style={commonStyles.input}
         placeholder="Correo"
         value={email}
         onChangeText={setEmail}
       />
+
       <TextInput
-        style={styles.input}
+        style={commonStyles.input}
         placeholder="Contraseña"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Entrar" onPress={handleLogin} />
-      <Text style={styles.link} onPress={() => navigation.navigate('Registro')}>
-        ¿No tienes cuenta? Regístrate aquí
-      </Text>
+
+      <Pressable
+        style={({ pressed }) => [
+          commonStyles.button,
+          { opacity: pressed ? 0.7 : 1, marginBottom: 12 },
+        ]}
+        onPress={handleLogin}
+      >
+        <Text style={commonStyles.buttonText}>Entrar</Text>
+      </Pressable>
+
+      <Pressable onPress={() => navigation.navigate('Registro')}>
+        <Text style={commonStyles.subtitle}>
+          ¿No tienes cuenta? Regístrate aquí
+        </Text>
+      </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: 'center' },
-  input: { borderWidth: 1, marginBottom: 12, padding: 10, borderRadius: 8 },
-  link: { marginTop: 15, color: 'blue', textAlign: 'center' },
-});
