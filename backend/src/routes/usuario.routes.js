@@ -14,6 +14,7 @@
 // router.delete('/:id', eliminarUsuario);
 
 // export default router;
+
 import express from 'express';
 import {
   getUsuarios,
