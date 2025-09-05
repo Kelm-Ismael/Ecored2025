@@ -9,7 +9,7 @@ export default function InicioSesion({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://TU_IP:3000/api/usuarios/login', {
+      const res = await fetch('http://localhost:3000/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

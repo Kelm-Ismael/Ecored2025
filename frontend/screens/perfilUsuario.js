@@ -15,7 +15,7 @@ export default function PerfilUsuario({ navigation }) {
         return;
       }
 
-      const res = await fetch('http://TU_IP:3000/api/usuarios/me', {
+      const res = await fetch('http://localhost:3000/api/usuarios/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -31,6 +31,18 @@
 // // PUT	        /api/usuarios/:id	Actualizar usuario
 // // DELETE	    /api/usuarios/:id	Eliminar usuario
 
+import db from './config/db.js'; // tu pool de MySQL
+
+// Endpoint para probar conexión a la DB
+app.get('/test-db', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT 1 + 1 AS result');
+    res.json({ success: true, result: rows[0].result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 
 import express from 'express';
 import dotenv from 'dotenv';
