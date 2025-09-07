@@ -95,7 +95,7 @@ export default function PerfilUsuario({ navigation }) {
         return;
       }
 
-      const res = await fetch('http://localhost:3000/api/usuarios/me', {
+      const res = await fetch('http://192.168.0.7:3000/api/usuarios/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
 

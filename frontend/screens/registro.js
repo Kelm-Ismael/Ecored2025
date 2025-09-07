@@ -140,7 +140,7 @@ export default function Registro({ navigation }) {
     console.log('Intentando registrar:', email, password);
 
     try {
-      const res = await fetch('http://localhost:3000/api/usuarios', {
+      const res = await fetch('http:// 192.168.0.7:3000/api/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, contrasenia: password }),
