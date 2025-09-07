@@ -55,7 +55,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Usuario"
-            component={ScreenUsuario} //ScreenLogin
+            component={ScreenLogin} //ScreenUsuario
             options={{
               title: 'Mi Perfil',
               ...headerStyles,
