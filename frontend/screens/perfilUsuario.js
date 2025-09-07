@@ -11,6 +11,22 @@ export default function ScreenUsuario() {
                 <Text style={commonStyles.title}>
                     Usuario
                 </Text>
+                <View style={commonStyles.container}>
+                     <Text>Nombre apellido </Text>
+                     <Text>rol/escuela</Text>
+                     <Text>nivel</Text>
+                      {/* despues conectara con crud usuario */}
+                      {/* btn nueva entrega de reciclables */}
+
+                      <Text>Pts acumulados</Text>
+                        <View style={commonStyles.accentContainer}>
+                            <Text>pts</Text>
+                        </View>
+                      <Text>ultimas transacciones</Text>
+                        <View style={commonStyles.accentContainer}>
+                            <Text>tablas</Text>
+                        </View>
+                </View>
             </View>
         </SafeAreaView>
     );

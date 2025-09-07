@@ -1,0 +1,22 @@
+BACK
+* crud entrega
+* crud beneficios
+* crud desafios
+* armar tablas: ultimas 10 transacciones por cliente, tabla beneficios cargados, tabla desafios cargados
+* buscadores en beneficios y desafios
+* averiguar como utilizar geolocalizacion del telefono para los mapas de ecopts
+
+FRONT
+* armar los estilos segun el prototipo de figma
+* empezar a armar la pag de login -> desde screens/inicioSesion.js todo va adentro de 
+
+	<View style={commonStyles.container}>
+                <Text style={commonStyles.title}>
+                    Login
+                </Text> // titulo
+                // aca va el resto que se vaya agregando
+	</View>
+* armar componentes sueltos segun el ptototipo
+* armar articulos de info con articulos varios de la pag https://cambioclimatico.misiones.gob.ar/ -> cada articulo nuevo seria otra screen el /screens que despues se puede linkear desde informacion 
+* armar styles de botones
+* armar componentes botones

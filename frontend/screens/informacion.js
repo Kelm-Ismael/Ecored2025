@@ -1,6 +1,6 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
 import { commonStyles } from '../styles/styles';
 
@@ -11,6 +11,14 @@ export default function ScreenInformacion() {
                 <Text style={commonStyles.title}>
                     Informacion
                 </Text>
+                <View style={commonStyles.container}>
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                </View>
             </View>
         </SafeAreaView>
     );

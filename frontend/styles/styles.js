@@ -65,7 +65,8 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 5,
     borderColor: colors.accent,
     borderRadius: 15,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    padding: 20
   },
   title: {
     fontSize: 24,
