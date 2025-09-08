@@ -1,9 +1,7 @@
-
-
-// frontend/screens/informacion.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Alert, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { commonStyles, colors } from '../styles/styles';
+import Screen from '../components/Screen';
 import { BASE_URL } from '../config/api';
 
 export default function Informacion({ navigation }) {
@@ -18,7 +16,7 @@ export default function Informacion({ navigation }) {
       const j = await r.json();
       setResumen(j);
     } catch (e) {
-      // opcional: Alert.alert('Info', 'Resumen de impacto no disponible aún.');
+      console.log('Resumen no disponible:', e.message);
     } finally {
       setLoading(false);
     }
@@ -29,7 +27,7 @@ export default function Informacion({ navigation }) {
   }, []);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }} contentContainerStyle={{ padding: 16 }}>
+    <Screen scroll>
       <Text style={commonStyles.title}>EcoRed - Información</Text>
 
       <View style={commonStyles.accentContainer}>
@@ -51,14 +49,27 @@ export default function Informacion({ navigation }) {
         </View>
       ) : null}
 
-      <View style={{ marginTop: 16 }}>
+      {/* === Menú de accesos rápidos === */}
+      <View style={{ marginTop: 20 }}>
+        <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Usuario')}>
+          <Text style={commonStyles.buttonText}>Mi Perfil</Text>
+        </Pressable>
+
         <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Beneficios')}>
           <Text style={commonStyles.buttonText}>Ver Beneficios</Text>
         </Pressable>
+
         <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Desafios')}>
           <Text style={commonStyles.buttonText}>Ver Desafíos</Text>
         </Pressable>
+
+        <Pressable
+          style={[commonStyles.button, { backgroundColor: colors.accent }]}
+          onPress={() => navigation.navigate('ScannerQR')}
+        >
+          <Text style={commonStyles.buttonText}>📷 Escanear QR</Text>
+        </Pressable>
       </View>
-    </ScrollView>
+    </Screen>
   );
 }
