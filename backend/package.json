@@ -4,13 +4,14 @@
   "type": "module",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "mysql2": "^3.14.4",
-    "nodemon": "^3.1.10",
     "jsonwebtoken": "^9.0.2",
-    "bcrypt": "^5.1.1"
+    "multer": "^2.0.2",
+    "mysql2": "^3.14.4",
+    "nodemon": "^3.1.10"
   },
   "scripts": {
     "dev": "nodemon index.js",

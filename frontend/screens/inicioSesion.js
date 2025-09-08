@@ -68,6 +68,7 @@
 // }
 
 
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -81,7 +82,7 @@ export default function InicioSesion({ navigation }) {
     console.log('Intentando login:', email, password);
 
     try {
-      const res = await fetch('http:// 192.168.0.7:3000/api/usuarios/login', {
+      const res = await fetch('http://192.168.0.7:3000/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, contrasenia: password }),

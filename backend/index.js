@@ -80,70 +80,47 @@
 // app.listen(PORT, () => {
 //   console.log(`Servidor backend ejecutándose en http://localhost:${PORT}`);
 // });
+// index.js
 
 import express from 'express';
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
+import cors from 'cors';
+import 'dotenv/config';
 
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Rutas
+import usuarioRoutes from './src/routes/usuario.routes.js';
+import beneficioRoutes from './src/routes/beneficio.routes.js';
+import desafioRoutes from './src/routes/desafio.routes.js';
+
+// __dirname en ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// App
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middlewares
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-// Configuración de la base de datos
-const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ecored',
-};
+// Static (avatares, etc.)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-let db;
+// Endpoints simples
+app.get('/', (req, res) => res.send('¡Servidor funcionando correctamente!'));
+app.get('/health', (req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 
-// Función para conectar a MySQL
-async function conectarDB() {
-  try {
-    db = await mysql.createConnection(dbConfig);
-    console.log('✅ Conectado a MySQL');
+// Rutas de negocio
+app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/beneficios', beneficioRoutes);
+app.use('/api/desafios', desafioRoutes);
 
-    // Inicia el servidor solo si la DB está conectada
-    app.listen(PORT, () => {
-      console.log(`Servidor backend ejecutándose en http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error('❌ Error al conectar a MySQL:', err.message);
-    process.exit(1); // Detiene la app si falla la conexión
-  }
-}
-
-// Llamada para conectar
-conectarDB();
-
-// Middleware opcional para usar la conexión db en rutas
-app.use((req, res, next) => {
-  req.db = db;
-  next();
-});
-
-// Endpoint raíz
-app.get('/', (req, res) => {
-  res.send('¡Servidor funcionando correctamente!');
-});
-
-// Endpoint de prueba de la DB
-app.get('/test-db', async (req, res) => {
-  try {
-    const [rows] = await req.db.query('SELECT 1 + 1 AS resultado');
-    res.json({ ok: true, resultado: rows[0].resultado });
-  } catch (err) {
-    console.error('❌ Error de conexión a MySQL:', err.message);
-    res.status(500).json({ ok: false, error: err.message });
-  }
-});
-
-// Ejemplo de otro endpoint
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Test exitoso' });
+// Server
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor backend ejecutándose en http://0.0.0.0:${PORT}`);
+  console.log('JWT_SECRET?', process.env.JWT_SECRET);
+  console.log('DB_HOST?', process.env.DB_HOST);
 });
