@@ -90,3 +90,11 @@ export async function obtenerPerfilDetallado(id) {
   );
   return rows[0];
 }
+export async function sumarPuntosUsuario(id, puntos) {
+  await db.query(
+    `UPDATE usuario
+     SET puntos_acumulados = COALESCE(puntos_acumulados, 0) + ?
+     WHERE id = ?`,
+    [puntos, id]
+  );
+}

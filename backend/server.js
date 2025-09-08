@@ -2,25 +2,34 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import 'dotenv/config';
+
 import usuarioRoutes from './src/routes/usuario.routes.js';
+import qrRoutes from './src/routes/qr.routes.js';
 
 const app = express();
 
 // --- CORS DEV AMIGABLE ---
-// Podés afinar los origins si querés, pero en dev lo más simple:
+// En desarrollo lo más práctico es permitir todo (con credenciales)
+// En producción conviene limitar a tu dominio front.
 app.use(cors({ origin: true, credentials: true }));
 
+// --- Middleware JSON ---
 app.use(express.json());
 
-// --- SERVIR ARCHIVOS SUBIDOS (avatars) ---
+// --- Servir archivos subidos (ej: avatares) ---
+// Así desde el front podés usar `${BASE_URL}/uploads/avatars/archivo.png`
 const uploadsDir = path.join(process.cwd(), 'uploads');
 app.use('/uploads', express.static(uploadsDir));
 
-// Rutas API
+// --- Rutas API ---
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/qr', qrRoutes);
 
-// Health
-app.get('/health', (_, res) => res.json({ ok: true, base: process.env.PUBLIC_BASE_URL || null }));
+// --- Healthcheck ---
+app.get('/health', (_, res) => {
+  res.json({ ok: true, base: process.env.PUBLIC_BASE_URL || null });
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {

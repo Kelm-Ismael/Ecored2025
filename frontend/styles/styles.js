@@ -1,40 +1,48 @@
 // styles/styles.js
 import { StyleSheet, Platform } from 'react-native';
 
-// 🎨 Paleta profesional (verde petróleo + lima suave + gris neutro)
+/* 🎨 Paleta refinada (verde petróleo + lima suavizada + neutros cálidos) */
 export const colors = {
-  primary:   '#0B7D75',  // verde petróleo (acciones principales)
-  primary900:'#095F59',
-  primary100:'#79c522ff',
-  accent:    '#D6F27D',  // lima suave (resaltados)
-  accent700: '#B7D55F',
-  success:   '#1FBF6B',
-  danger:    '#E24949',
-  warning:   '#F5A524',
-  info:      '#3B82F6',
+  primary:    '#0A7A72',
+  primary900: '#075C57',
+  primary100: '#CFF2D5',   // acento suave para fondos y botones muted
+  accent:     '#E9F7B6',   // lima muy suave
+  accent700:  '#C7DF84',
 
-  text:      '#2E2E2E',
-  textMuted: '#6B7280',
-  border:    '#82f873ff',
-  bg:        'hsla(78, 79%, 63%, 1.00)',
-  bgAlt:     '#dae2a9ff',
+  success:    '#16A34A',
+  danger:     '#DC2626',
+  warning:    '#F59E0B',
+  info:       '#3B82F6',
+
+  text:       '#1F2937',   // gris-azulado (mejor legibilidad)
+  textMuted:  '#6B7280',
+  placeholder:'#8A9A8A',
+
+  border:     '#D6E6D6',   // borde neutro verdoso suave
+  bg:         '#F4FAF2',   // fondo principal muy claro
+  bgAlt:      '#ECF5EA',   // fondo alternativo
 };
 
+/* 🔠 Fuentes (misma estructura) */
 export const fonts = {
   regular: Platform.select({ ios: 'System', android: 'System' }),
   medium:  Platform.select({ ios: 'System', android: 'System' }),
   bold:    Platform.select({ ios: 'System', android: 'System' }),
 };
 
-// 🔝 Header / Tab
+/* 📏 Escalas reutilizables */
+const radius = { sm: 10, md: 12, lg: 16, xl: 20 };
+const space  = { xs: 6, sm: 10, md: 14, lg: 18, xl: 24 };
+
+/* 🔝 Header / Tab (más limpio y consistente) */
 export const headerStyles = {
   headerStyle: { backgroundColor: colors.bg },
   headerShadowVisible: false,
-  headerTintColor: colors.primary,
+  headerTintColor: colors.primary900,
   headerTitleStyle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.primary,
+    fontSize: 20,
+    fontWeight: '800',
+    color: colors.primary900,
     letterSpacing: 0.2,
   },
   headerTitleAlign: 'center',
@@ -43,128 +51,149 @@ export const headerStyles = {
 export const tabBarStyles = {
   tabBarStyle: {
     backgroundColor: colors.bg,
-    height: Platform.select({ ios: 78, android: 66 }),
+    height: Platform.select({ ios: 84, android: 72 }),
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
-  tabBarActiveTintColor: colors.primary,
+  tabBarActiveTintColor: colors.primary900,
   tabBarInactiveTintColor: colors.textMuted,
   tabBarLabelStyle: {
-    fontSize: 11,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '700',
     textTransform: 'none',
     letterSpacing: 0.2,
   },
-  tabBarIconStyle: { marginTop: 4 },
+  tabBarIconStyle: { marginTop: 2 },
 };
 
-// 🌫️ Sombras consistentes
+/* 🌫️ Sombras suaves + elevación consistente */
 const cardShadow = Platform.select({
-  ios:   { shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
+  ios: {
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+  },
   android: { elevation: 4 },
 });
 
-// 📦 Estilos comunes
+/* 📦 Estilos comunes (misma estructura, mejores proporciones) */
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.bgAlt },
 
   container: {
     flex: 1,
     backgroundColor: colors.bgAlt,
-    paddingHorizontal: 18,
-    paddingVertical: 16,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.lg,
   },
 
-  // 🧩 Cards
+  /* 🧩 Cards */
   card: {
     backgroundColor: colors.bg,
-    borderRadius: 16,
+    borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: colors.border,
-    padding: 16,
+    padding: space.lg,
     ...cardShadow,
   },
   cardTight: {
     backgroundColor: colors.bg,
-    borderRadius: 14,
+    borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.border,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: space.md,
+    paddingVertical: space.md,
     ...cardShadow,
   },
 
-  // 📝 Títulos / textos
+  /* 📝 Títulos / textos */
   title: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: colors.primary,
+    fontSize: 24,
+    fontWeight: '800',
+    color: colors.primary900,
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: space.sm,
     letterSpacing: 0.2,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.textMuted,
     textAlign: 'center',
-    marginBottom: 6,
+    marginBottom: space.sm,
   },
   h2: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: space.xs,
   },
   body: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.text,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   small: {
     fontSize: 12,
     color: colors.textMuted,
   },
 
-  // 🔤 Inputs
+  /* 🏷️ Labels para formularios (opcional) */
+  label: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 6,
+  },
+
+  /* 🔤 Inputs (más altos y legibles) */
   input: {
-    backgroundColor: colors.bg,
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: Platform.select({ ios: 12, android: 10 }),
-    fontSize: 14,
+    borderRadius: radius.lg,
+    paddingHorizontal: 16,
+    paddingVertical: Platform.select({ ios: 14, android: 12 }),
+    fontSize: 16,                // sube placeholder también
     color: colors.text,
-    marginBottom: 12,
+    marginBottom: 14,
+  },
+  inputLg: {
+    paddingVertical: Platform.select({ ios: 16, android: 14 }),
+    fontSize: 17,
+    borderRadius: radius.xl,
   },
   inputFocus: {
     borderColor: colors.primary,
     shadowColor: colors.primary,
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    ...(Platform.OS === 'android' ? { elevation: 2 } : null),
   },
-  inputError: {
-    borderColor: colors.danger,
-  },
+  inputError: { borderColor: colors.danger },
 
-  // 🔘 Botones (variantes)
+  /* 🔘 Botones (más “tacto” y jerarquía clara) */
   button: {
     backgroundColor: colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    borderRadius: radius.lg,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 8,
     ...cardShadow,
-    marginVertical: 6,
+    marginVertical: 8,
+  },
+  buttonLg: {
+    paddingVertical: 16,
+    borderRadius: radius.xl,
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '800',
+    fontSize: 16,
     letterSpacing: 0.2,
   },
   buttonOutline: {
@@ -172,37 +201,29 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.primary,
   },
-  buttonOutlineText: {
-    color: colors.primary,
-  },
-  buttonDanger: {
-    backgroundColor: colors.danger,
-  },
-  buttonMuted: {
-    backgroundColor: colors.primary100,
-  },
-  buttonMutedText: {
-    color: colors.primary900,
-  },
+  buttonOutlineText: { color: colors.primary },
+  buttonDanger: { backgroundColor: colors.danger },
+  buttonMuted: { backgroundColor: colors.primary100 },
+  buttonMutedText: { color: colors.primary900 },
 
-  // 🏷️ Chips / pills
+  /* 🏷️ Chips / pills */
   chip: {
     alignSelf: 'flex-start',
-    backgroundColor: colors.primary100,
+    backgroundColor: colors.accent,
     color: colors.primary900,
     borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '800',
   },
 
-  // 📋 List item
+  /* 📋 List item */
   listItem: {
-    backgroundColor: colors.bg,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    backgroundColor: '#FFFFFF',
+    borderRadius: radius.md,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     borderWidth: 1,
     borderColor: colors.border,
     ...cardShadow,
@@ -210,21 +231,21 @@ export const commonStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
-  listTitle: { fontSize: 15, fontWeight: '600', color: colors.text },
-  listSubtitle: { fontSize: 12, color: colors.textMuted },
+  listTitle:    { fontSize: 16, fontWeight: '800', color: colors.text },
+  listSubtitle: { fontSize: 13, color: colors.textMuted },
 
-  // 🖼️ Avatar
+  /* 🖼️ Avatar */
   avatar: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
+    width: 124,
+    height: 124,
+    borderRadius: 62,
     borderWidth: 3,
     borderColor: colors.primary,
     backgroundColor: colors.bgAlt,
   },
 
-  // 🧭 Layout helpers
-  row: { flexDirection: 'row', alignItems: 'center' },
+  /* 🧭 Layout helpers */
+  row:     { flexDirection: 'row', alignItems: 'center' },
   between: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  center: { alignItems: 'center', justifyContent: 'center' },
+  center:  { alignItems: 'center', justifyContent: 'center' },
 });
