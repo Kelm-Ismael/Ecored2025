@@ -1,31 +1,32 @@
 
+// screens/inicioSesion.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { commonStyles } from '../styles/styles';
+import { BASE_URL } from '../config/api'; // o apiPost si preferís
 
 export default function InicioSesion({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    console.log('Intentando login:', email, password);
-
+    console.log('Intentando login:', email);
     try {
-      const res = await fetch('http://192.168.0.7:3000/api/usuarios/login', {
+      const res = await fetch(`${BASE_URL}/api/usuarios/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, contrasenia: password }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       console.log('Respuesta login:', res.status, data);
 
-      if (res.ok) {
+      if (res.ok && data?.token) {
         await AsyncStorage.setItem('token', data.token);
         navigation.replace('PerfilUsuario');
       } else {
-        Alert.alert('Error', data.error || 'Credenciales inválidas');
+        Alert.alert('Error', data?.error || 'Credenciales inválidas');
       }
     } catch (err) {
       console.error('Error fetch login:', err);

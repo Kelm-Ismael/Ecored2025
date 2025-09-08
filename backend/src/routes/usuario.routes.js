@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -22,20 +21,52 @@ const router = Router();
 const AVATAR_DIR = path.join(process.cwd(), 'uploads', 'avatars');
 if (!fs.existsSync(AVATAR_DIR)) fs.mkdirSync(AVATAR_DIR, { recursive: true });
 
+// Map mime -> ext
+const MIME_EXT = {
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+  'image/heic': '.heic',
+  'image/heif': '.heif',
+};
+
+function decideExt(originalname, mimetype) {
+  const fromMime = MIME_EXT[mimetype];
+  if (fromMime) return fromMime;
+  const ext = (path.extname(originalname || '') || '').toLowerCase();
+  if (['.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif'].includes(ext)) return ext;
+  return '.jpg';
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, AVATAR_DIR),
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-    const safeExt = ['.jpg', '.jpeg', '.png', '.webp'].includes(ext) ? ext : '.jpg';
+    const safeExt = decideExt(file.originalname, file.mimetype);
     cb(null, `u${req.user?.id || 'anon'}_${Date.now()}${safeExt}`);
   },
 });
+
 function fileFilter(req, file, cb) {
-  const ok = ['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype);
-  if (!ok) return cb(new Error('Tipo de archivo no permitido'), false);
+  const allowed = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/heic',
+    'image/heif',
+    'application/octet-stream', // algunos Android
+  ];
+  if (!allowed.includes(file.mimetype)) {
+    return cb(new Error('Tipo de archivo no permitido (usa JPG, PNG, WEBP o HEIC/HEIF).'), false);
+  }
   cb(null, true);
 }
-const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
+
+const MAX_MB = Number(process.env.UPLOAD_MAX_MB || 5);
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: MAX_MB * 1024 * 1024 },
+});
 
 /* -------------------- Rutas públicas -------------------- */
 router.post('/', crearUsuario);           // registro
@@ -47,10 +78,26 @@ router.get('/me', verificarToken, getPerfil);
 router.put('/:id', verificarToken, actualizarUsuario);
 router.delete('/:id', verificarToken, eliminarUsuario);
 
-// 🔐 cambiar contraseña
+// cambiar contraseña
 router.put('/me/password', verificarToken, putCambiarPassword);
 
-// 🖼️ actualizar avatar (campo: 'avatar')
-router.put('/me/avatar', verificarToken, upload.single('avatar'), putActualizarAvatar);
+// actualizar avatar (campo 'avatar') + manejo explícito de errores Multer
+router.put(
+  '/me/avatar',
+  verificarToken,
+  (req, res, next) => {
+    upload.single('avatar')(req, res, (err) => {
+      if (!err) return next();
+      if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(413).json({ error: `El archivo supera el máximo de ${MAX_MB}MB` });
+        }
+        return res.status(400).json({ error: `Error de carga (Multer): ${err.code}` });
+      }
+      return res.status(400).json({ error: err.message || 'Error al procesar el archivo' });
+    });
+  },
+  putActualizarAvatar
+);
 
 export default router;
