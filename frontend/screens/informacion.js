@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator, ScrollView } from 'react-native';
 import { commonStyles, colors } from '../styles/styles';
-import Screen from '../components/Screen';
+import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '../config/api';
 
 export default function Informacion({ navigation }) {
@@ -16,7 +16,7 @@ export default function Informacion({ navigation }) {
       const j = await r.json();
       setResumen(j);
     } catch (e) {
-      console.log('Resumen no disponible:', e.message);
+      // opcional log
     } finally {
       setLoading(false);
     }
@@ -27,39 +27,46 @@ export default function Informacion({ navigation }) {
   }, []);
 
   return (
-    <Screen scroll>
-      <Text style={commonStyles.title}>EcoRed - Información</Text>
+    <ScrollView style={commonStyles.safeArea} contentContainerStyle={{ padding: 16 }}>
+      {/* 🔹 Un solo título */}
+      <Text style={commonStyles.title}>Información</Text>
 
+      {/* Intro */}
       <View style={commonStyles.accentContainer}>
-        <Text style={commonStyles.subtitle}>
-          • Escaneá QR en ecopuntos para validar depósitos de reciclables.{'\n'}
-          • Acumulá puntos y canjealos por beneficios (SUSA, descuentos municipales, comercios, premios).{'\n'}
-          • Mirá tu impacto por zona y tus desafíos activos.
+        <Text style={commonStyles.subtitle}>EcoRed - Tu aporte importa</Text>
+        <Text style={commonStyles.body}>
+          • Escaneá QR en ecopuntos para validar depósitos.{"\n"}
+          • Sumá puntos y canjealos por beneficios.{"\n"}
+          • Mirá tu impacto y tus desafíos activos.
         </Text>
       </View>
 
+      {/* Resumen de impacto */}
       {loading ? (
         <ActivityIndicator size="large" color={colors.secondary} style={{ marginVertical: 12 }} />
       ) : resumen ? (
         <View style={[commonStyles.accentContainer, { marginTop: 12 }]}>
-          <Text style={commonStyles.title}>Impacto (resumen)</Text>
-          <Text style={commonStyles.subtitle}>Total entregas: {resumen.total_entregas}</Text>
-          <Text style={commonStyles.subtitle}>Kg reciclados: {resumen.kg_reciclados}</Text>
-          <Text style={commonStyles.subtitle}>Ecopunto más activo: {resumen.top_ecopunto}</Text>
+          <Text style={commonStyles.subtitle}>Impacto (resumen)</Text>
+          <Text style={commonStyles.body}>Total entregas: {resumen.total_entregas}</Text>
+          <Text style={commonStyles.body}>Kg reciclados: {resumen.kg_reciclados}</Text>
+          <Text style={commonStyles.body}>Ecopunto más activo: {resumen.top_ecopunto}</Text>
         </View>
       ) : null}
 
-      {/* === Menú de accesos rápidos === */}
-      <View style={{ marginTop: 20 }}>
+      {/* Acciones rápidas */}
+      <View style={{ marginTop: 16 }}>
         <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Usuario')}>
+          <Ionicons name="person-circle-outline" size={18} color={colors.white} />
           <Text style={commonStyles.buttonText}>Mi Perfil</Text>
         </Pressable>
 
         <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Beneficios')}>
+          <Ionicons name="gift-outline" size={18} color={colors.white} />
           <Text style={commonStyles.buttonText}>Ver Beneficios</Text>
         </Pressable>
 
         <Pressable style={commonStyles.button} onPress={() => navigation.navigate('Desafios')}>
+          <Ionicons name="flash-outline" size={18} color={colors.white} />
           <Text style={commonStyles.buttonText}>Ver Desafíos</Text>
         </Pressable>
 
@@ -67,9 +74,10 @@ export default function Informacion({ navigation }) {
           style={[commonStyles.button, { backgroundColor: colors.accent }]}
           onPress={() => navigation.navigate('ScannerQR')}
         >
-          <Text style={commonStyles.buttonText}>📷 Escanear QR</Text>
+          <Ionicons name="qr-code-outline" size={18} color={colors.white} />
+          <Text style={commonStyles.buttonText}>Escanear QR</Text>
         </Pressable>
       </View>
-    </Screen>
+    </ScrollView>
   );
 }
