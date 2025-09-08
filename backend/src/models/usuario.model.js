@@ -98,3 +98,24 @@ export async function sumarPuntosUsuario(id, puntos) {
     [puntos, id]
   );
 }
+export async function insertarUsuario({ email, contrasenia, id_tipo_usuario = 1, id_referencia = null }) {
+  const hash = await bcrypt.hash(contrasenia, 10);
+  const [result] = await db.query(
+    `INSERT INTO usuario (email, contrasenia_hash, id_tipo_usuario, id_referencia) 
+     VALUES (?, ?, ?, ?)`,
+    [email, hash, id_tipo_usuario, id_referencia]
+  );
+  return result.insertId;
+}
+// PERFIL DETALLADO (tipo_usuario + puntos + foto)
+export async function obtenerPerfilDetallado(id) {
+  const [rows] = await db.query(
+    `SELECT u.id, u.email, u.puntos_acumulados, u.foto_url,
+            u.fecha_creacion, u.id_tipo_usuario, tu.tipo_usuario
+     FROM usuario u
+     LEFT JOIN tipo_usuario tu ON u.id_tipo_usuario = tu.id
+     WHERE u.id = ?`,
+    [id]
+  );
+  return rows[0];
+}
