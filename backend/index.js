@@ -22,14 +22,14 @@
 //     console.log(`Servidor backend ejecutandose en http://localhost:${PORT}`)
 // })
 
-// // para iniciar servidor en git bash -> npm run dev
+// para iniciar servidor en git bash -> npm run dev
 
-// // Resultado: CRUD disponible en estas rutas
-// // Método	    Ruta	            Función
-// // GET	        /api/usuarios	    Obtener todos los usuarios
-// // POST	        /api/usuarios	    Crear nuevo usuario
-// // PUT	        /api/usuarios/:id	Actualizar usuario
-// // DELETE	    /api/usuarios/:id	Eliminar usuario
+// Resultado: CRUD disponible en estas rutas
+// Método	    Ruta	            Función
+// GET	        /api/usuarios	    Obtener todos los usuarios
+// POST	        /api/usuarios	    Crear nuevo usuario
+// PUT	        /api/usuarios/:id	Actualizar usuario
+// DELETE	    /api/usuarios/:id	Eliminar usuario
 
 
 // import express from 'express';
@@ -85,6 +85,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import db from './src/config/db.js';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -123,4 +124,16 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor backend ejecutándose en http://0.0.0.0:${PORT}`);
   console.log('JWT_SECRET?', process.env.JWT_SECRET);
   console.log('DB_HOST?', process.env.DB_HOST);
+});
+
+
+// ...
+app.get('/test-db', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT NOW() AS ahora');
+    res.json({ ok: true, ahora: rows[0].ahora });
+  } catch (err) {
+    console.error('❌ Error test-db:', err.message);
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });

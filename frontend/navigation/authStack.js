@@ -76,6 +76,10 @@ import PanelEscuela from '../screens/panelEscuela';
 import PanelRecuperador from '../screens/panelRecuperador';
 import PanelAdmin from '../screens/panelAdmin';
 
+import AdminUsuarios from '../screens/adminUsuarios';
+import AdminUsuarioEditar from '../screens/adminUsuarioEditar';
+import AdminRoles from '../screens/adminRoles';
+
 import { commonStyles, headerStyles } from '../styles/styles';
 
 const Stack = createNativeStackNavigator();
@@ -139,6 +143,11 @@ export default function AuthStack() {
       <Stack.Screen name="PanelRecuperador" component={PanelRecuperador} options={{ title: 'Recuperador' }} />
       <Stack.Screen name="PanelAdmin" component={PanelAdmin} options={{ title: 'Administrador' }} />
 
+      <Stack.Screen name="AdminUsuarios" component={AdminUsuarios} options={{ title: 'Usuarios' }} />
+      <Stack.Screen name="AdminUsuarioEditar" component={AdminUsuarioEditar} options={{ title: 'Editar Usuario' }} />
+      <Stack.Screen name="AdminRoles" component={AdminRoles} options={{ title: 'Roles & Permisos' }} />
+
+
       {/* Perfil y edición */}
       <Stack.Screen name="PerfilUsuario" component={ScreenUsuario} options={{ title: 'Mi Perfil' }} />
       <Stack.Screen name="EditarPassword" component={EditarPassword} options={{ title: 'Cambiar Contraseña' }} />
@@ -146,3 +155,7 @@ export default function AuthStack() {
     </Stack.Navigator>
   );
 }
+
+
+
+

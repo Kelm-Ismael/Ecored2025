@@ -1,4 +1,3 @@
-
 // backend/src/models/usuario.model.js
 import db from '../config/db.js';
 import bcrypt from 'bcrypt';
@@ -12,7 +11,7 @@ export async function obtenerUsuarios() {
   return rows;
 }
 
-// Crear usuario con hash
+// Crear usuario con hash (respeta id_tipo_usuario)
 export async function insertarUsuario({ email, contrasenia, id_tipo_usuario = 1, id_referencia = null }) {
   const hash = await bcrypt.hash(contrasenia, 10);
   const [result] = await db.query(
@@ -78,18 +77,7 @@ export async function actualizarFotoUrl(id, url) {
   );
 }
 
-// PERFIL DETALLADO (tipo_usuario + puntos + foto)
-export async function obtenerPerfilDetallado(id) {
-  const [rows] = await db.query(
-    `SELECT u.id, u.email, u.puntos_acumulados, u.foto_url,
-            u.fecha_creacion, tu.tipo_usuario
-     FROM usuario u
-     LEFT JOIN tipo_usuario tu ON u.id_tipo_usuario = tu.id
-     WHERE u.id = ?`,
-    [id]
-  );
-  return rows[0];
-}
+// Sumar puntos
 export async function sumarPuntosUsuario(id, puntos) {
   await db.query(
     `UPDATE usuario
@@ -98,24 +86,89 @@ export async function sumarPuntosUsuario(id, puntos) {
     [puntos, id]
   );
 }
-export async function insertarUsuario({ email, contrasenia, id_tipo_usuario = 1, id_referencia = null }) {
-  const hash = await bcrypt.hash(contrasenia, 10);
-  const [result] = await db.query(
-    `INSERT INTO usuario (email, contrasenia_hash, id_tipo_usuario, id_referencia) 
-     VALUES (?, ?, ?, ?)`,
-    [email, hash, id_tipo_usuario, id_referencia]
-  );
-  return result.insertId;
-}
-// PERFIL DETALLADO (tipo_usuario + puntos + foto)
+
+// PERFIL DETALLADO (incluye id_tipo_usuario y texto)
 export async function obtenerPerfilDetallado(id) {
   const [rows] = await db.query(
-    `SELECT u.id, u.email, u.puntos_acumulados, u.foto_url,
-            u.fecha_creacion, u.id_tipo_usuario, tu.tipo_usuario
+    `SELECT u.id,
+            u.email,
+            u.puntos_acumulados,
+            u.foto_url,
+            u.fecha_creacion,
+            u.id_tipo_usuario,
+            tu.tipo_usuario
      FROM usuario u
      LEFT JOIN tipo_usuario tu ON u.id_tipo_usuario = tu.id
      WHERE u.id = ?`,
     [id]
   );
   return rows[0];
+}
+
+export async function listarUsuariosPaginado({ q = '', page = 1, pageSize = 20, tipo = null, estado = null }) {
+  page = Math.max(1, Number(page) || 1);
+  pageSize = Math.min(100, Math.max(1, Number(pageSize) || 20));
+  const offset = (page - 1) * pageSize;
+
+  const params = [];
+  const where = [];
+
+  if (q) {
+    where.push(`(u.email LIKE ? OR tu.tipo_usuario LIKE ?)`);
+    params.push(`%${q}%`, `%${q}%`);
+  }
+  if (tipo) {
+    where.push(`u.id_tipo_usuario = ?`);
+    params.push(Number(tipo));
+  }
+  if (estado !== null && estado !== undefined && estado !== '') {
+    where.push(`u.estado = ?`);
+    params.push(Number(estado));
+  }
+
+  const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
+  const [rows] = await db.query(
+    `SELECT u.id, u.email, u.id_tipo_usuario, tu.tipo_usuario, u.estado, u.puntos_acumulados,
+            u.fecha_creacion, u.is_super_admin
+     FROM usuario u
+     LEFT JOIN tipo_usuario tu ON tu.id = u.id_tipo_usuario
+     ${whereSql}
+     ORDER BY u.id DESC
+     LIMIT ${pageSize} OFFSET ${offset}`,
+    params
+  );
+
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) as total
+     FROM usuario u
+     LEFT JOIN tipo_usuario tu ON tu.id = u.id_tipo_usuario
+     ${whereSql}`,
+    params
+  );
+
+  return { items: rows, total: countRows[0].total, page, pageSize };
+}
+
+export async function actualizarTipoEstadoUsuario(id, { id_tipo_usuario = null, estado = null }) {
+  const sets = [];
+  const params = [];
+
+  if (id_tipo_usuario != null) {
+    sets.push(`id_tipo_usuario = ?`);
+    params.push(Number(id_tipo_usuario));
+  }
+  if (estado != null) {
+    sets.push(`estado = ?`);
+    params.push(Number(estado));
+  }
+  if (!sets.length) return;
+
+  params.push(Number(id));
+  await db.query(`UPDATE usuario SET ${sets.join(', ')} WHERE id = ?`, params);
+}
+
+
+export async function setSuperAdmin(id, isSuper) {
+  await db.query(`UPDATE usuario SET is_super_admin = ? WHERE id = ?`, [isSuper ? 1 : 0, Number(id)]);
 }

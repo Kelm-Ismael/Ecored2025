@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
+
 import ScreenInformacion from './screens/informacion';
 import ScreenBeneficio from './screens/beneficios';
 import ScreenDesafio from './screens/desafios';

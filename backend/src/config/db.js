@@ -32,4 +32,13 @@ const pool = mysql.createPool({
 });
 
 export default pool;
+// Test inmediato al iniciar
+(async () => {
+  try {
+    const [rows] = await pool.query('SELECT 1+1 AS resultado');
+    console.log('✅ Conexión MySQL OK:', rows[0].resultado);
+  } catch (err) {
+    console.error('❌ Error al conectar con MySQL:', err.message);
+  }
+})();
 

@@ -5,6 +5,7 @@ import 'dotenv/config';
 
 import usuarioRoutes from './src/routes/usuario.routes.js';
 import qrRoutes from './src/routes/qr.routes.js';
+import adminRoutes from './src/routes/admin.routes.js';
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cors({ origin: true, credentials: true }));
 
 // --- Middleware JSON ---
 app.use(express.json());
+
+app.use('/api/admin', adminRoutes);
 
 // --- Servir archivos subidos (ej: avatares) ---
 // Así desde el front podés usar `${BASE_URL}/uploads/avatars/archivo.png`
