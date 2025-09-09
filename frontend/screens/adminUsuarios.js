@@ -1,4 +1,3 @@
-// screens/adminUsuarios.js
 import React, { useCallback, useState } from 'react';
 import { View, Text, Pressable, Alert, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,7 +20,7 @@ export default function AdminUsuarios() {
     try {
       setLoading(true);
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch(`${BASE_URL}/api/usuarios`, {
+      const res = await fetch(`${BASE_URL}/api/admin/users?page=1&pageSize=50`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json().catch(() => ([]));
@@ -29,7 +28,7 @@ export default function AdminUsuarios() {
         Alert.alert('Error', data?.error || 'No se pudo cargar usuarios');
         return;
       }
-      setItems(Array.isArray(data) ? data : []);
+      setItems(Array.isArray(data.items) ? data.items : data); // soporta paginado o array simple
     } catch (e) {
       Alert.alert('Error', 'No se pudo conectar al servidor');
     } finally {
@@ -38,26 +37,6 @@ export default function AdminUsuarios() {
   }, []);
 
   useFocusEffect(useCallback(() => { load(); }, [load]));
-
-  const borrar = async (id) => {
-    Alert.alert('Eliminar', '¿Seguro que querés eliminar este usuario?', [
-      { text: 'Cancelar', style: 'cancel' },
-      { text: 'Eliminar', style: 'destructive', onPress: async () => {
-        try {
-          const token = await AsyncStorage.getItem('token');
-          const res = await fetch(`${BASE_URL}/api/usuarios/${id}`, {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok) return Alert.alert('Error', data?.error || 'No se pudo eliminar');
-          load();
-        } catch {
-          Alert.alert('Error', 'No se pudo conectar al servidor');
-        }
-      } },
-    ]);
-  };
 
   const renderItem = ({ item }) => (
     <View style={[commonStyles.card, { marginBottom: 10, flexDirection:'row', alignItems:'center' }]}>
@@ -69,9 +48,6 @@ export default function AdminUsuarios() {
       </View>
       <Pressable onPress={() => navigation.navigate('AdminUsuarioEditar', { id: item.id })} style={{ marginRight: 10 }}>
         <Ionicons name="create-outline" size={22} color={colors.primary} />
-      </Pressable>
-      <Pressable onPress={() => borrar(item.id)}>
-        <Ionicons name="trash-outline" size={22} color={colors.danger} />
       </Pressable>
     </View>
   );

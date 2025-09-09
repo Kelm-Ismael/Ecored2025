@@ -3,21 +3,23 @@ import { Router } from 'express';
 import { verificarToken } from '../middleware/auth.js';
 import { requireAdmin, requireSuperAdmin } from '../middleware/roles.js';
 import {
-  getUsers,        // GET    /api/admin/users
-  putUserRole,     // PUT    /api/admin/users/:id/role
-  putUserStatus,   // PUT    /api/admin/users/:id/status
-  putUserSuper,    // PUT    /api/admin/users/:id/super   (solo super)
-  getSettings,     // GET    /api/admin/settings
-  putSettings,     // PUT    /api/admin/settings          (solo super)
+  getUsers,
+  putUserRole,
+  putUserStatus,
+  putUserSuper,
+  getSettings,
+  putSettings,
 } from '../controllers/admin.controller.js';
+import { crearUsuario } from '../controllers/usuario.controller.js';
 
 const r = Router();
 
-// Todo admin debe estar autenticado y ser admin
+// Todas requieren autenticación y admin
 r.use('/api/admin', verificarToken, requireAdmin);
 
 // Usuarios
 r.get('/api/admin/users', getUsers);
+r.post('/api/admin/users', crearUsuario);
 r.put('/api/admin/users/:id/role', putUserRole);
 r.put('/api/admin/users/:id/status', putUserStatus);
 
