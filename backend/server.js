@@ -6,7 +6,11 @@ import 'dotenv/config';
 import usuarioRoutes from './src/routes/usuario.routes.js';
 import qrRoutes from './src/routes/qr.routes.js';
 import adminRoutes from './src/routes/admin.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import usuarioRoutes from './routes/usuario.routes.js';
 
+app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/admin', adminRoutes);
 const app = express();
 
 // --- CORS DEV AMIGABLE ---

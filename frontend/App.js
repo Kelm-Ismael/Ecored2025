@@ -12,7 +12,7 @@ import ScannerQR from './screens/scannerQR';
 import AuthStack from './navigation/authStack';
 import { headerStyles, tabBarStyles } from './styles/styles';
 
-//import MapaKML from './screens/MapaKML';
+import MapaMyMapsIframe from './screens/MapaMyMapsIframe';
 const Tab = createBottomTabNavigator();
 
 const tabScreenOptions = ({ route }) => ({
@@ -45,7 +45,11 @@ export default function App() {
             component={AuthStack}
             options={{ headerShown: false, title: 'Usuario' }}
           />
-        
+          <Tab.Screen
+            name="Mapa"
+            component={MapaMyMapsIframe}
+            options={{ title: 'Mapa', ...headerStyles }}
+          />
           
           <Tab.Screen
             name="Beneficios"

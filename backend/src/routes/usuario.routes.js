@@ -18,6 +18,7 @@ import {
 import { verificarToken } from '../middleware/auth.js';
 import { requireAdmin } from '../middleware/roles.js';
 
+
 const router = Router();
 
 /* ---------- Multer config (disk storage) ---------- */
@@ -78,6 +79,7 @@ router.post('/login', loginUsuario);      // login
 /* -------------------- Rutas protegidas ------------------ */
 router.get('/', verificarToken, requireAdmin, getUsuarios);
 router.get('/me', verificarToken, getPerfil);
+
 
 // CRUD de usuarios: solo admin
 router.put('/:id', verificarToken, requireAdmin, actualizarUsuario);

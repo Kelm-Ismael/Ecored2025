@@ -10,7 +10,7 @@ import {
   obtenerHashPorId,
   actualizarPasswordUsuario,
   actualizarFotoUrl,
-  obtenerPerfilDetallado,
+  obtenerPerfilDetallado, buscarUsuarioPorId,
 } from '../models/usuario.model.js';
 
 /* Util para JWT */
@@ -176,6 +176,17 @@ export async function putActualizarAvatar(req, res) {
     res.json({ foto_url: fotoUrl });
   } catch (err) {
     console.error('Error al actualizar avatar:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+export async function getUsuarioById(req, res) {
+  try {
+    const { id } = req.params;
+    const u = await buscarUsuarioPorId(id);
+    if (!u) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.json(u);
+  } catch (err) {
+    console.error('Error al obtener usuario:', err);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }

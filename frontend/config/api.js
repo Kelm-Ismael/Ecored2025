@@ -7,7 +7,7 @@ import * as Device from 'expo-device';
  * CONFIGURA AQUÍ TU IP LAN y PUERTO DEL BACKEND
  * Ejemplo: 192.168.0.7:3000
  */
-const LAN_HOST = '10.0.14.45:3000'; // <-- CAMBIA si tu IP cambió
+const LAN_HOST = '192.168.0.7:3000'; // <-- CAMBIA si tu IP cambió
 
 // ¿Estamos en emulador/simulador?
 const IS_EMULATOR = !Device.isDevice;
