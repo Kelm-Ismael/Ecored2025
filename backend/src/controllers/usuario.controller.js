@@ -36,7 +36,7 @@ export async function crearUsuario(req, res) {
     id_tipo_usuario = Number(id_tipo_usuario);
     if (!ALLOW.has(id_tipo_usuario)) id_tipo_usuario = 1;
 
-    // ❗Política: permitir auto-registro como admin?
+    // Política: permitir auto-registro como admin?
     // Si la tabla no existe o falla la consulta, asumimos 0 (no permitir).
     let allowAdminSignup = 1;
     try {
