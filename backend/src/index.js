@@ -1,13 +1,17 @@
 import express from 'express';
+import cors from 'cors';//agregado
 import dotenv from 'dotenv';
+// Inicializar la aplicación Express
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+//-------------------------
 
 // importar las rutas de la api
 import usuarioRoutes from './routes/usuario.routes.js';
 
 dotenv.config();
-
-// Inicializar la aplicación Express
-const app = express();
 
 app.use(express.json());
 

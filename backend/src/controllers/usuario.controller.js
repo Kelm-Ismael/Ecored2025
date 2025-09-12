@@ -4,10 +4,11 @@ import { obtenerUsuarios } from '../models/usuario.model.js';
 export async function getUsuarios(req, res) {
   try {
     const usuarios = await obtenerUsuarios();
+    console.log('Usuarios obtenidos:', usuarios); // esto imprime los datos
     res.json(usuarios);
   } catch (err) {
-    console.error('Error al obtener usuarios:', err);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.error('Error al obtener usuarios:', err); // imprime error completo
+    res.status(500).json({ error: err.message }); // muestra mensaje real en JSON
   }
 }
 

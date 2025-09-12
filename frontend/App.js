@@ -12,6 +12,7 @@ import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
 
 import { headerStyles, tabBarStyles } from './styles/styles';
+import ScreenCrudUsers from './screens/crudUsers';
 
 const Tab = createBottomTabNavigator();
 
@@ -73,6 +74,14 @@ export default function App() {
             component={ScreenDesafio}
             options={{
               title: 'Desafíos',
+              ...headerStyles,
+            }}
+          />
+          <Tab.Screen
+            name="CrudUsers"
+            component={ScreenCrudUsers}
+            options={{
+              title: 'Crud of Users',
               ...headerStyles,
             }}
           />
