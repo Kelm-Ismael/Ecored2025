@@ -1,13 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { firmarToken } from '../utils/jwt.js';
-import db from '../config/db.js';
 import {
     obtenerPersonas,
     insertarPersona
 } from '../models/persona.model.js';
 import { buscarPersonaPorDni } from '../models/persona.model.js';
-import { error } from 'console';
 
 export async function getPersonas(req, res) {
   try {

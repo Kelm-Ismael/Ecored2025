@@ -6,6 +6,8 @@ import { FRONT_URL } from './config/front.js'
 // rutas de la api
 import usuarioRoutes from './routes/usuario.routes.js';
 import personaRoutes from './routes/persona.routes.js';
+import beneficioRoutes from './routes/beneficio.routes.js';
+import desafioRoutes from './routes/desafio.routes.js'
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ app.use(cors({
 // Rutas principales agrupadas bajo `/api`
 app.use('/usuarios', usuarioRoutes);
 app.use('/personas', personaRoutes);
+app.use('/beneficios', beneficioRoutes);
+app.use('/desafios', desafioRoutes);
 
 // Puedes agregar aquí más rutas: entregas, beneficios, etc.
 // app.use('/api/entregas', entregaRoutes);

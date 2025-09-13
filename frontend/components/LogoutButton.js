@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { commonStyles } from '../styles/styles.js'
 
 const LogoutButton = ({ onLogout }) => {
     const cerrarSesion = async () => {
@@ -38,7 +39,11 @@ const LogoutButton = ({ onLogout }) => {
 };
 
   return (
-    <Button title="Cerrar sesión" onPress={handleLogout} />
+    <Button 
+        style={commonStyles.button}
+        title="Cerrar sesión" 
+        onPress={handleLogout} 
+    />
   );
 };
 

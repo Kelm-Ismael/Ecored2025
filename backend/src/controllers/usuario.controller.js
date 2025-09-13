@@ -15,6 +15,7 @@ import {
   obtenerPerfilDetallado, 
   setSuperAdmin 
 } from '../models/usuario.model.js';
+import { buscarPersonaPorRefUsuario } from '../models/persona.model.js';
 
 // GET todos
 export async function getUsuarios(req, res) {
@@ -129,7 +130,30 @@ export async function perfilUsuario(req, res) {
   try {
     const usuario = await obtenerPerfilDetallado(req.usuario.id_usuario);
     if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
-    res.json(usuario);
+
+    let datosReferencia = {};
+    
+    switch (usuario.id_tipo_usuario) {
+      case 1: // Persona
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
+        break;
+      case 2: // Escuela
+        // datosReferencia = await buscarEscuelaPorId(usuario.id_referencia);
+        break;
+      case 3: // Empresa
+        // datosReferencia = await buscarEmpresaPorId(usuario.id_referencia);
+        break;
+      default:
+        console.warn('⚠️ Tipo de usuario no manejado:', usuario.id_tipo_usuario);
+        break;
+    }
+    
+    res.json({
+      ...usuario,
+      referencia: datosReferencia,
+    });
+    
+    // res.json(usuario);
   } catch (err) {
     console.error('Error al obtener perfil:', err);
     res.status(500).json({ error: 'Error interno del servidor' });

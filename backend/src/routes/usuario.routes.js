@@ -16,7 +16,7 @@ router.post('/nuevo', crearUsuario);
 router.post('/login', loginUsuario);
 router.get('/perfil', verificarToken, perfilUsuario);
 
-router.put('/:id', actualizarUsuario);
-router.delete('/:id', eliminarUsuario);
+// router.put('/:id', actualizarUsuario);
+// router.delete('/:id', eliminarUsuario);
 
 export default router;

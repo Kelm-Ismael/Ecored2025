@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.get('/todas', getPersonas);
 router.post('/nueva', crearPersona);
-router.get('/persona', verificarToken, getPersona);
+// router.get('/persona', verificarToken, getPersona);
 
 export default router;

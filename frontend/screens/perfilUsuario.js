@@ -16,11 +16,7 @@ export default function ScreenPerfil({ onLogout }) {
             try {
                 const token = await AsyncStorage.getItem('token');
                 console.log('🔑 Token obtenido:', token);
-                // const id = await AsyncStorage.getItem('usuario_id');
-                
-                // if (!token || !id) {
-                //     throw new Error('Token o ID de usuario no encontrado');
-                // }
+  
                 if (!token) throw new Error('Token no encontrado');
 
                 const res = await fetch(`${BASE_URL}/usuarios/perfil`, {
@@ -29,7 +25,7 @@ export default function ScreenPerfil({ onLogout }) {
 
                 console.log('📡 Status perfil:', res.status);
                 const raw = await res.text();
-                console.log('👤 Texto crudo de perfil:', raw);
+                console.log('👤 Texto crudo de perfil:', raw); //ok hasta aca
 
                 if (!res.ok) {
                     console.error('⚠️ Error del servidor:', raw);
@@ -86,7 +82,7 @@ export default function ScreenPerfil({ onLogout }) {
                     Usuario
                 </Text>
                 <View style={commonStyles.container}>
-                    <Text>{usuario.nombre} {usuario.apellido}</Text>
+                    <Text>{usuario.referencia.nombre} {usuario.referencia.apellido}</Text>
                     <Text>{usuario.tipo_usuario || 'No especificado'}</Text>
                     <Text>Nivel:</Text>
                     <Text>{usuario.nivel || 'No asignado'}</Text>
