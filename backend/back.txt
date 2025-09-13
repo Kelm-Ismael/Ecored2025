@@ -1,20 +1,24 @@
-/my-app-backend
+/backend
 │
 ├── src/
 │   ├── config/
-│   │   └── db.js              # Configuración y conexión a la BBDD
-│   ├── routes/
-│   │   ├── usuario.routes.js  # Rutas de usuarios
-│   │   └── ...                # Rutas por cada entidad
+│   │   ├── db.js              # Configuración y conexión a la BBDD
+|   |   └── front.js
 │   ├── controllers/
 │   │   ├── usuario.controller.js
-│   │   └── ...
+│   │   └── persona.controller.js
 │   ├── models/
 │   │   ├── usuario.model.js   # Acceso a datos SQL (queries)
-│   │   └── ...
+│   │   └── persona.model.js
+│   ├── routes/
+│   │   ├── usuario.routes.js  # Rutas de usuarios
+│   │   └── persona.routes.js
+|   |── utils/
+│   │   ├── jwt.js 
 │   └── index.js               # Entrada principal del servidor
 │
 ├── .env
+├── .gitignore
 ├── package.json
 └── README.md
 
@@ -51,3 +55,11 @@ GUIA
     .idea/
 
 REF: https://medium.com/@carlosgarcia3535/c%C3%B3mo-iniciar-un-servidor-con-node-js-y-express-js-460b6fd672e6
+
+* ACTUALIZACION 11/SEP
+    npm install jsonwebtoken // token de autenticacion
+    npm install bcrypt // para verificar contrasenia hash
+    npm install cors // para moverse entre front y back sin errores
+
+
+*** npm run dev  --> ejecuta server

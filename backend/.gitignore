@@ -4,6 +4,7 @@ node_modules/
 # entorno y configuración
 .env
 *.log
+.expo/
 
 #base de datos local, por ej SQLite
 *.sqlite
@@ -12,3 +13,4 @@ node_modules/
 .DS_Store
 .vscode/
 .idea/
+.env

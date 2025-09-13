@@ -98,4 +98,26 @@ export const commonStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  fechaContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  fechaInputWeb: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  fechaInputDia: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputMes: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputAnio: {
+    flex: 2,
+  },
 });
