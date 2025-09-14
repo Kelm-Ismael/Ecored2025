@@ -6,8 +6,8 @@ import { commonStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api.js';
 import { useState } from 'react';
 
-export default function ScreenLogin({ navigation, onLoginSuccess }) {
-  const [email, setEmail] = useState('');
+export default function ScreenLogin({ navigation, onLoginSuccess, route }) {
+  const [email, setEmail] = useState(route?.params?.email || '');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 

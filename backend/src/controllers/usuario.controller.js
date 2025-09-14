@@ -4,18 +4,17 @@ import { firmarToken, verificarToken } from '../utils/jwt.js';
 import db from '../config/db.js';
 import { 
   obtenerUsuarios, 
-  insertarUsuario, 
   buscarUsuarioPorEmail, 
-  buscarUsuarioPorId, 
   editarUsuario, 
   borrarUsuario, 
-  obtenerHashPorId, 
-  actualizarFotoUrl, 
-  sumarPuntosUsuario, 
   obtenerPerfilDetallado, 
-  setSuperAdmin 
+  insertarUsuarioCiudadano
 } from '../models/usuario.model.js';
-import { buscarPersonaPorRefUsuario } from '../models/persona.model.js';
+import { 
+  buscarPersonaPorRefUsuario,
+  buscarPersonaPorDni,
+  insertarPersona
+} from '../models/persona.model.js';
 
 // GET todos
 export async function getUsuarios(req, res) {
@@ -24,44 +23,6 @@ export async function getUsuarios(req, res) {
     res.json(usuarios);
   } catch (err) {
     console.error('Error al obtener usuarios:', err);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
-}
-
-
-// POST nuevo (SIN PROBAR)
-export async function crearUsuario(req, res) {
-  try {
-    let usuario = { email, contrasenia, id_tipo_usuario, id_referencia } = req.body;
-    
-    // TODO if superadmin habilitar creacion con tipo
-    if (!email || !contrasenia) {
-      return res.status(400).json({ error: 'Email y contraseña son requeridos' });
-    }
-
-    // verificar existencia
-    const usuarioRegistrado = await buscarUsuarioPorEmail(email);
-    if (usuarioRegistrado) 
-      return res.status(409).json({ error: 'Email ya registrado' });
-    
-    // insertar nuevo usuario
-    const nuevoId = await insertarUsuario(usuario);
-    
-    //generar token
-    const token = firmarToken({id: nuevoId});
-
-    // devolver token e id
-    res.status(201).json({ 
-      mensaje: 'Usuario creado',
-      id_usuario: nuevoId,
-      token,
-      tipo_usuario: usuario.tipo_usuario
-    });
-  } catch (err) {
-    console.error('Error al crear usuario:', err);
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ error: 'Email ya registrado' });
-    }
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
@@ -159,6 +120,86 @@ export async function perfilUsuario(req, res) {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
+
+// POST nuevo (SIN PROBAR)
+export async function crearUsuario(req, res) {
+  try {
+    const {
+      nombre,
+      apellido,
+      dni,
+      fechaNacimiento,
+      email,
+      contrasenia,
+    } = req.body;
+
+    console.log('✅ Datos recibidos:', req.body);
+    // TODO if superadmin habilitar creacion con tipo
+    
+    if (!email || !contrasenia || !nombre || !apellido || !dni || !fechaNacimiento) {
+      console.warn('⚠️ Faltan datos obligatorios');
+      return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    // verificar existencia de email
+    console.log('🔍 Buscando usuario por email...');
+    const usuarioExistente = await buscarUsuarioPorEmail(email);
+    if (usuarioExistente) {
+      console.warn('⚠️ Email ya registrado');
+      return res.status(409).json({ error: 'Email ya registrado' });
+    }
+
+    // verificar existencia de dni
+    console.log('🔍 Buscando persona por DNI...');
+    const personaExistente = await buscarPersonaPorDni(dni);
+    if (personaExistente) {
+      console.warn('⚠️ DNI ya registrado');
+      return res.status(409).json({ error: 'DNI ya registrado' });
+    }
+
+    // insertar nueva persona
+    console.log('📥 Insertando nueva persona...');
+    const nuevaPersonaId = await insertarPersona({
+      nombre,
+      apellido,
+      dni,
+      fechaNacimiento,
+      id_tipo_persona: 1
+    });
+    console.log('✅ Persona insertada con ID:', nuevaPersonaId);
+
+    // insertar nuevo usuario
+    console.log('📥 Insertando nuevo usuario...');
+    const nuevoUsuarioId = await insertarUsuarioCiudadano({
+      email,
+      contrasenia,
+      id_referencia: nuevaPersonaId
+    });
+    console.log('✅ Usuario insertado con ID:', nuevoUsuarioId);
+    
+    //generar token
+    console.log('🔐 Generando token...');
+    const token = firmarToken({id: nuevoUsuarioId});
+
+    // devolver token e id
+    console.log('🚀 Usuario creado exitosamente');
+    res.status(201).json({ 
+      mensaje: 'Usuario creado exitosamente',
+      id_usuario: nuevoUsuarioId,
+      token,
+      tipo_usuario: 'ciudadano'
+    });
+
+  } catch (err) {
+    console.error('❌ Error al crear usuario:', err, JSON.stringify(err, Object.getOwnPropertyNames(err)));
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      detalle: err.message,
+      stack: err.stack // solo en desarrollo
+    });
+  }
+}
+
 
 // PUT editar (SIN PROBAR)
 export async function actualizarUsuario(req, res) {

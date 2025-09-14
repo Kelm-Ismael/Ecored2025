@@ -5,15 +5,12 @@ export async function obtenerPersonas() {
   return rows;
 }
 
+// usado en crearusuario desde app
 export async function insertarPersona(persona) {
   const { nombre, apellido, dni, fechaNacimiento, id_tipo_persona } = persona;
   const [result] = await db.query(
     `INSERT INTO persona 
-        (nombre, 
-        apellido,
-        dni,
-        fechaNacimiento, 
-        id_tipo_persona = 1) 
+        (nombre, apellido, dni, fecha_nacimiento, id_tipo_persona) 
       VALUES (?, ?, ?, ?, ?)`,
     [nombre, apellido, dni, fechaNacimiento, id_tipo_persona]
   );
@@ -37,6 +34,15 @@ export async function buscarPersonaPorId(id) {
   return rows[0];
 }
 
+// usado en crearusuario en app
+export async function buscarPersonaPorDni(dni) {
+  const [rows] = await db.query(
+    `SELECT * FROM persona WHERE dni = ?`,
+    [dni]
+  );
+  return rows[0] || null;
+}
+
 export async function buscarPersonaPorRefUsuario(id) {
   const [rows] = await db.query(
     `SELECT p.id,
@@ -55,15 +61,6 @@ export async function buscarPersonaPorRefUsuario(id) {
       tipo_usuario tu ON u.id_tipo_usuario = tu.id
     WHERE u.id_referencia = ?`,
     [id]
-  );
-  return rows[0];
-}
-
-export async function buscarPersonaPorDni(dni) {
-  const [rows] = await db.query(
-    `SELECT id, nombre, apellido, fecha_nacimiento, id_tipo_persona 
-     FROM usuario WHERE dni = ?`,
-    [dni]
   );
   return rows[0];
 }

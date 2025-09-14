@@ -120,4 +120,16 @@ export const commonStyles = StyleSheet.create({
   fechaInputAnio: {
     flex: 2,
   },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: colors.gray,
+    borderRadius: 2,
+    marginVertical: 8,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'left',
+    gap: 8,
+  },
 });

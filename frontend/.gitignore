@@ -11,6 +11,8 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+
+# ips
 .config/api.js
 
 # Native

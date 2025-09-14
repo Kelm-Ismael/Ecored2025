@@ -5,16 +5,14 @@ export async function obtenerUsuarios() {
   return rows;
 }
 
-export async function insertarUsuario(usuario) {
-  const { email, contrasenia, id_tipo_usuario, id_referencia } = usuario;
+// usado en crearusuario desde app
+export async function insertarUsuarioCiudadano(usuario) {
+  const { email, contrasenia, id_referencia } = usuario;
   const [result] = await db.query(
     `INSERT INTO usuario 
-        (email, 
-        contrasenia_hash, 
-        id_tipo_usuario = 1, 
-        id_referencia = null) 
+        (email, contrasenia_hash, id_referencia, id_tipo_usuario) 
       VALUES (?, ?, ?, ?)`,
-    [email, contrasenia, id_tipo_usuario, id_referencia]
+    [email, contrasenia, id_referencia, 1]
   );
   return result.insertId;
 }

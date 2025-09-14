@@ -5,26 +5,37 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useState, useEffect } from 'react';
 import { commonStyles } from '../styles/styles';
-import BASE_URL from '../config/api.js'
+import { BASE_URL } from '../config/api.js'
 import { esFechaValida } from '../utils/validaciones/fecha';
+
+import { PickerDia, PickerMes, PickerAnio } from '../components/FechaPicker';
 
 export default function ScreenRegistro({navigation}) {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [dni, setDni] = useState('');
+
+     // fecha web
+    const [dia, setDia] = useState('1');
+    const [mes, setMes] = useState('1');
+    const [anio, setAnio] = useState(new Date().getFullYear().toString());
+
+    // fecha movil
     const [fechaNacimiento, setFechaNacimiento] = useState(null); // objeto Date
-    const [fechaInputWeb, setFechaInputWeb] = useState(''); // solo para web
     const [mostrarPicker, setMostrarPicker] = useState(false);
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [enviando, setEnviando] = useState(false);
 
     useEffect(() => {
+        const hoy = new Date();
         if (Platform.OS === 'web') {
-            const hoy = new Date();
-            const hoyStr = hoy.toISOString().split('T')[0];
-            setFechaInputWeb(hoyStr);
-            setFechaNacimiento(hoy);
+            setDia(hoy.getDate().toString());
+            setMes((hoy.getMonth() + 1).toString());
+            setAnio(hoy.getFullYear().toString());
+        } else {
+            setFechaNacimiento(new Date());
         }
     }, []);
 
@@ -37,63 +48,60 @@ export default function ScreenRegistro({navigation}) {
         }
     };
 
-    const parseFechaDesdeInputWeb = () => {
-        const [anio, mes, dia] = fechaInputWeb.split('-');
-        if (!anio || !mes || !dia) return null;
-
+    const obtenerFechaDesdePickers = () => {
         if (!esFechaValida(dia, mes, anio)) return null;
-
-        return new Date(`${anio}-${mes}-${dia}`);
+        return new Date(`${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
     };
 
     const handleRegister = async () => {
-        let fechaFinal = fechaNacimiento;
+        console.log('➡️ Entrando a handleRegister');
 
-        if (Platform.OS === 'web') {
-            fechaFinal = parseFechaDesdeInputWeb();
-        }
+        let fechaFinal = Platform.OS === 'web' ? obtenerFechaDesdePickers() : fechaNacimiento;
 
         if (!fechaFinal) {
+            console.log('❌ Fecha inválida detectada', { fechaFinal });
             return Alert.alert('Fecha inválida', 'Ingresá una fecha de nacimiento válida.');
         }
         
-        const dia = fechaNacimiento.getDate().toString();
-        const mes = (fechaNacimiento.getMonth() + 1).toString(); // 0-indexed
-        const anio = fechaNacimiento.getFullYear().toString();
+        const diaStr = fechaFinal.getDate().toString();
+        const mesStr = (fechaFinal.getMonth() + 1).toString();
+        const anioStr = fechaFinal.getFullYear().toString();
 
-        if (!esFechaValida(dia, mes, anio)) {
+        if (!esFechaValida(diaStr, mesStr, anioStr)) {
+            console.log('❌ Fecha inválida según esFechaValida()', { diaStr, mesStr, anioStr });
             return Alert.alert('Fecha inválida', 'Ingresá una fecha de nacimiento válida.');
         }
         
         if (!nombre || !apellido || !dni || !email || !password) {
+            console.log('❌ Falta completar campos:', { nombre, apellido, dni, email, password });
             return Alert.alert('Campos', 'Completá todos los campos.');
         }
 
         const fechaFormateada = `${anio.padStart(4, '0')}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+        console.log('📅 Fecha formateada enviada:', fechaFormateada);
 
         try {
             setEnviando(true);
 
-            const bodyToSend = {
+            const nuevoUsuarioData = {
                 nombre,
                 apellido,
                 dni,
                 fechaNacimiento: fechaFormateada,
                 email,
-                contrasenia: password,
+                contrasenia: password
             };
 
-            console.log('📤 Datos enviados al servidor:', bodyToSend);
+            console.log('📤 Datos enviados al servidor:', nuevoUsuarioData); 
 
-            // Registrar nuevo usuario
-            const res = await fetch(`${BASE_URL}/api/usuarios/nuevo`, {
+            // Registrar nuevo usuario 
+            const res = await fetch(`${BASE_URL}/usuarios/nuevo`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bodyToSend), 
+                body: JSON.stringify(nuevoUsuarioData), 
             });
 
             console.log('🧾 Código de estado HTTP:', res.status);
-
             const raw = await res.text();
             console.log('📨 Texto completo de respuesta:', raw);
 
@@ -106,32 +114,46 @@ export default function ScreenRegistro({navigation}) {
             }
 
             if (!res.ok || !data?.token) {
+                console.log('❌ Registro fallido - Token no recibido o error:', data);
                 return Alert.alert('Error', data?.error || 'No se pudo registrar');
             }
 
-            await AsyncStorage.setItem('token', data.token);
-
-            // obtener perfil
-            const perfilRes = await fetch(`${BASE_URL}/api/usuarios/perfil/${data.id_usuario}`, {
-                headers: { Authorization: `Bearer ${data.token}` },
-            });
+            // // obtener perfil
+            // const perfilRes = await fetch(`${BASE_URL}/usuarios/perfil`, {
+            //     headers: { Authorization: `Bearer ${data.token}` },
+            // });
 
         
-            const perfilRaw = await perfilRes.text();
-            console.log('👤 Respuesta de perfil:', perfilRaw);
+            // const perfilRaw = await perfilRes.text();
+            // console.log('👤 Respuesta de perfil:', perfilRaw);
 
-            let perfil = {};
-            try {
-                perfil = JSON.parse(perfilRaw);
-            } catch (e) {
-                console.warn('⚠️ No se pudo parsear perfil como JSON');
+            // let perfil = {};
+            // try {
+            //     perfil = JSON.parse(perfilRaw);
+            // } catch (e) {
+            //     console.warn('⚠️ No se pudo parsear perfil como JSON');
+            // }
+
+            // console.log('👤 Perfil recibido:', perfil);
+            // if (!perfil?.id) {
+            //     return Alert.alert('Error', 'No se pudo obtener el perfil del usuario');
+            // }
+
+            if (Platform.OS === 'web') {
+                window.alert('Tu usuario fue creado correctamente. Iniciá sesión para continuar.');
+                navigation.navigate('Login', { email });
+            } else {
+                Alert.alert(
+                    'Registro exitoso',
+                    'Tu usuario fue creado correctamente. Iniciá sesión para continuar.',
+                    [
+                        {
+                            text: 'Ir al login',
+                            onPress: () => navigation.navigate('Login', { email }),
+                        },
+                    ]
+                );
             }
-
-            if (!perfil?.id_usuario) {
-                return Alert.alert('Error', 'No se pudo obtener el perfil del usuario');
-            }
-
-            navigation.replace('PerfilUsuario', { id: perfil.id_usuario });
 
         } catch (err) {
             console.error('❌ Error registro:', err);
@@ -169,22 +191,11 @@ export default function ScreenRegistro({navigation}) {
                     />
                     <Text>Fecha de nacimiento:</Text>
                     {Platform.OS === 'web' ? (
-                        <TextInput
-                            style={commonStyles.input}
-                            placeholder="YYYY-MM-DD"
-                            value={fechaInputWeb}
-                            onChangeText={(text) => {
-                                setFechaInputWeb(text);
-                                const [year, month, day] = text.split('-');
-                                const date = new Date(`${year}-${month}-${day}`);
-                                if (!isNaN(date.getTime())) {
-                                    setFechaNacimiento(date);
-                                } else {
-                                    setFechaNacimiento(null);
-                                }
-                            }}
-                            editable={true}
-                        />
+                        <View style={commonStyles.row}>
+                            <PickerDia value={dia} onChange={setDia} />
+                            <PickerMes value={mes} onChange={setMes} />
+                            <PickerAnio value={anio} onChange={setAnio} desde={1900} hasta={new Date().getFullYear()} />
+                        </View>
                     ) : (
                         <>
                             <Button
@@ -206,6 +217,8 @@ export default function ScreenRegistro({navigation}) {
                         style={commonStyles.input}
                         value={email}
                         onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
                     />
                     <Text>Contraseña</Text>
                     <TextInput
