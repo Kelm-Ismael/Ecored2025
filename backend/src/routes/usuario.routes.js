@@ -8,16 +8,22 @@ import {
   getUsuarios,
   crearUsuario,
   loginUsuario,
+<<<<<<< HEAD
   getPerfil,
+=======
+  perfilUsuario,
+>>>>>>> origin/Caro
   actualizarUsuario,
   eliminarUsuario,
   putCambiarPassword,
   putActualizarAvatar,
 } from '../controllers/usuario.controller.js';
+import { verificarToken } from '../utils/jwt.js'
 
 import { verificarToken } from '../middleware/auth.js';
 import { requireAdmin } from '../middleware/roles.js';
 
+<<<<<<< HEAD
 
 const router = Router();
 
@@ -106,5 +112,14 @@ router.put(
   },
   putActualizarAvatar
 );
+=======
+router.get('/todos', getUsuarios);
+router.post('/login', loginUsuario);
+router.get('/perfil', verificarToken, perfilUsuario);
+router.post('/nuevo', crearUsuario);
+
+// router.put('/:id', actualizarUsuario);
+// router.delete('/:id', eliminarUsuario);
+>>>>>>> origin/Caro
 
 export default router;

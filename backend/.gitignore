@@ -4,6 +4,8 @@ node_modules/
 # entorno y configuración
 .env
 *.log
+.expo/
+.src/config/front.js
 
 #base de datos local, por ej SQLite
 *.sqlite

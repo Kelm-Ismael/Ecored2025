@@ -1,5 +1,6 @@
 import db from '../config/db.js';
 
+<<<<<<< HEAD
 export async function listarDesafiosDisponibles() {
   const [rows] = await db.query(
     `SELECT id, nombre, puntos_a_ganar, fecha_inicio, fecha_fin
@@ -57,3 +58,17 @@ export async function confirmarEntregaDesafio({ idUsuarioDesafio }) {
     conn.release();
   }
 }
+=======
+export async function obtenerDesafios() {
+    const [rows] = await db.query(`
+        SELECT 
+            d.id,
+            d.nombre,
+            td.tipo,
+            d.puntos_a_ganar
+        FROM desafio d
+        LEFT JOIN tipo_desafio td ON d.tipo = td.id
+    `);
+    return rows;
+}
+>>>>>>> origin/Caro

@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+>>>>>>> origin/Caro
 
 // frontend/screens/beneficios.js
 import React, { useEffect, useState } from 'react';
@@ -74,6 +81,7 @@ export default function Beneficios() {
   const renderItem = ({ item }) => {
     const puede = puntos >= item.puntos_requeridos;
     return (
+<<<<<<< HEAD
       <View style={[commonStyles.accentContainer, { marginBottom: 12 }]}>
         <Text style={[commonStyles.title, { marginBottom: 8 }]}>{item.descripcion}</Text>
         <Text style={commonStyles.subtitle}>Requiere: {item.puntos_requeridos} pts</Text>
@@ -85,6 +93,21 @@ export default function Beneficios() {
           <Text style={commonStyles.buttonText}>{puede ? 'Canjear' : 'Insuficientes puntos'}</Text>
         </Pressable>
       </View>
+=======
+        <SafeAreaView style={commonStyles.safeArea}>
+            <View style={commonStyles.container}>
+                <Text style={commonStyles.title}>
+                    Beneficios
+                </Text>
+                <TextInput></TextInput>
+                {/* agregar icono lupa buscador */}
+
+                <View style={commonStyles.accentContainer}>
+                    <Text>tabla beneficios</Text>
+                </View>
+            </View>
+        </SafeAreaView>
+>>>>>>> origin/Caro
     );
   };
 

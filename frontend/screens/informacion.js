@@ -1,13 +1,20 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator, ScrollView } from 'react-native';
 import { commonStyles, colors } from '../styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '../config/api';
+=======
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Text, View } from 'react-native';
+>>>>>>> origin/Caro
 
 export default function Informacion({ navigation }) {
   const [resumen, setResumen] = useState(null);
   const [loading, setLoading] = useState(false);
 
+<<<<<<< HEAD
   async function fetchResumen() {
     try {
       setLoading(true);
@@ -81,3 +88,24 @@ export default function Informacion({ navigation }) {
     </ScrollView>
   );
 }
+=======
+export default function ScreenInformacion() {
+    return (
+        <SafeAreaView style={commonStyles.safeArea}>
+            <View style={commonStyles.container}>
+                <Text style={commonStyles.title}>
+                    Informacion
+                </Text>
+                <View style={commonStyles.container}>
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                    <Button title='link info' />
+                </View>
+            </View>
+        </SafeAreaView>
+    );
+}
+>>>>>>> origin/Caro

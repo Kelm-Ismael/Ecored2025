@@ -1,9 +1,13 @@
-/ecored-front
+/frontend
 |
 ├── assets/
-|
+|   └── icon.png
 ├── components/
-|
+|   └── LogoutButton.js
+├── config/
+|   └── api.js      # conexion a backend
+├── navigation/
+|   └── usuarioStack.js
 ├── screens/
 |   ├── beneficios.js
 |   ├── desafios.js
@@ -11,11 +15,16 @@
 |   ├── inicioSesion.js
 |   ├── perfilUsuario.js
 |   └── registroUsuario.js
+├── styles/
+|   └── styles.js
+├── utils/
+|   └── validaciones/
+|       └──fecha.js
 │
-├── App.js 
+├── .gitignore
+├── App.js          #entrada front 
 ├── app.json
 ├── index.js
-├── package-lock.json
 └── package.json
 
 1. sobre ECORED2025 en bash
@@ -35,4 +44,26 @@
 
 5. pull
 
-*** npx expo star -> levantar el proyecto
+*** npx expo start -> levantar el proyecto
+
+* ACTUALIZACION DE SDK
+    npm install expo@^54.0.0
+    npx expo install --fix
+    npx expo-doctor
+    npx expo install react-native-worklets
+    npx expo start --tunnel
+    npx expo install expo@54.0.2 expo-status-bar@~3.0.8
+    npx expo start --clear
+
+    npx expo strat
+
+* AGREGAR ASYNCSTORAGE (Guardar el token de sesión (JWT), almacenar si el usuario ya inició sesión o no, guardar configuraciones o preferencias locales, mantener datos aunque se cierre la app)
+    npx expo install @react-native-async-storage/async-storage
+
+* REACT NAVIGATION
+    npx expo install @react-navigation/native
+    npx expo install react-native-svg
+    npm install @react-navigation/native-stack
+    
+* REACT FECHA
+    npm install @react-native-community/datetimepicker

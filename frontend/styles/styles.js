@@ -87,6 +87,7 @@ export const commonStyles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingVertical: space.lg,
   },
+<<<<<<< HEAD
 
   /* 🧩 Cards */
   card: {
@@ -96,6 +97,14 @@ export const commonStyles = StyleSheet.create({
     borderColor: colors.border,
     padding: space.lg,
     ...cardShadow,
+=======
+  accentContainer : {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20
+>>>>>>> origin/Caro
   },
   cardTight: {
     backgroundColor: colors.bg,
@@ -196,6 +205,7 @@ export const commonStyles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.2,
   },
+<<<<<<< HEAD
   buttonOutline: {
     backgroundColor: 'transparent',
     borderWidth: 1.5,
@@ -248,4 +258,40 @@ export const commonStyles = StyleSheet.create({
   row:     { flexDirection: 'row', alignItems: 'center' },
   between: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   center:  { alignItems: 'center', justifyContent: 'center' },
+=======
+  fechaContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  fechaInputWeb: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  fechaInputDia: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputMes: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputAnio: {
+    flex: 2,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: colors.gray,
+    borderRadius: 2,
+    marginVertical: 8,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'left',
+    gap: 8,
+  },
+>>>>>>> origin/Caro
 });

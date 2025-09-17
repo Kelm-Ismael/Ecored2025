@@ -4,6 +4,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+<<<<<<< HEAD
+=======
+
+import { StyleSheet, Text, View } from 'react-native';
+
+import ScreenInformacion from './screens/informacion'
+import ScreenLogin from './screens/inicioSesion'
+import ScreenUsuario from './screens/perfilUsuario'
+import ScreenRegistro from './screens/registroUsuario';
+import ScreenBeneficio from './screens/beneficios'
+import ScreenDesafio from './screens/desafios'
+import AuthStack from './navigation/usuarioStack';
+>>>>>>> origin/Caro
 
 import ScreenInformacion from './screens/informacion';
 import ScreenBeneficio from './screens/beneficios';
@@ -11,6 +24,7 @@ import ScreenDesafio from './screens/desafios';
 import ScannerQR from './screens/scannerQR';
 import AuthStack from './navigation/authStack';
 import { headerStyles, tabBarStyles } from './styles/styles';
+import UsuarioStack from './navigation/usuarioStack';
 
 import MapaMyMapsIframe from './screens/MapaMyMapsIframe';
 const Tab = createBottomTabNavigator();
@@ -42,8 +56,16 @@ export default function App() {
           />
           <Tab.Screen
             name="Usuario"
+<<<<<<< HEAD
             component={AuthStack}
             options={{ headerShown: false, title: 'Usuario' }}
+=======
+            component={UsuarioStack} //PerfilUsuario
+            options={{
+              title: 'Mi Perfil',
+              ...headerStyles,
+            }}
+>>>>>>> origin/Caro
           />
           <Tab.Screen
             name="Mapa"

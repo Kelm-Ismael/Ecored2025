@@ -1,4 +1,16 @@
 {
+<<<<<<< HEAD
+=======
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.3",
+    "node": "^24.6.0"
+  },
+>>>>>>> origin/Caro
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
@@ -14,8 +26,13 @@
     "nodemon": "^3.1.10"
   },
   "scripts": {
+<<<<<<< HEAD
     "dev": "nodemon index.js",
     "start": "node index.js",
+=======
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+>>>>>>> origin/Caro
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

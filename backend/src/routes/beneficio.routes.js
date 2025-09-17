@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Router } from 'express';
 import { verificarToken } from '../middleware/auth.js';
 import {
@@ -19,3 +20,16 @@ router.put('/:id', verificarToken, actualizarBeneficio);
 router.delete('/:id', verificarToken, eliminarBeneficio);
 
 export default router;
+=======
+import express from 'express';
+import {
+    getBeneficios
+} from '../controllers/beneficio.controller.js'
+import { verificarToken } from '../utils/jwt.js';
+
+const router = express.Router();
+
+router.get('/todos', getBeneficios);
+
+export default router;
+>>>>>>> origin/Caro

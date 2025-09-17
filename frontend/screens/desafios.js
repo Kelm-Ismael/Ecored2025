@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TextInput } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+>>>>>>> origin/Caro
 
 // // frontend/screens/desafios.js
 // import React, { useEffect, useState } from 'react';
@@ -192,6 +199,7 @@ export default function ScreenDesafio() {
 
   if (loading) {
     return (
+<<<<<<< HEAD
       <View style={commonStyles.container}>
         <ActivityIndicator size="large" />
       </View>
@@ -229,3 +237,20 @@ export default function ScreenDesafio() {
     </View>
   );
 }
+=======
+        <SafeAreaView style={commonStyles.safeArea}>
+            <View style={commonStyles.container}>
+                <Text style={commonStyles.title}>
+                    Desafios
+                </Text>
+                <TextInput></TextInput>
+                {/* agregar icono lupa buscador */}
+
+                <View style={commonStyles.accentContainer}>
+                    <Text>tabla desafios</Text>
+                </View>
+            </View>
+        </SafeAreaView>
+    );
+}
+>>>>>>> origin/Caro
