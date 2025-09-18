@@ -4,8 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-<<<<<<< HEAD
-=======
 
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -16,7 +14,6 @@ import ScreenRegistro from './screens/registroUsuario';
 import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
 import AuthStack from './navigation/usuarioStack';
->>>>>>> origin/Caro
 
 import ScreenInformacion from './screens/informacion';
 import ScreenBeneficio from './screens/beneficios';
@@ -56,16 +53,11 @@ export default function App() {
           />
           <Tab.Screen
             name="Usuario"
-<<<<<<< HEAD
-            component={AuthStack}
-            options={{ headerShown: false, title: 'Usuario' }}
-=======
             component={UsuarioStack} //PerfilUsuario
             options={{
               title: 'Mi Perfil',
               ...headerStyles,
             }}
->>>>>>> origin/Caro
           />
           <Tab.Screen
             name="Mapa"
