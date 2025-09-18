@@ -67,3 +67,25 @@
     
 * REACT FECHA
     npm install @react-native-community/datetimepicker
+
+* PARA HACER FUNCIONAR EL DOTENV (agregar babel.config.js)
+    npm install babel-plugin-dotenv-import --save-dev
+
+* UPDATE 15/SEP
+    npm install @react-native-picker/picker@2.11.1  -> update picker
+    npm install @expo/metro-runtime@~6.1.2 expo@54.0.7  -> metro runtime
+    npx expo-doctor  -> para encontrar y solucionar errores
+    npm install @react-native-community/datetimepicker@8.4.4 @react-native-picker/picker@2.11.1
+
+
+* PARA BORRAR INCONSISTENCIAS
+    rm -rf node_modules     -> Elimina todas las dependencias instaladas
+    rm -rf .expo            -> Elimina configuraciones temporales de Expo
+    rm -f package-lock.json -> Elimina el lockfile para forzar instalación limpia
+    npm cache clean --force -> Limpia el caché de NPM (a veces corrompido)
+    npm install             -> Reinstala todas las dependencias definidas en package.json
+
+* ACTUALIZACION 18/SEP
+    npm install react-native-qrcode-svg
+    npx expo install expo-camera expo-barcode-scanner
+    npx expo install expo-camera

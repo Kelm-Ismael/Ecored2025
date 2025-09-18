@@ -25,7 +25,7 @@ export default function ScreenLogin({ navigation, onLoginSuccess, route }) {
       };
       
       console.log('📤 Datos enviados al login:', loginData);
-      // console.log('URL para login:', `${BASE_URL}/usuarios/login`);      
+      console.log('URL para login:', `${BASE_URL}/usuarios/login`);      
 
       const res = await fetch(`${BASE_URL}/usuarios/login`, {
         method: 'POST',
@@ -97,6 +97,9 @@ export default function ScreenLogin({ navigation, onLoginSuccess, route }) {
       <View style={commonStyles.container}>
         <Text style={commonStyles.title}>
           Login
+        </Text>
+        <Text style={commonStyles.subtitle}>
+          Ingresá para ver tu perfil de usuario
         </Text>
         <View style={commonStyles.accentContainer}>
           <Text>E-mail</Text>

@@ -6,9 +6,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScreenLogin from '../screens/inicioSesion';
 import ScreenRegistro from '../screens/registroUsuario';
 import ScreenPerfil from '../screens/perfilUsuario';
+import ScreenScanner from '../screens/scannerQR';
+import ScreenValidarEntrega from '../screens/validarEntrega';
+
 import { commonStyles, headerStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api';
-
 
 const Stack = createNativeStackNavigator();
 
@@ -81,13 +83,23 @@ export default function UsuarioStack() {
           />
         </>
       ) : (
-        <Stack.Screen
-          name="PerfilUsuario"
-          options={{ headerShown: false }}
-        >
-          
-          {(props) => <ScreenPerfil {...props} onLogout={handleLogout} />}
-        </Stack.Screen>
+        <>
+          <Stack.Screen name="PerfilUsuario" options={{ headerShown: false }}>
+            {(props) => <ScreenPerfil {...props} onLogout={handleLogout} />}
+          </Stack.Screen>
+
+          <Stack.Screen
+            name="Scanner"
+            component={ScreenScanner}
+            options={{ title: 'Escanear QR' }}
+          />
+
+          <Stack.Screen
+            name="ValidarEntrega"
+            component={ScreenValidarEntrega}
+            options={{ title: 'Escanear QR' }}
+          />
+        </>
       )}
     </Stack.Navigator>
   );

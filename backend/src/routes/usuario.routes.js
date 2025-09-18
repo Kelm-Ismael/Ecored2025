@@ -1,7 +1,8 @@
 import express from 'express';
 import {
-  getUsuarios,
+  buscarUsuario,
   crearUsuario,
+  getUsuarios,
   loginUsuario,
   perfilUsuario,
   actualizarUsuario,
@@ -15,6 +16,7 @@ router.get('/todos', getUsuarios);
 router.post('/login', loginUsuario);
 router.get('/perfil', verificarToken, perfilUsuario);
 router.post('/nuevo', crearUsuario);
+router.get('/buscar', buscarUsuario);
 
 // router.put('/:id', actualizarUsuario);
 // router.delete('/:id', eliminarUsuario);

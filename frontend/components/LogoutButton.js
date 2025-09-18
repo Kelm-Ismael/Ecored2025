@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button } from 'react-native';
+import { Alert, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { commonStyles } from '../styles/styles.js'
 
@@ -39,11 +39,9 @@ const LogoutButton = ({ onLogout }) => {
 };
 
   return (
-    <Button 
-        style={commonStyles.button}
-        title="Cerrar sesión" 
-        onPress={handleLogout} 
-    />
+    <TouchableOpacity style={commonStyles.perfilButtonLogout} onPress={handleLogout}>
+  <Text style={commonStyles.buttonText}>Cerrar sesión</Text>
+</TouchableOpacity>
   );
 };
 
