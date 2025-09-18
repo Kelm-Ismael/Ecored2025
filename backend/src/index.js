@@ -8,7 +8,7 @@ import usuarioRoutes from './routes/usuario.routes.js';
 import personaRoutes from './routes/persona.routes.js';
 import beneficioRoutes from './routes/beneficio.routes.js';
 import desafioRoutes from './routes/desafio.routes.js'
-
+import residuoRoutes from './routes/residuo.routes.js'
 dotenv.config();
 
 // Inicializar la aplicación Express
@@ -17,10 +17,21 @@ const app = express();
 app.use(express.json());
 
 // configurar CORS
+const allowedOrigins = [
+  'http://localhost:8081',
+  `${FRONT_URL}`,
+];
+
 app.use(cors({
-  origin: `${FRONT_URL}`,  // Cambia al dominio/puerto de tu frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-  credentials: true,  // Si usas cookies o autenticación que requiera credenciales
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 }));
 
 // Rutas principales agrupadas bajo `/api`
@@ -28,6 +39,7 @@ app.use('/usuarios', usuarioRoutes);
 app.use('/personas', personaRoutes);
 app.use('/beneficios', beneficioRoutes);
 app.use('/desafios', desafioRoutes);
+app.use('/residuos', residuoRoutes);
 
 // Puedes agregar aquí más rutas: entregas, beneficios, etc.
 // app.use('/api/entregas', entregaRoutes);

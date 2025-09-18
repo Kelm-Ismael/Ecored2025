@@ -19,6 +19,7 @@ import db from '../config/db.js';
 import { 
   obtenerUsuarios, 
   buscarUsuarioPorEmail, 
+  buscarUsuariosPorQuery,
   editarUsuario, 
   borrarUsuario, 
   obtenerPerfilDetallado, 
@@ -207,14 +208,20 @@ export async function perfilUsuario(req, res) {
     let datosReferencia = {};
     
     switch (usuario.id_tipo_usuario) {
-      case 1: // Persona
+      case 1: // ciudadano
         datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
         break;
-      case 2: // Escuela
-        // datosReferencia = await buscarEscuelaPorId(usuario.id_referencia);
+      case 2: // alumno
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
         break;
-      case 3: // Empresa
-        // datosReferencia = await buscarEmpresaPorId(usuario.id_referencia);
+      case 3: // empleado
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
+        break;
+      case 4: // administrador
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
+        break;
+      case 5: // escuela
+        //
         break;
       default:
         console.warn('⚠️ Tipo de usuario no manejado:', usuario.id_tipo_usuario);
@@ -309,6 +316,24 @@ export async function crearUsuario(req, res) {
       detalle: err.message,
       stack: err.stack // solo en desarrollo
     });
+  }
+}
+
+export async function buscarUsuario(req, res) {
+  const { q } = req.query;
+
+  console.log('Buscar usuario con query:', q);
+  if (!q) {
+    return res.status(400).json({ error: 'Falta el parámetro de búsqueda' });
+  }
+
+  try {
+    const resultados = await buscarUsuariosPorQuery(q);
+    console.log('Resultados encontrados:', resultados.length);
+    res.json(resultados);
+  } catch (error) {
+    console.error('❌ Error al buscar usuarios:', error);
+    res.status(500).json({ error: 'Error al buscar usuarios' });
   }
 }
 

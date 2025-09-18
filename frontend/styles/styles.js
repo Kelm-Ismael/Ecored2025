@@ -1,5 +1,5 @@
-// styles/styles.js
-import { StyleSheet, Platform } from 'react-native';
+// ui/theme.ts
+import { Platform, StyleSheet } from 'react-native';
 
 /* 🎨 Paleta refinada (verde petróleo + lima suavizada + neutros cálidos) */
 export const colors = {
@@ -14,44 +14,61 @@ export const colors = {
   warning:    '#F59E0B',
   info:       '#3B82F6',
 
-  text:       '#1F2937',   // gris-azulado (mejor legibilidad)
+  text:       '#1F2937',   // gris-azulado (legibilidad)
   textMuted:  '#6B7280',
   placeholder:'#8A9A8A',
 
   border:     '#D6E6D6',   // borde neutro verdoso suave
   bg:         '#F4FAF2',   // fondo principal muy claro
   bgAlt:      '#ECF5EA',   // fondo alternativo
+
+  /* añadidos para cubrir referencias existentes */
+  secondary:  '#FFFFFF',   // texto en botones/contraste sobre primary
+  background: '#FFFFFF',   // fondo “blanco puro” cuando lo pidas
+  gray:       '#CBD5E1',   // gris suave para inputs/bordes
 };
 
-/* 🔠 Fuentes (misma estructura) */
+/* 🔠 Fuentes */
 export const fonts = {
-  regular: Platform.select({ ios: 'System', android: 'System' }),
-  medium:  Platform.select({ ios: 'System', android: 'System' }),
-  bold:    Platform.select({ ios: 'System', android: 'System' }),
+  regular: Platform.select({ ios: 'System', android: 'System', default: 'System' }),
+  medium:  Platform.select({ ios: 'System', android: 'System', default: 'System' }),
+  bold:    Platform.select({ ios: 'System', android: 'System', default: 'System' }),
 };
 
 /* 📏 Escalas reutilizables */
-const radius = { sm: 10, md: 12, lg: 16, xl: 20 };
-const space  = { xs: 6, sm: 10, md: 14, lg: 18, xl: 24 };
+export const radius = { sm: 10, md: 12, lg: 16, xl: 20 };
+export const space  = { xs: 6, sm: 10, md: 14, lg: 18, xl: 24 };
 
-/* 🔝 Header / Tab (más limpio y consistente) */
+/* 🌫️ Sombra cross-platform */
+export const cardShadow = Platform.select({
+  ios: {
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+  },
+  android: { elevation: 2 },
+  default: {},
+}) as Record<string, unknown>;
+
+/* 🔝 Header / Tab */
 export const headerStyles = {
   headerStyle: { backgroundColor: colors.bg },
   headerShadowVisible: false,
   headerTintColor: colors.primary900,
   headerTitleStyle: {
     fontSize: 20,
-    fontWeight: '800',
+    fontWeight: '800' as const,
     color: colors.primary900,
     letterSpacing: 0.2,
   },
-  headerTitleAlign: 'center',
+  headerTitleAlign: 'center' as const,
 };
 
 export const tabBarStyles = {
   tabBarStyle: {
     backgroundColor: colors.bg,
-    height: Platform.select({ ios: 84, android: 72 }),
+    height: Platform.select({ ios: 84, android: 72, default: 72 }),
     borderTopColor: colors.border,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
@@ -59,25 +76,33 @@ export const tabBarStyles = {
   tabBarInactiveTintColor: colors.textMuted,
   tabBarLabelStyle: {
     fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'none',
+    fontWeight: '700' as const,
+    textTransform: 'none' as const,
     letterSpacing: 0.2,
   },
   tabBarIconStyle: { marginTop: 2 },
 };
 
-/* 🌫️ Sombras suaves + elevación consistente */
-const cardShadow = Platform.select({
-  ios: {
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
+/* 📷 Scanner */
+export const scannerStyles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.bg },
+  container: {
+    flex: 1,
+    margin: 0,
+    padding: 20,
+    backgroundColor: colors.background,
   },
-  android: { elevation: 4 },
+  accentContainer: {
+    flex: 1,
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+  },
 });
 
-/* 📦 Estilos comunes (misma estructura, mejores proporciones) */
+/* 🎛️ Comunes */
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.bgAlt },
 
@@ -87,25 +112,370 @@ export const commonStyles = StyleSheet.create({
     paddingHorizontal: space.lg,
     paddingVertical: space.lg,
   },
-<<<<<<< HEAD
 
-  /* 🧩 Cards */
-  card: {
-    backgroundColor: colors.bg,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    padding: space.lg,
-    ...cardShadow,
-=======
-  accentContainer : {
+  containerNoPadding: {
+    flex: 1,
+    padding: 0,
+  },
+
+  webTitleContainer: {
+    padding: 20,
+    backgroundColor: colors.background,
+  },
+
+  webAccentContainer: {
+    marginTop: 10,
+    marginRight: 50,
+    marginLeft: 50,
+    maxWidth: 600,
+    minWidth: 300,
     borderWidth: 5,
     borderColor: colors.accent,
     borderRadius: 15,
     backgroundColor: colors.background,
-    padding: 20
->>>>>>> origin/Caro
+    padding: 30,
+    alignSelf: 'center',
   },
+
+  webLoginContainer: {
+    backgroundColor: colors.primary,
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 0,
+    minHeight: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  webLoginCenter: {
+    backgroundColor: colors.background,
+    alignSelf: 'center',
+    padding: 40,
+    borderRadius: 30,
+  },
+  webLoginTitle: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  webLoginButtonText: {
+    textAlign: 'center',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+
+  webMainContainer: {
+    backgroundColor: colors.background,
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 0,
+    minHeight: '100vh',
+    minWidth: '100vw',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  webSidebar: {
+    flex: 2,
+    backgroundColor: colors.primary,
+    minHeight: '100vh',
+  },
+  webContent: {
+    flex: 8,
+    backgroundColor: colors.background,
+    minHeight: '100vh',
+  },
+
+  webEntregaContainer: {
+    borderWidth: 2, // TODO: quitar en prod
+    borderColor: colors.gray,
+    padding: 20,
+    marginRight: 20,
+    marginLeft: 20,
+    alignItems: 'center',
+  },
+  webEntregaSearchContainer: {
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  webEntregaSearchTitle: {
+    color: colors.text,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  webEntregaSearchBar: {
+    color: colors.text,
+    fontSize: 16,
+    marginRight: 8,
+    marginLeft: 8,
+    alignSelf: 'center',
+  },
+  webEntregaInput: {
+    borderWidth: 1,
+    borderColor: colors.gray,
+    borderRadius: 8,
+    fontSize: 16,
+  },
+  webEntregaSearchIcon: {
+    backgroundColor: colors.accent,
+    padding: 10,
+    borderRadius: 50,
+  },
+  webEntregaSearchResult: {
+    borderWidth: 1,
+    borderColor: colors.gray,
+    borderRadius: 8,
+    fontSize: 16,
+    width: '100%',
+    justifyContent: 'center',
+    paddingLeft: 50,
+    paddingRight: 50,
+  },
+  webEntregaSearchResultUser: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 5,
+    borderBottomWidth: 1,
+    paddingBottom: 4,
+  },
+  webEntregaSearchSeleccionarButton: {
+    backgroundColor: colors.secondary,
+    paddingHorizontal: 15,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignSelf: 'center',
+  },
+  webEntregaSearchSeleccionarButtonText: {
+    color: colors.background,
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  webEntregaResumen: {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+    marginRight: 30,
+    marginLeft: 30,
+    minWidth: 400,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  webEntregaTipo: {
+    flexDirection: 'row',
+    paddingRight: 8,
+    paddingLeft: 8,
+    paddingBottom: 8,
+    gap: 8,
+  },
+  webEntregaTipoPicker: {
+    paddingHorizontal: 6,
+    borderColor: colors.gray,
+    borderRadius: 8,
+  },
+  webEntregaCantidad: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 8,
+    paddingLeft: 8,
+    paddingBottom: 8,
+  },
+  webEntregaCantidadInput: {
+    paddingHorizontal: 6,
+    borderColor: colors.gray,
+    borderRadius: 8,
+  },
+  webEntregaAgregarButton: {
+    backgroundColor: colors.accent,
+    padding: 3,
+    borderRadius: 50,
+  },
+  webEntregaResumenDivisor: {
+    backgroundColor: colors.accent,
+    height: 2,
+    marginTop: 6,
+    marginBottom: 6,
+    width: '100%',
+  },
+  webEntregaResumenDetalle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  webEntregaResumenItem: {
+    fontSize: 14,
+  },
+  webEntregaTotales: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  webEntregaQRButtonText: {
+    textAlign: 'center',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+
+  webQRTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  webQRContainer: {
+    borderColor: colors.text,
+    borderRadius: 20,
+    borderWidth: 4,
+    margin: 10,
+    padding: 20,
+    backgroundColor: colors.background,
+  },
+
+  accentContainer: {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+  },
+
+  /* Perfil */
+  perfilRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  perfilCell: {
+    padding: 5,
+  },
+  box70: { flex: 7 },
+  box30: { flex: 3 },
+
+  perfilContainer: {
+    backgroundColor: colors.background,
+    paddingTop: 20,
+    paddingBottom: 30,
+    paddingLeft: 50,
+    paddingRight: 50,
+  },
+  perfilButtonsContainer: {
+    marginBottom: 0,
+    maxHeight: 140,
+    paddingBottom: 0,
+    paddingRight: 35,
+    paddingLeft: 35,
+    backgroundColor: colors.background,
+    justifyContent: 'space-between',
+  },
+  perfilButtonEntrega: {
+    alignItems: 'center',
+    maxHeight: 80,
+    backgroundColor: colors.primary,
+    borderRadius: 45,
+    marginTop: 3,
+    marginBottom: 3,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 8,
+  },
+  perfilButtonLogout: {
+    alignItems: 'center',
+    maxHeight: 80,
+    backgroundColor: colors.primary,
+    borderRadius: 45,
+    marginTop: 3,
+    marginBottom: 3,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 8,
+  },
+  perfilButtonText: {
+    textAlign: 'center',
+    alignItems: 'center',
+    color: colors.secondary,
+  },
+  perfilNombre: {
+    color: colors.text,
+    fontSize: 28,
+    fontWeight: 'bold',
+    paddingBottom: 2,
+    textTransform: 'capitalize',
+  },
+  perfilRol: {
+    color: colors.secondary,
+    fontSize: 22,
+    fontWeight: 'bold',
+    padding: 2,
+    textTransform: 'capitalize',
+  },
+  perfilNivel: {
+    borderWidth: 7,
+    borderColor: colors.accent,
+    height: 80,
+    width: 80,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  perfilNivelText: {
+    color: colors.secondary,
+    alignSelf: 'center',
+    fontSize: 34,
+    fontWeight: '700',
+  },
+  perfilNivelTag: {
+    color: colors.secondary,
+    alignSelf: 'flex-start',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  perfilTitulo: {
+    color: colors.text,
+    fontWeight: '500',
+    textAlign: 'center',
+    fontSize: 22,
+    marginBottom: 18,
+  },
+  perfilPuntos: {
+    alignSelf: 'center',
+    borderWidth: 8,
+    borderColor: colors.accent,
+    borderRadius: 20,
+    backgroundColor: colors.background,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingRight: 30,
+    paddingLeft: 30,
+    width: 'auto',
+    marginBottom: 20,
+  },
+  perfilPuntosTexto: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  perfilTransacciones: {
+    alignSelf: 'center',
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 12,
+    width: 320,
+    padding: 8,
+    marginBottom: 15,
+    backgroundColor: colors.background,
+  },
+
+  /* Cards / textos */
   cardTight: {
     backgroundColor: colors.bg,
     borderRadius: radius.md,
@@ -116,26 +486,19 @@ export const commonStyles = StyleSheet.create({
     ...cardShadow,
   },
 
-  /* 📝 Títulos / textos */
   title: {
+    alignSelf: 'center',
     fontSize: 24,
-    fontWeight: '800',
-    color: colors.primary900,
-    textAlign: 'center',
-    marginBottom: space.sm,
-    letterSpacing: 0.2,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginTop: 10,
+    marginBottom: 10,
   },
   subtitle: {
-    fontSize: 15,
-    color: colors.textMuted,
-    textAlign: 'center',
-    marginBottom: space.sm,
-  },
-  h2: {
-    fontSize: 20,
-    fontWeight: '800',
+    alignSelf: 'center',
+    fontSize: 16,
     color: colors.text,
-    marginBottom: space.xs,
+    marginBottom: 25,
   },
   body: {
     fontSize: 15,
@@ -147,118 +510,60 @@ export const commonStyles = StyleSheet.create({
     color: colors.textMuted,
   },
 
-  /* 🏷️ Labels para formularios (opcional) */
+  /* Formularios */
   label: {
     fontSize: 14,
     fontWeight: '700',
     color: colors.text,
     marginBottom: 6,
   },
-
-  /* 🔤 Inputs (más altos y legibles) */
   input: {
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: radius.lg,
     paddingHorizontal: 16,
-    paddingVertical: Platform.select({ ios: 14, android: 12 }),
-    fontSize: 16,                // sube placeholder también
+    paddingVertical: Platform.select({ ios: 14, android: 12, default: 12 }),
+    fontSize: 16,
     color: colors.text,
     marginBottom: 14,
   },
   inputLg: {
-    paddingVertical: Platform.select({ ios: 16, android: 14 }),
+    paddingVertical: Platform.select({ ios: 16, android: 14, default: 14 }),
     fontSize: 17,
     borderRadius: radius.xl,
   },
   inputFocus: {
     borderColor: colors.primary,
-    shadowColor: colors.primary,
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    ...(Platform.OS === 'android' ? { elevation: 2 } : null),
+    ...(Platform.OS === 'android' ? { elevation: 2 } : {
+      shadowColor: colors.primary,
+      shadowOpacity: 0.12,
+      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 4 },
+    }),
   },
   inputError: { borderColor: colors.danger },
 
-  /* 🔘 Botones (más “tacto” y jerarquía clara) */
+  /* Botones */
   button: {
-    backgroundColor: colors.primary,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: radius.lg,
     alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 8,
-    ...cardShadow,
-    marginVertical: 8,
-  },
-  buttonLg: {
-    paddingVertical: 16,
-    borderRadius: radius.xl,
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    marginTop: 8,
+    marginBottom: 8,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 14,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontWeight: '800',
-    fontSize: 16,
-    letterSpacing: 0.2,
-  },
-<<<<<<< HEAD
-  buttonOutline: {
-    backgroundColor: 'transparent',
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-  },
-  buttonOutlineText: { color: colors.primary },
-  buttonDanger: { backgroundColor: colors.danger },
-  buttonMuted: { backgroundColor: colors.primary100 },
-  buttonMutedText: { color: colors.primary900 },
-
-  /* 🏷️ Chips / pills */
-  chip: {
-    alignSelf: 'flex-start',
-    backgroundColor: colors.accent,
-    color: colors.primary900,
-    borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    fontSize: 12,
-    fontWeight: '800',
+    textAlign: 'center',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 18,
+    textTransform: 'uppercase',
   },
 
-  /* 📋 List item */
-  listItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: radius.md,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
-    ...cardShadow,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  listTitle:    { fontSize: 16, fontWeight: '800', color: colors.text },
-  listSubtitle: { fontSize: 13, color: colors.textMuted },
-
-  /* 🖼️ Avatar */
-  avatar: {
-    width: 124,
-    height: 124,
-    borderRadius: 62,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    backgroundColor: colors.bgAlt,
-  },
-
-  /* 🧭 Layout helpers */
-  row:     { flexDirection: 'row', alignItems: 'center' },
-  between: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  center:  { alignItems: 'center', justifyContent: 'center' },
-=======
+  /* Fecha */
   fechaContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -270,17 +575,11 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
-  fechaInputDia: {
-    flex: 1,
-    marginRight: 5,
-  },
-  fechaInputMes: {
-    flex: 1,
-    marginRight: 5,
-  },
-  fechaInputAnio: {
-    flex: 2,
-  },
+  fechaInputDia: { flex: 1, marginRight: 5 },
+  fechaInputMes: { flex: 1, marginRight: 5 },
+  fechaInputAnio: { flex: 2 },
+
+  /* Picker y filas */
   pickerContainer: {
     borderWidth: 1,
     borderColor: colors.gray,
@@ -290,8 +589,7 @@ export const commonStyles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'left',
+    alignItems: 'flex-start',
     gap: 8,
   },
->>>>>>> origin/Caro
 });

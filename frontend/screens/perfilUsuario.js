@@ -75,10 +75,10 @@ export default function PerfilUsuario({ navigation }) {
       </View>
 =======
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, Alert, View, Text } from 'react-native';
+import { ActivityIndicator, Alert, View, Text, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
 import { commonStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api';
 import LogoutButton from '../components/LogoutButton'
@@ -86,6 +86,7 @@ import LogoutButton from '../components/LogoutButton'
 export default function ScreenPerfil({ onLogout }) {
     const [usuario, setUsuario] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigation = useNavigation();
 
     useEffect(() => {
         const obtenerDatos = async () => {
@@ -153,29 +154,49 @@ export default function ScreenPerfil({ onLogout }) {
 
     return (
         <SafeAreaView style={commonStyles.safeArea}>
-            <View style={commonStyles.container}>
-                <Text style={commonStyles.title}>
-                    Usuario
-                </Text>
-                <View style={commonStyles.container}>
-                    <Text>{usuario.referencia.nombre} {usuario.referencia.apellido}</Text>
-                    <Text>{usuario.tipo_usuario || 'No especificado'}</Text>
-                    <Text>Nivel:</Text>
-                    <Text>{usuario.nivel || 'No asignado'}</Text>
-                      {/* despues conectara con crud usuario */}
-                      {/* btn nueva entrega de reciclables */}
-
-                    <Text>Puntos acumulados:</Text>
-                        <View style={commonStyles.accentContainer}>
-                            <Text>{usuario.puntos || 0} puntos</Text>
+            <View style={commonStyles.containerNoPadding}>
+                <View style={commonStyles.perfilContainer}>
+                    <View style={commonStyles.perfilRow}>
+                        <View style={commonStyles.box70}>
+                            <Text style={commonStyles.perfilNombre}>{usuario.referencia.nombre} {usuario.referencia.apellido}</Text>
+                            <Text style={commonStyles.perfilRol}>{usuario.tipo_usuario || 'No especificado'}</Text>
                         </View>
-                      
-                    <Text>Últimas transacciones:</Text>
-                        <View style={commonStyles.accentContainer}>
+                        <View style={commonStyles.box30}>
+                            
+                            <Text style={commonStyles.perfilNivelTag}>Nivel:</Text>
+                            <View style={commonStyles.perfilNivel}>
+                                <Text style={commonStyles.perfilNivelText}>{usuario.nivel || '0'}</Text>
+                            </View>
+                            <Text style={commonStyles.perfilNivelTag}>No asignado</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={commonStyles.container}>
+                    <View style={commonStyles.container}>
+                        <Text style={commonStyles.perfilTitulo}>Puntos acumulados:</Text>
+                        <View style={commonStyles.perfilPuntos}>
+                            <Text style={commonStyles.perfilPuntosTexto}>{usuario.puntos || 0} puntos</Text>
+                        </View>
+                        <Text style={commonStyles.perfilTitulo}>Últimas transacciones:</Text>
+                        <View style={commonStyles.perfilTransacciones}>
                             <Text>tablas</Text>
                         </View>
-                    <LogoutButton onLogout={onLogout} />
+                    </View>
                 </View>
+                    <View style={commonStyles.perfilButtonsContainer}>
+                        <View style={commonStyles.perfilButtonEntrega}>
+                            <TouchableOpacity
+                                style={commonStyles.perfilButtonEntrega}
+                                onPress={() => navigation.navigate('Scanner')}
+                            >
+                                <Text style={commonStyles.buttonText}>Nueva entrega</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={commonStyles.perfilButtonLogout}>
+                            <LogoutButton onLogout={onLogout} />
+                        </View>                        
+                    </View>
+
             </View>
         </SafeAreaView>
 >>>>>>> origin/Caro

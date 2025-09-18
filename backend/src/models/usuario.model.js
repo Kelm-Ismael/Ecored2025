@@ -58,8 +58,46 @@ export async function buscarUsuarioPorId(id) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Editar (mínimo)
 =======
+>>>>>>> origin/Caro
+=======
+export const buscarUsuariosPorQuery = async (query) => {
+  const esEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
+  const esDNI = /^\d{6,}$/.test(query); // asume que los DNIs tienen al menos 6 dígitos
+
+  let sql = `
+    SELECT u.id, 
+      u.email, 
+      u.id_referencia, 
+      tu.tipo_usuario, 
+      p.nombre, 
+      p.apellido, 
+      p.dni
+    FROM usuario u
+    LEFT JOIN tipo_usuario tu ON u.id_tipo_usuario = tu.id
+    JOIN persona p ON p.id = u.id_referencia
+  `;
+
+  let whereClause = '';
+  let values = [];
+
+  if (esEmail) {
+    whereClause = 'WHERE u.email LIKE ?';
+    values = [`%${query}%`];
+  } else if (esDNI) {
+    whereClause = 'WHERE p.dni LIKE ?';
+    values = [`%${query}%`];
+  } else {
+    whereClause = 'WHERE p.nombre LIKE ? OR p.apellido LIKE ?';
+    values = [`%${query}%`, `%${query}%`];
+  }
+
+  const [rows] = await db.query(`${sql} ${whereClause}`, values);
+  return rows;
+};
+
 >>>>>>> origin/Caro
 export async function editarUsuario(id, datos) {
   const { email, estado } = datos;
