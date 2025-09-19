@@ -109,13 +109,14 @@ export async function actualizarFotoUrl(id, url) {
 }
 
 // Sumar puntos
-export async function sumarPuntosUsuario(id, puntos) {
-  await db.query(
+export async function sumarPuntosUsuario(conn, id, puntos) {
+  const [result] = await conn.query(
     `UPDATE usuario
      SET puntos_acumulados = COALESCE(puntos_acumulados, 0) + ?
      WHERE id = ?`,
     [puntos, id]
   );
+  return result.affectedRows;
 }
 
 // PERFIL DETALLADO (incluye id_tipo_usuario y texto)

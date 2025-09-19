@@ -115,7 +115,9 @@ export default function WebEntrega() {
                     <View style={commonStyles.webTitleContainer}>
                         <Text style={commonStyles.title}>Nueva entrega</Text>
                     </View>
+
                     <View style={commonStyles.webEntregaContainer}>
+                        
                         <View style={commonStyles.webEntregaSearchContainer}>
                             <View>
                                 <Text style={commonStyles.webEntregaSearchTitle}>Usuario:</Text>
@@ -124,7 +126,7 @@ export default function WebEntrega() {
                             <View style={commonStyles.webEntregaSearchBar}>
                                 <TextInput
                                     style={commonStyles.webEntregaInput}
-                                    placeholder="Apellido, DNI o Email"
+                                    placeholder="Ingrese apellido, DNI o Email"
                                     value={searchText}
                                     onChangeText={setSearchText}
                                 />
@@ -133,7 +135,7 @@ export default function WebEntrega() {
                                 style={commonStyles.webEntregaSearchIcon}
                                 onPress={() => {
                                 handleSearch();
-                                console.log('Lupa presionada');
+                                console.log('Iniciando busqueda...');
                                 }}
                             >
                                 <Ionicons name="search" size={22} color={colors.secondary} />
@@ -165,6 +167,12 @@ export default function WebEntrega() {
                                     </TouchableOpacity>
                                 </View>
                                 ))
+                            )}
+                            {selectedUser && (
+                                <View style={{ marginVertical: 10, padding: 10, backgroundColor: '#f0f0f0', borderRadius: 8 }}>
+                                    <Text style={{ fontWeight: 'bold' }}>Usuario seleccionado:</Text>
+                                    <Text>{selectedUser.nombre} {selectedUser.apellido} ({selectedUser.tipo_usuario}) | DNI: {selectedUser.dni}</Text>
+                                </View>
                             )}
                         </View>
                         <View style={commonStyles.webEntregaResumen}>

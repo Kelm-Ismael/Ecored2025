@@ -9,6 +9,7 @@ import personaRoutes from './routes/persona.routes.js';
 import beneficioRoutes from './routes/beneficio.routes.js';
 import desafioRoutes from './routes/desafio.routes.js'
 import residuoRoutes from './routes/residuo.routes.js'
+import entregaRoutes from './routes/entrega.routes.js'
 dotenv.config();
 
 // Inicializar la aplicación Express
@@ -40,6 +41,7 @@ app.use('/personas', personaRoutes);
 app.use('/beneficios', beneficioRoutes);
 app.use('/desafios', desafioRoutes);
 app.use('/residuos', residuoRoutes);
+app.use('/entregas', entregaRoutes);
 
 // Puedes agregar aquí más rutas: entregas, beneficios, etc.
 // app.use('/api/entregas', entregaRoutes);
