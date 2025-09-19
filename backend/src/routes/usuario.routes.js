@@ -1,4 +1,4 @@
-
+// src/routes/usuario.routes.js
 import { Router } from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -9,22 +9,16 @@ import {
   crearUsuario,
   getUsuarios,
   loginUsuario,
-
-  getPerfil,
-
-  perfilUsuario,
-
+  // getPerfil,            // ❌ no existe en el controller
+  perfilUsuario,           // ✅ este sí existe
   actualizarUsuario,
   eliminarUsuario,
   putCambiarPassword,
   putActualizarAvatar,
 } from '../controllers/usuario.controller.js';
-import { verificarToken } from '../utils/jwt.js'
 
 import { verificarToken } from '../middleware/auth.js';
 import { requireAdmin } from '../middleware/roles.js';
-
-
 
 const router = Router();
 
@@ -32,7 +26,6 @@ const router = Router();
 const AVATAR_DIR = path.join(process.cwd(), 'uploads', 'avatars');
 if (!fs.existsSync(AVATAR_DIR)) fs.mkdirSync(AVATAR_DIR, { recursive: true });
 
-// Map mime -> ext
 const MIME_EXT = {
   'image/jpeg': '.jpg',
   'image/png': '.png',
@@ -53,7 +46,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, AVATAR_DIR),
   filename: (req, file, cb) => {
     const safeExt = decideExt(file.originalname, file.mimetype);
-    cb(null, `u${req.user?.id || 'anon'}_${Date.now()}${safeExt}`);
+    cb(null, `u${req.user?.id ?? 'anon'}_${Date.now()}${safeExt}`);
   },
 });
 
@@ -64,7 +57,7 @@ function fileFilter(req, file, cb) {
     'image/webp',
     'image/heic',
     'image/heif',
-    'application/octet-stream', // algunos Android
+    'application/octet-stream',
   ];
   if (!allowed.includes(file.mimetype)) {
     return cb(new Error('Tipo de archivo no permitido (usa JPG, PNG, WEBP o HEIC/HEIF).'), false);
@@ -80,22 +73,21 @@ const upload = multer({
 });
 
 /* -------------------- Rutas públicas -------------------- */
-router.post('/', crearUsuario);           // registro
-router.post('/login', loginUsuario);      // login
+router.post('/', crearUsuario);
+router.post('/login', loginUsuario);
 
 /* -------------------- Rutas protegidas ------------------ */
 router.get('/', verificarToken, requireAdmin, getUsuarios);
-router.get('/me', verificarToken, getPerfil);
+router.get('/me', verificarToken, perfilUsuario);   // ✅ usar perfilUsuario
 
-
-// CRUD de usuarios: solo admin
+// CRUD admin
 router.put('/:id', verificarToken, requireAdmin, actualizarUsuario);
 router.delete('/:id', verificarToken, requireAdmin, eliminarUsuario);
 
-// cambiar contraseña (usuario logueado)
+// cambiar contraseña
 router.put('/me/password', verificarToken, putCambiarPassword);
 
-// actualizar avatar (usuario logueado)
+// actualizar avatar
 router.put(
   '/me/avatar',
   verificarToken,
@@ -114,14 +106,9 @@ router.put(
   putActualizarAvatar
 );
 
-router.get('/todos', getUsuarios);
-router.post('/login', loginUsuario);
+// extras
 router.get('/perfil', verificarToken, perfilUsuario);
 router.post('/nuevo', crearUsuario);
 router.get('/buscar', buscarUsuario);
-
-// router.put('/:id', actualizarUsuario);
-// router.delete('/:id', eliminarUsuario);
-
 
 export default router;
