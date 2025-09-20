@@ -73,6 +73,111 @@ export const scannerStyles = StyleSheet.create({
   },
 });
 
+export const beneficiosAppStyles = StyleSheet.create({
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemTipoYPts: {
+    fontSize: 13,
+    color: colors.secondary,
+  },
+  itemBoton: {
+    backgroundColor: colors.primary,
+    margin: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  canjearBtnText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    padding: 2,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginVertical: 12,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+});
+
+export const desafiosAppStyles = StyleSheet.create({
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: colors.text,
+    marginBottom: 2,
+  },
+  tipoYPuntos: {
+    fontSize: 13,
+    color: colors.secondary,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  aceptarBtn: {
+    backgroundColor: colors.primary,
+    margin: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  aceptarBtnText: {
+    color: colors.secondary,
+    padding: 2,
+    fontSize: 13,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginVertical: 12,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+});
+
+
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: {

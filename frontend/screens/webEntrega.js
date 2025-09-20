@@ -143,7 +143,7 @@ export default function WebEntrega() {
                         </View>
                         <View style={commonStyles.webEntregaSearchResult}>
                             {searchResults.length === 0 ? (
-                                <Text>No se encontraron resultados</Text>
+                                <Text>Sin resultados</Text>
                             ) : (
                                 searchResults.map((user) => (
                                 <View
