@@ -50,7 +50,7 @@ export default function ScreenBeneficio() {
 
     const beneficiosFiltrados = beneficios.filter((item) =>
         (item.descripcion || '').toLowerCase().includes(search.toLowerCase())
-        // || (item.tipo || '').toLowerCase().includes(query)
+        || (item.tipo || '').toLowerCase().includes(search.toLowerCase())
     );
 
     return (

@@ -1,7 +1,6 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 import { commonStyles } from '../styles/styles';
 import WebSidebar from '../components/WebSidebar';

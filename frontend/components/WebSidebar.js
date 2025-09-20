@@ -30,8 +30,8 @@ export default function WebSidebar() {
 
   const visibleRoutes = visibleRoutesByRole[userRole?.toLowerCase()] || [];
 
-  return (
-    <View style={commonStyles.sidebarContainer}>
+  return ( 
+    <View style={commonStyles.webSidebar}>
       {visibleRoutes.map((routeName) => (
         <TouchableOpacity
           key={routeName}

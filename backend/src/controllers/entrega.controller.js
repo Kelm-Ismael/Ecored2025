@@ -5,7 +5,8 @@ import {
     obtenerEntregas,
     insertarEntrega,
     insertarDetalleEntrega,
-    obtenerEntregaPorFechaYUsuarios
+    obtenerEntregaPorFechaYUsuarios,
+    ultimasEntregasPorUsuarioID
 } from '../models/entrega.model.js'
 import { sumarPuntosUsuario } from '../models/usuario.model.js';
 import pool from '../config/db.js';
@@ -93,6 +94,26 @@ export async function verificarEntrega(req, res) {
         }
     } catch (err) {
         console.error('Error verificando entrega:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+export async function getUltimasEntregasPorId(req, res) {
+   const id_usuario = req.usuario?.id_usuario;
+
+    if (!id_usuario) {
+        return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+
+    try {
+        const ultimasEntregas = await ultimasEntregasPorUsuarioID(id_usuario);
+        if (ultimasEntregas) {
+            res.json(ultimasEntregas);
+        } else {
+            res.status(404).json({ error: 'No se encontraron entregas' });
+        }
+    } catch (err) {
+        console.error('Error buscando entregas por id:', err);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }

@@ -46,3 +46,57 @@ export async function obtenerEntregaPorFechaYUsuarios(fecha, id_usuario, id_rece
     );
     return rows[0];
 }
+
+export async function ultimasEntregasPorUsuarioID(id_usuario) {
+    const [rows] = await db.query(
+        `SELECT 
+            e.id,
+            e.id_locacion,
+            ep.nombre as 'nombre_locacion',
+            e.id_tipo_locacion,
+            tl.tipo_locacion,
+            e.fecha_hora,
+            e.id_usuario,
+            CONCAT(p.nombre, ' ', p.apellido) as 'nombre_usuario',
+            e.id_receptor,
+            CONCAT(pr.nombre, ' ', pr.apellido) as 'nombre_receptor'
+        FROM entrega e 
+        LEFT JOIN ecopunto ep ON e.id_locacion = ep.id
+        LEFT JOIN tipo_locacion tl ON e.id_tipo_locacion = tl.id
+        LEFT JOIN usuario u ON e.id_usuario = u.id
+        LEFT JOIN persona p ON u.id_referencia = p.id
+        LEFT JOIN usuario r ON e.id_receptor = r.id
+        LEFT JOIN persona pr ON r.id_referencia = pr.id
+        WHERE e.id_usuario = ?
+        ORDER BY e.fecha_hora DESC
+        LIMIT 5`,
+        [id_usuario]
+    );
+    return rows;
+}
+
+export async function ultimasEntregasPorLocacionID(id_locacion) {
+    const [rows] = await db.query(
+        `SELECT e.id,
+            e.id_locacion,
+            ep.nombre as 'nombre_locacion',
+            e.id_tipo_locacion,
+            tl.tipo_locacion,
+            e.fecha_hora,
+            e.id_usuario,
+            CONCAT(p.nombre, ' ', p.apellido) as 'nombre_usuario',
+            e.id_receptor,
+            CONCAT(pr.nombre, ' ', pr.apellido) as 'nombre_receptor'
+        FROM entrega e 
+        LEFT JOIN ecopunto ep ON e.id_locacion = ep.id
+        LEFT JOIN tipo_locacion tl ON e.id_tipo_locacion = tl.id
+        LEFT JOIN usuario u ON e.id_usuario = u.id
+        LEFT JOIN persona p ON u.id_referencia = p.id
+        LEFT JOIN usuario r ON e.id_receptor = r.id
+        LEFT JOIN persona pr ON r.id_referencia = pr.id
+        WHERE e.id_locacion = ?
+        ORDER BY e.fecha_hora ASC`,
+        [id_locacion]
+    );
+    return rows;
+}

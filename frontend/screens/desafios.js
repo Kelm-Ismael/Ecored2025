@@ -56,6 +56,7 @@ export default function ScreenDesafio() {
 
   const desafiosFiltrados = desafios.filter((item) =>
   (item.nombre || '').toLowerCase().includes(search.toLowerCase())
+  || (item.tipo || '').toLowerCase().includes(search.toLowerCase())
 );
 
   return (

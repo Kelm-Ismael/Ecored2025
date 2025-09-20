@@ -10,6 +10,7 @@ import LogoutButton from '../components/LogoutButton'
 export default function ScreenPerfil({ onLogout }) {
     const [usuario, setUsuario] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [transacciones, setTransacciones] = useState([]);
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -44,6 +45,26 @@ export default function ScreenPerfil({ onLogout }) {
                 console.log('✅ Perfil parseado:', data);
 
                 setUsuario(data);
+                
+                const transaccionesRes = await fetch(`${BASE_URL}/entregas/ultimas`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const rawTransacciones = await transaccionesRes.text();
+                console.log('🔍 Respuesta cruda /ultimas:', rawTransacciones);
+
+                if (!transaccionesRes.ok) throw new Error('No se pudieron cargar las transacciones');
+
+                let transaccionesData;
+                try {
+                    transaccionesData = JSON.parse(rawTransacciones);
+                } catch (e) {
+                    console.error('❌ No se pudo parsear la respuesta como JSON:', e.message);
+                    throw new Error('Respuesta inválida del servidor al obtener transacciones');
+                }
+
+                setTransacciones(transaccionesData);
             } catch (err) {
                 console.error(err);
                 Alert.alert('Error', 'No se pudo obtener el perfil del usuario');
@@ -99,11 +120,21 @@ export default function ScreenPerfil({ onLogout }) {
                     <View style={commonStyles.container}>
                         <Text style={commonStyles.perfilTitulo}>Puntos acumulados:</Text>
                         <View style={commonStyles.perfilPuntos}>
-                            <Text style={commonStyles.perfilPuntosTexto}>{usuario.puntos || 0} puntos</Text>
+                            <Text style={commonStyles.perfilPuntosTexto}>{usuario.puntos_acumulados || 0} puntos</Text>
                         </View>
                         <Text style={commonStyles.perfilTitulo}>Últimas transacciones:</Text>
                         <View style={commonStyles.perfilTransacciones}>
-                            <Text>tablas</Text>
+                            {transacciones.length === 0 ? (
+                                <Text style={commonStyles.perfilTexto}>No hay transacciones recientes.</Text>
+                            ) : (
+                                transacciones.map((t, index) => (
+                                    <View key={index} style={commonStyles.transaccionItem}>
+                                        <Text style={commonStyles.transaccionTexto}>
+                                            📍 {t.nombre_locacion} ({t.tipo_locacion}) || 📅 {new Date(t.fecha_hora).toLocaleString()} || 👤 Entregado a: {t.nombre_receptor}
+                                        </Text>
+                                    </View>
+                                ))
+                            )}
                         </View>
                     </View>
                 </View>
