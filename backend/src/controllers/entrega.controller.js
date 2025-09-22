@@ -6,11 +6,14 @@ import {
     insertarEntrega,
     insertarDetalleEntrega,
     obtenerEntregaPorFechaYUsuarios,
-    ultimasEntregasPorUsuarioID
+    ultimasEntregasPorUsuarioID,
+    ultimasEntregasPorLocacionID,
+    detallePorIdEntrega
 } from '../models/entrega.model.js'
 import { sumarPuntosUsuario } from '../models/usuario.model.js';
 import pool from '../config/db.js';
 import { DEFAULT_ID_LOCACION, DEFAULT_ID_TIPO_LOCACION } from '../utils/constants.js';
+import { error } from 'console';
 
 
 export async function getEntregas(req, res) {
@@ -114,6 +117,38 @@ export async function getUltimasEntregasPorId(req, res) {
         }
     } catch (err) {
         console.error('Error buscando entregas por id:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+export async function getUltimasEntregasPorLocacion(req, res) {
+    const locacion = req.query.id_locacion || DEFAULT_ID_LOCACION;
+
+    try {
+        const ultimasEntregas = await ultimasEntregasPorLocacionID(locacion);
+        if (ultimasEntregas) {
+            res.json(ultimasEntregas);
+        } else {
+            res.status(404).json({ error: 'No se encontraron entregas' });
+        }
+    } catch (err) {
+        console.error('Error buscando entregas por id:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+export async function getDetallesDeEntregaPorId(req, res) {
+    const id_entrega = req.query.id_entrega;
+
+    try {
+        const detalles = await detallePorIdEntrega(id_entrega);
+        if (detalles) {
+            res.json(detalles);
+        } else {
+            res.status(404).json({ error: 'no se encontraron detalles' });
+        }
+    } catch (err) {
+        console.error('Error buscando detalles de la entrega: ', err);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }

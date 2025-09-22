@@ -55,6 +55,60 @@ export const tabBarStyles = {
   },
 };
 
+export const webSidebarStyles = StyleSheet.create ({
+  safeArea: { flex: 1 },
+  webSidebar: {
+    flex: 2,
+    backgroundColor:colors.primary,
+    minHeight: '100vh',
+  },
+  detalles: {
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 38,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 3,
+  },
+  perfil: {
+    paddingHorizontal: 10
+  },
+  nombre: {
+    fontSize: 16,
+    color: colors.text,
+    textAlign: 'justify',
+    textTransform: 'capitalize',
+    fontWeight: 'bold',
+  },
+  rolEcopunto: {
+    color: colors.secondary,
+    fontSize: 12,
+    textTransform: 'capitalize',
+    textAlign: 'justify',
+  },
+  buttons: {
+    flexDirection: 'column',
+    marginTop: 20,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: colors.accent,
+    marginVertical: 2,
+    marginHorizontal: 0,
+    paddingVertical: 14,
+  },
+   buttonText: {
+    textAlign: 'center',
+    color: colors.background,
+    fontWeight: 'bold',
+    fontSize: 18,
+    textTransform: 'uppercase',
+  },
+});
+
 export const scannerStyles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: {

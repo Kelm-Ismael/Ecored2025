@@ -10,6 +10,7 @@ import beneficioRoutes from './routes/beneficio.routes.js';
 import desafioRoutes from './routes/desafio.routes.js'
 import residuoRoutes from './routes/residuo.routes.js'
 import entregaRoutes from './routes/entrega.routes.js'
+import locacionRoutes from './routes/locacion.route.js'
 dotenv.config();
 
 // Inicializar la aplicación Express
@@ -42,6 +43,7 @@ app.use('/beneficios', beneficioRoutes);
 app.use('/desafios', desafioRoutes);
 app.use('/residuos', residuoRoutes);
 app.use('/entregas', entregaRoutes);
+app.use('/locaciones', locacionRoutes)
 
 // Puedes agregar aquí más rutas: entregas, beneficios, etc.
 // app.use('/api/entregas', entregaRoutes);

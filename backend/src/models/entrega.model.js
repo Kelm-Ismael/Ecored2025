@@ -100,3 +100,19 @@ export async function ultimasEntregasPorLocacionID(id_locacion) {
     );
     return rows;
 }
+
+export async function detallePorIdEntrega(id_entrega) {
+    const[rows] = await db.query(
+        `SELECT 
+            de.id,
+            tr.nombre,
+            de.cantidad,
+            tr.unidad,
+            de.puntos
+        FROM detalle_entrega de 
+        LEFT JOIN tipo_residuo tr ON de.tipo = tr.id
+        WHERE de.id_entrega = ?`,
+        [id_entrega]
+    );
+    return rows;
+}
