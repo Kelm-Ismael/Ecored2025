@@ -1,13 +1,7 @@
-// backend/src/models/usuario.model.js
 import db from '../config/db.js';
-import bcrypt from 'bcrypt';
 
-// Listado básico (ej. administración)
 export async function obtenerUsuarios() {
-  const [rows] = await db.query(
-    `SELECT id, email, id_tipo_usuario, id_referencia, estado 
-     FROM usuario`
-  );
+  const [rows] = await db.query(`SELECT * FROM usuario`); //consulta sql va entre las comillas
   return rows;
 }
 
@@ -41,7 +35,6 @@ export async function buscarUsuarioPorId(id) {
   );
   return rows[0];
 }
-
 
 export const buscarUsuariosPorQuery = async (query) => {
   const esEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
@@ -78,7 +71,6 @@ export const buscarUsuariosPorQuery = async (query) => {
   return rows;
 };
 
-
 export async function editarUsuario(id, datos) {
   const { email, estado } = datos;
   await db.query(
@@ -87,7 +79,6 @@ export async function editarUsuario(id, datos) {
   );
 }
 
-// Eliminar
 export async function borrarUsuario(id) {
   await db.query(`DELETE FROM usuario WHERE id = ?`, [id]);
 }
@@ -118,13 +109,14 @@ export async function actualizarFotoUrl(id, url) {
 }
 
 // Sumar puntos
-export async function sumarPuntosUsuario(id, puntos) {
-  await db.query(
+export async function sumarPuntosUsuario(conn, id, puntos) {
+  const [result] = await conn.query(
     `UPDATE usuario
      SET puntos_acumulados = COALESCE(puntos_acumulados, 0) + ?
      WHERE id = ?`,
     [puntos, id]
   );
+  return result.affectedRows;
 }
 
 // PERFIL DETALLADO (incluye id_tipo_usuario y texto)

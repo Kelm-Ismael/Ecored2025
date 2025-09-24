@@ -27,7 +27,11 @@ export default function ScreenValidarEntrega({ route, navigation }) {
         try {
             setSending(true);
             const token = await AsyncStorage.getItem('token');
-
+            if (!token) {
+                Alert.alert('Error', 'Token no encontrado.');
+                return;
+            }
+            
             const res = await fetch(`${BASE_URL}/entregas/nueva`, {
                 method: 'POST',
                 headers: {

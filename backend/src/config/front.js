@@ -3,8 +3,4 @@ dotenv.config();
 
 export const FRONT_URL = `${process.env.API_HOST}:${process.env.FRONT_PORT}`;
 
-
-console.log("URL COMPLETA: ", FRONT_URL);
-
 console.log("URL completa:", FRONT_URL);
-

@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   const [userToken, setUserToken] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
   // Verifica token y obtiene perfil al iniciar la app
   const checkAuth = async () => {
@@ -23,6 +24,8 @@ export function AuthProvider({ children }) {
         });
         const perfilData = await perfilRes.json();
         console.log('📨 Texto completo de respuesta (login):', perfilData);
+        
+        setUser(perfilData);
         setUserRole(perfilData.tipo_usuario);
         setUserId(perfilData.id);
       } else {
@@ -64,6 +67,8 @@ export function AuthProvider({ children }) {
         headers: { Authorization: `Bearer ${data.token}` },
       });
       const perfilData = await perfilRes.json();
+
+      setUser(perfilData);
       setUserRole(perfilData.tipo_usuario);
       setUserId(perfilData.id);
 
@@ -77,6 +82,7 @@ export function AuthProvider({ children }) {
   // Función para logout
   const logout = async () => {
     await AsyncStorage.removeItem('token');
+    setUser(null);
     setUserToken(null);
     setUserRole(null);
     setUserId(null);
@@ -89,6 +95,7 @@ export function AuthProvider({ children }) {
         userToken,
         userRole,
         userId,
+        user,
         login,
         logout,
       }}

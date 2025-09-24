@@ -1,98 +1,123 @@
-// ui/theme.ts
-import { Platform, StyleSheet } from 'react-native';
+import { act } from 'react';
+import { StyleSheet } from 'react-native';
+import webLogin from '../screens/webLogin';
 
-/* 🎨 Paleta refinada (verde petróleo + lima suavizada + neutros cálidos) */
 export const colors = {
-  primary:    '#0A7A72',
-  primary900: '#075C57',
-  primary100: '#CFF2D5',   // acento suave para fondos y botones muted
-  accent:     '#E9F7B6',   // lima muy suave
-  accent700:  '#C7DF84',
-
-  success:    '#16A34A',
-  danger:     '#DC2626',
-  warning:    '#F59E0B',
-  info:       '#3B82F6',
-
-  text:       '#1F2937',   // gris-azulado (legibilidad)
-  textMuted:  '#6B7280',
-  placeholder:'#8A9A8A',
-
-  border:     '#D6E6D6',   // borde neutro verdoso suave
-  bg:         '#F4FAF2',   // fondo principal muy claro
-  bgAlt:      '#ECF5EA',   // fondo alternativo
-
-  /* añadidos para cubrir referencias existentes */
-  secondary:  '#FFFFFF',   // texto en botones/contraste sobre primary
-  background: '#FFFFFF',   // fondo “blanco puro” cuando lo pidas
-  gray:       '#CBD5E1',   // gris suave para inputs/bordes
+  primary: '#D8F291',
+  secondary: '#00A887',
+  accent: '#B9DA65',
+  text: '#333',
+  background: '#fff',
+  gray: '#D9D9D9',
 };
 
-/* 🔠 Fuentes */
 export const fonts = {
-  regular: Platform.select({ ios: 'System', android: 'System', default: 'System' }),
-  medium:  Platform.select({ ios: 'System', android: 'System', default: 'System' }),
-  bold:    Platform.select({ ios: 'System', android: 'System', default: 'System' }),
+  regular: 'System',           // Fuente por defecto del sistema
+  bold: 'System-Bold',        // Fuente negrita (puede variar según plataforma)
+  // Si usás fuentes personalizadas:
+  // regular: 'YourCustomFont-Regular',
+  // bold: 'YourCustomFont-Bold',
 };
 
-/* 📏 Escalas reutilizables */
-export const radius = { sm: 10, md: 12, lg: 16, xl: 20 };
-export const space  = { xs: 6, sm: 10, md: 14, lg: 18, xl: 24 };
-
-/* 🌫️ Sombra cross-platform */
-export const cardShadow = Platform.select({
-  ios: {
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-  },
-  android: { elevation: 2 },
-  default: {},
-}) as Record<string, unknown>;
-
-/* 🔝 Header / Tab */
 export const headerStyles = {
-  headerStyle: { backgroundColor: colors.bg },
-  headerShadowVisible: false,
-  headerTintColor: colors.primary900,
-  headerTitleStyle: {
-    fontSize: 20,
-    fontWeight: '800' as const,
-    color: colors.primary900,
-    letterSpacing: 0.2,
+  headerStyle: {
+    backgroundColor: colors.primary,
   },
-  headerTitleAlign: 'center' as const,
+  headerTintColor: colors.secondary,
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 28,
+    // fontFamily: fonts.bold,
+  },
+  headerTitleAlign: 'center'
 };
 
 export const tabBarStyles = {
   tabBarStyle: {
-    backgroundColor: colors.bg,
-    height: Platform.select({ ios: 84, android: 72, default: 72 }),
-    borderTopColor: colors.border,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    backgroundColor: colors.primary,
+    height: 90,
+    paddingBottom: 5,
+    paddingTop: 5,
   },
-  tabBarActiveTintColor: colors.primary900,
-  tabBarInactiveTintColor: colors.textMuted,
+  tabBarActiveTintColor: colors.secondary,
+  tabBarInactiveTintColor: colors.accent,
   tabBarLabelStyle: {
     fontSize: 12,
-    fontWeight: '700' as const,
-    textTransform: 'none' as const,
-    letterSpacing: 0.2,
+    fontWeight: '600',
+    textAlign: 'center',
   },
-  tabBarIconStyle: { marginTop: 2 },
+  tabBarLabelPosition: 'below-icon',
+  tabBarIconStyle: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
-/* 📷 Scanner */
+export const webSidebarStyles = StyleSheet.create ({
+  safeArea: { flex: 1 },
+  webSidebar: {
+    flex: 2,
+    backgroundColor:colors.primary,
+    minHeight: '100vh',
+  },
+  detalles: {
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 38,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 3,
+  },
+  perfil: {
+    paddingHorizontal: 10
+  },
+  nombre: {
+    fontSize: 16,
+    color: colors.text,
+    textAlign: 'justify',
+    textTransform: 'capitalize',
+    fontWeight: 'bold',
+  },
+  rolEcopunto: {
+    color: colors.secondary,
+    fontSize: 12,
+    textTransform: 'capitalize',
+    textAlign: 'justify',
+  },
+  buttons: {
+    flexDirection: 'column',
+    marginTop: 20,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: colors.accent,
+    marginVertical: 2,
+    marginHorizontal: 0,
+    paddingVertical: 14,
+  },
+   buttonText: {
+    textAlign: 'center',
+    color: colors.background,
+    fontWeight: 'bold',
+    fontSize: 18,
+    textTransform: 'uppercase',
+  },
+});
+
 export const scannerStyles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: colors.bg },
+  safeArea: { flex: 1 },
   container: {
     flex: 1,
     margin: 0,
     padding: 20,
     backgroundColor: colors.background,
   },
-  accentContainer: {
+  accentContainer : {
     flex: 1,
     borderWidth: 5,
     borderColor: colors.accent,
@@ -102,27 +127,127 @@ export const scannerStyles = StyleSheet.create({
   },
 });
 
-/* 🎛️ Comunes */
-export const commonStyles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: colors.bgAlt },
+export const beneficiosAppStyles = StyleSheet.create({
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemTipoYPts: {
+    fontSize: 13,
+    color: colors.secondary,
+  },
+  itemBoton: {
+    backgroundColor: colors.primary,
+    margin: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  canjearBtnText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    padding: 2,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginVertical: 12,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+});
 
+export const desafiosAppStyles = StyleSheet.create({
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: colors.text,
+    marginBottom: 2,
+  },
+  tipoYPuntos: {
+    fontSize: 13,
+    color: colors.secondary,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  aceptarBtn: {
+    backgroundColor: colors.primary,
+    margin: 2,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 8,
+  },
+  aceptarBtnText: {
+    color: colors.secondary,
+    padding: 2,
+    fontSize: 13,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginVertical: 12,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+});
+
+
+export const commonStyles = StyleSheet.create({
+  safeArea: { flex: 1 },
   container: {
     flex: 1,
-    backgroundColor: colors.bgAlt,
-    paddingHorizontal: space.lg,
-    paddingVertical: space.lg,
+    margin: 0,
+    padding: 20,
+    backgroundColor: colors.background,
   },
-
   containerNoPadding: {
     flex: 1,
     padding: 0,
   },
-
   webTitleContainer: {
     padding: 20,
     backgroundColor: colors.background,
   },
-
   webAccentContainer: {
     marginTop: 10,
     marginRight: 50,
@@ -136,15 +261,14 @@ export const commonStyles = StyleSheet.create({
     padding: 30,
     alignSelf: 'center',
   },
-
   webLoginContainer: {
     backgroundColor: colors.primary,
-    flex: 1,
+    flex: 1,  
     marginTop: 0,
     marginBottom: 0,
     minHeight: '100vh',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center', 
   },
   webLoginCenter: {
     backgroundColor: colors.background,
@@ -165,21 +289,20 @@ export const commonStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-
   webMainContainer: {
     backgroundColor: colors.background,
-    flex: 1,
+    flex: 1,  
     marginTop: 0,
     marginBottom: 0,
     minHeight: '100vh',
-    minWidth: '100vw',
+    minWidth: '100vh',
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center', 
   },
   webSidebar: {
     flex: 2,
-    backgroundColor: colors.primary,
+    backgroundColor:colors.primary,
     minHeight: '100vh',
   },
   webContent: {
@@ -187,10 +310,9 @@ export const commonStyles = StyleSheet.create({
     backgroundColor: colors.background,
     minHeight: '100vh',
   },
-
   webEntregaContainer: {
-    borderWidth: 2, // TODO: quitar en prod
-    borderColor: colors.gray,
+    borderWidth: 2, //borrar
+    borderColor: colors.gray, //borrar
     padding: 20,
     marginRight: 20,
     marginLeft: 20,
@@ -200,7 +322,7 @@ export const commonStyles = StyleSheet.create({
     paddingRight: 20,
     paddingLeft: 20,
     paddingBottom: 20,
-    flexDirection: 'row',
+    flexDirection:'row',
     alignItems: 'center',
   },
   webEntregaSearchTitle: {
@@ -248,7 +370,7 @@ export const commonStyles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 6,
     borderRadius: 6,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   webEntregaSearchSeleccionarButtonText: {
     color: colors.background,
@@ -265,8 +387,13 @@ export const commonStyles = StyleSheet.create({
     marginLeft: 30,
     minWidth: 400,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center',        // Centra verticalmente
+    justifyContent: 'center', 
+  },
+  webEntregaInput: {
+    flexDirection: 'row',
+    alignItems: 'center',       // centra verticalmente
+    justifyContent: 'center',   // centra horizontalmente
   },
   webEntregaTipo: {
     flexDirection: 'row',
@@ -282,7 +409,7 @@ export const commonStyles = StyleSheet.create({
   },
   webEntregaCantidad: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center',   // centra horizontalmente
     paddingRight: 8,
     paddingLeft: 8,
     paddingBottom: 8,
@@ -305,7 +432,7 @@ export const commonStyles = StyleSheet.create({
     width: '100%',
   },
   webEntregaResumenDetalle: {
-    alignItems: 'center',
+    alignItems: 'center',       // centra verticalmente
     justifyContent: 'center',
   },
   webEntregaResumenItem: {
@@ -313,7 +440,7 @@ export const commonStyles = StyleSheet.create({
   },
   webEntregaTotales: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center',       // centra verticalmente
     justifyContent: 'center',
     gap: 8,
   },
@@ -323,13 +450,12 @@ export const commonStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-
   webQRTitle: {
     color: colors.text,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase'
   },
   webQRContainer: {
     borderColor: colors.text,
@@ -337,18 +463,14 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 4,
     margin: 10,
     padding: 20,
-    backgroundColor: colors.background,
   },
-
-  accentContainer: {
+  accentContainer : {
     borderWidth: 5,
     borderColor: colors.accent,
     borderRadius: 15,
     backgroundColor: colors.background,
     padding: 20,
   },
-
-  /* Perfil */
   perfilRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -356,9 +478,13 @@ export const commonStyles = StyleSheet.create({
   perfilCell: {
     padding: 5,
   },
-  box70: { flex: 7 },
-  box30: { flex: 3 },
-
+  box70: {
+    flex: 7,
+  },
+  box30: {
+    flex: 3,
+    
+  },
   perfilContainer: {
     backgroundColor: colors.background,
     paddingTop: 20,
@@ -400,7 +526,6 @@ export const commonStyles = StyleSheet.create({
   perfilButtonText: {
     textAlign: 'center',
     alignItems: 'center',
-    color: colors.secondary,
   },
   perfilNombre: {
     color: colors.text,
@@ -424,7 +549,6 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background,
   },
   perfilNivelText: {
     color: colors.secondary,
@@ -434,12 +558,12 @@ export const commonStyles = StyleSheet.create({
   },
   perfilNivelTag: {
     color: colors.secondary,
-    alignSelf: 'flex-start',
+    alignSelf: 'left',
     fontSize: 16,
     fontWeight: '500',
   },
   perfilTitulo: {
-    color: colors.text,
+    color: colors.Text,
     fontWeight: '500',
     textAlign: 'center',
     fontSize: 22,
@@ -471,21 +595,8 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 12,
     width: 320,
     padding: 8,
-    marginBottom: 15,
-    backgroundColor: colors.background,
+    marginBottom: 15, 
   },
-
-  /* Cards / textos */
-  cardTight: {
-    backgroundColor: colors.bg,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingHorizontal: space.md,
-    paddingVertical: space.md,
-    ...cardShadow,
-  },
-
   title: {
     alignSelf: 'center',
     fontSize: 24,
@@ -500,54 +611,19 @@ export const commonStyles = StyleSheet.create({
     color: colors.text,
     marginBottom: 25,
   },
-  body: {
-    fontSize: 15,
-    color: colors.text,
-    lineHeight: 22,
-  },
-  small: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
-
-  /* Formularios */
-  label: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 6,
-  },
   input: {
-    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: radius.lg,
-    paddingHorizontal: 16,
-    paddingVertical: Platform.select({ ios: 14, android: 12, default: 12 }),
+    borderColor: colors.gray,
+    borderRadius: 8,
+    padding: 12,
     fontSize: 16,
-    color: colors.text,
-    marginBottom: 14,
+    marginBottom: 16,
   },
-  inputLg: {
-    paddingVertical: Platform.select({ ios: 16, android: 14, default: 14 }),
-    fontSize: 17,
-    borderRadius: radius.xl,
-  },
-  inputFocus: {
-    borderColor: colors.primary,
-    ...(Platform.OS === 'android' ? { elevation: 2 } : {
-      shadowColor: colors.primary,
-      shadowOpacity: 0.12,
-      shadowRadius: 8,
-      shadowOffset: { width: 0, height: 4 },
-    }),
-  },
-  inputError: { borderColor: colors.danger },
-
-  /* Botones */
   button: {
     alignItems: 'center',
     backgroundColor: colors.primary,
+    // borderColor: colors.accent,
+    // borderWidth: 2,
     borderRadius: 12,
     marginTop: 8,
     marginBottom: 8,
@@ -562,8 +638,6 @@ export const commonStyles = StyleSheet.create({
     fontSize: 18,
     textTransform: 'uppercase',
   },
-
-  /* Fecha */
   fechaContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -575,11 +649,17 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
-  fechaInputDia: { flex: 1, marginRight: 5 },
-  fechaInputMes: { flex: 1, marginRight: 5 },
-  fechaInputAnio: { flex: 2 },
-
-  /* Picker y filas */
+  fechaInputDia: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputMes: {
+    flex: 1,
+    marginRight: 5,
+  },
+  fechaInputAnio: {
+    flex: 2,
+  },
   pickerContainer: {
     borderWidth: 1,
     borderColor: colors.gray,
@@ -589,7 +669,7 @@ export const commonStyles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'left',
     gap: 8,
   },
 });

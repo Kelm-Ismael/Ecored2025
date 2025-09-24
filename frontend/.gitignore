@@ -1,40 +1,43 @@
-# dependencias
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# api front
+# API_URL = "IP"
+
+# dependencies
 node_modules/
 
-# entorno y configuración
-.env
-*.log
-
-<<<<<<< HEAD
-# bases de datos locales
-*.sqlite
-
-# carpetas de compilación/bundling
+# Expo
 .expo/
-.expo-shared/
-web-build/
 dist/
-build/
+web-build/
+expo-env.d.ts
 
-# sistema operativo o editores
-.DS_Store
-.vscode/
-.idea/
-
-# archivos de Android/iOS que no van al repo
-*.keystore
-=======
 # ips
 .config/api.js
 
 # Native
 .kotlin/
 *.orig.*
->>>>>>> origin/Caro
 *.jks
-*.p12
 *.p8
+*.p12
+*.key
 *.mobileprovision
 
-# coverage de tests
-coverage/
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
