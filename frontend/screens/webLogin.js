@@ -42,7 +42,7 @@ export default function WebLogin() {
                 Ecored
             </Text>
             <View style={commonStyles.accentContainer}>
-                <Text>E-mail</Text>
+                <Text style={{fontSize: 18, fontWeight: 'bold'}}>E-mail</Text>
                 <TextInput
                     style={commonStyles.input}
                     value={email}
@@ -50,7 +50,7 @@ export default function WebLogin() {
                     autoCapitalize="none"
                     keyboardType="email-address"
                 />
-                <Text>Contraseña</Text>
+                <Text style={{fontSize: 18, fontWeight: 'bold'}}>Contraseña</Text>
                 <TextInput
                     style={commonStyles.input}
                     secureTextEntry

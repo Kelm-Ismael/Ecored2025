@@ -57,7 +57,7 @@ export default function WebMain({ role }) {
                     <View style={commonStyles.container}>
                         <Text style={commonStyles.title}>Bienvenido, {nombre} {apellido}</Text>
                         <View style={commonStyles.accentContainer}>
-                            <Text style={commonStyles.Text}>Locación actual: Ecopunto {error ? error : (nombreLocacion || 'Cargando...')}</Text>
+                            <Text style={{fontSize: 18, marginVertical: 5}}>Localización actual: Ecopunto {error ? error : (nombreLocacion || 'Cargando...')}</Text>
                         </View>
                     </View>
                 </View>

@@ -119,25 +119,25 @@ export default function WebHistorial() {
                                 <View style={{ padding: 10 }}>
                                     {/* Cabecera de la tabla */}
                                     <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>
-                                        <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Receptor</Text>
+                                        <Text style={{ flex: 1, fontWeight: 'bold', fontSize: 18 }}>ID</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18}}>Fecha</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18 }}>Usuario</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18 }}>Receptor</Text>
                                     </View>
 
                                     {/* Filas */}
                                     {entregas.map((entrega) => (
                                         <View key={entrega.id}>
                                             <View style={{ flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5 }}>
-                                                <Text style={{ flex: 1 }}>{entrega.id}</Text>
-                                                <Text style={{ flex: 2 }}>{formatearFecha(entrega.fecha_hora)}</Text>
-                                                <Text style={{ flex: 2 }}>{entrega.nombre_usuario || entrega.id_usuario}</Text>
-                                                <Text style={{ flex: 2 }}>{entrega.nombre_receptor || entrega.id_receptor}</Text>
+                                                <Text style={{ flex: 1 ,fontSize: 16}}>{entrega.id}</Text>
+                                                <Text style={{ flex: 2 ,fontSize: 16}}>{formatearFecha(entrega.fecha_hora)}</Text>
+                                                <Text style={{ flex: 2 ,fontSize: 16}}>{entrega.nombre_usuario || entrega.id_usuario}</Text>
+                                                <Text style={{ flex: 2 ,fontSize: 16}}>{entrega.nombre_receptor || entrega.id_receptor}</Text>
                                                 <TouchableOpacity
                                                     style={{ flex: 1 }}
                                                     onPress={() => toggleDetalles(entrega.id)}
                                                 >
-                                                    <Text style={{ color: '#007bff' }}>
+                                                    <Text style={{ color: '#007bff', fontSize: 17}}>
                                                         {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver detalles'}
                                                     </Text>
                                                 </TouchableOpacity>

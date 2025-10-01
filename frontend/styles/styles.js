@@ -253,7 +253,7 @@ export const commonStyles = StyleSheet.create({
     marginRight: 50,
     marginLeft: 50,
     maxWidth: 600,
-    minWidth: 300,
+    minWidth: 350,
     borderWidth: 5,
     borderColor: colors.accent,
     borderRadius: 15,
@@ -341,7 +341,7 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.gray,
     borderRadius: 8,
-    fontSize: 16,
+    fontSize: 18,
   },
   webEntregaSearchIcon: {
     backgroundColor: colors.accent,

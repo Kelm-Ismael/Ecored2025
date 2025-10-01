@@ -59,9 +59,9 @@ export default function WebPerfil() {
                             <Text style={commonStyles.perfilNombre}>{perfil.referencia.nombre} {perfil.referencia.apellido}</Text>
                             <Text style={commonStyles.perfilRol}> {perfil.tipo_usuario}</Text>
                             <View style={{ height: 2, backgroundColor: '#ccc', marginVertical: 10 }} />
-                            <Text><Text style={{ fontWeight: 'bold' }}>Dni:</Text> {perfil.referencia.dni}</Text>
-                            <Text><Text style={{ fontWeight: 'bold' }}>Email:</Text> {perfil.email}</Text>
-                            <Text><Text style={{ fontWeight: 'bold' }}>Cuit/Cuil:</Text> {perfil.referencia.cuit_cuil || '-'}</Text>
+                            <Text><Text style={{ fontWeight: 'bold', fontSize: 18, marginVertical: 5 }}>Dni:</Text><Text style={{fontSize: 18, marginVertical: 5}}> {perfil.referencia.dni} </Text></Text>
+                            <Text><Text style={{ fontWeight: 'bold', fontSize: 18, marginVertical: 5 }}>Email:</Text><Text style={{fontSize: 18, marginVertical: 5}}> {perfil.email} </Text></Text>
+                            <Text><Text style={{ fontWeight: 'bold', fontSize: 18, marginVertical: 5 }}>Cuit/Cuil:</Text><Text style={{fontSize: 18, marginVertical: 5}}> {perfil.referencia.cuit_cuil || '-'} </Text></Text>
                         </>
                         ) : (
                             <Text>No se pudo cargar el perfil</Text>
