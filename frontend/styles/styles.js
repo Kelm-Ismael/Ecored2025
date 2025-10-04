@@ -230,7 +230,16 @@ export const desafiosAppStyles = StyleSheet.create({
     height: 40,
   },
 });
-
+//-------------NUEVO
+export const informacionAppStyles = StyleSheet.create({
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+});
 
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },

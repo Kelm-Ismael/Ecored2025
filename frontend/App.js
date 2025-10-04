@@ -8,12 +8,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StyleSheet, Platform, Text, View } from 'react-native';
 
-import ScreenInformacion from './screens/informacion'
+// import ScreenInformacion from './screens/informacion' CAMBIADO
+import InformacionStack from "./navigation/informacionStack"; // 👈 importado el nuevo stack
+
 import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
 import WebAuthWrapper from './screens/webAuthWrapper';
 import AuthStack from './navigation/usuarioStack';
 import { AuthProvider } from './context/AuthContext';
+import MapaEcoPuntos from './screens/mapaEcoPuntos';//NUEVO
+import InfoCambioClimatico from './screens/infoCambioClimatico';//NUEVO
 
 import { headerStyles, tabBarStyles } from './styles/styles';
 import UsuarioStack from './navigation/usuarioStack';
@@ -67,7 +71,8 @@ export default function App() {
           <Tab.Navigator screenOptions={tabScreenOptions}>
             <Tab.Screen
               name="Informacion"
-              component={ScreenInformacion}
+              // component={ScreenInformacion} CAMBIADO
+              component={InformacionStack}
               options={{
                 title: 'Información',
                 ...headerStyles,
