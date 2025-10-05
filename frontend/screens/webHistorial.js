@@ -22,6 +22,8 @@ export default function WebHistorial() {
     const [detallesVisibles, setDetallesVisibles] = useState({});
     const [detallesPorEntrega, setDetallesPorEntrega] = useState({});
 
+    const { nombreLocacion, locacionError } = useContext(AuthContext);
+
     useEffect(() => {
         if (!authLoading) {
             const rolesAutorizados = ['superadmin', 'administrador', 'empleado', 'escuela'];
@@ -109,7 +111,7 @@ export default function WebHistorial() {
                 </View>
                 <View style={commonStyles.webContent}>
                     <View style={commonStyles.container}>
-                        <Text style={commonStyles.title}>Historial</Text>
+                        <Text style={commonStyles.title}>Historial de Entregas en Ecopunto {locacionError ? 'Error' : (nombreLocacion || '...')}</Text>
                         <View style={commonStyles.accentContainer}>
                             {error ? (
                                 <Text style={{ color: 'red' }}>{error}</Text>
@@ -123,6 +125,7 @@ export default function WebHistorial() {
                                         <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha</Text>
                                         <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario</Text>
                                         <Text style={{ flex: 2, fontWeight: 'bold' }}>Receptor</Text>
+                                        <Text style={{ flex: 1, fontWeight: 'bold' }}>Detalles</Text>
                                     </View>
 
                                     {/* Filas */}
@@ -138,7 +141,7 @@ export default function WebHistorial() {
                                                     onPress={() => toggleDetalles(entrega.id)}
                                                 >
                                                     <Text style={{ color: '#007bff' }}>
-                                                        {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver detalles'}
+                                                        {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver'}
                                                     </Text>
                                                 </TouchableOpacity>
                                             </View>

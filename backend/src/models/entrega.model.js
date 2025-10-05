@@ -95,7 +95,7 @@ export async function ultimasEntregasPorLocacionID(id_locacion) {
         LEFT JOIN usuario r ON e.id_receptor = r.id
         LEFT JOIN persona pr ON r.id_referencia = pr.id
         WHERE e.id_locacion = ?
-        ORDER BY e.fecha_hora ASC`,
+        ORDER BY e.fecha_hora DESC`,
         [id_locacion]
     );
     return rows;

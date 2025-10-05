@@ -13,3 +13,11 @@ FRONT
 * armar articulos de info con articulos varios de la pag https://cambioclimatico.misiones.gob.ar/ -> cada articulo nuevo seria otra screen el /screens que despues se puede linkear desde informacion 
 * armar styles de botones
 * armar componentes botones
+
+UPDATE 22/SEP
+    FALTA
+    * inscripcion de usuario a desafio (back y front)
+    * cambio beneficio usuario (back y front)
+    * logica niveles + planta
+    * informes web 
+    * mapa

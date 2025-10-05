@@ -48,7 +48,7 @@ export default function ScreenDesafio() {
           onPress={() => console.log(`Aceptar desafío ID: ${item.id}`)}
           style={desafiosAppStyles.aceptarBtn}
         >
-          <Text style={desafiosAppStyles.aceptarBtnText}>Aceptar</Text>
+          <Text style={desafiosAppStyles.aceptarBtnText}>Inscribirse</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -60,9 +60,9 @@ export default function ScreenDesafio() {
 );
 
   return (
-    <SafeAreaView style={commonStyles.safeArea}>
+    // <SafeAreaView style={commonStyles.safeArea}>
       <View style={commonStyles.container}>
-        <Text style={commonStyles.title}>Desafíos</Text>
+        {/* <Text style={commonStyles.title}>Desafíos</Text> */}
 
         <View style={desafiosAppStyles.searchContainer}>
           <Ionicons name="search" size={20} color="#888" style={{ marginRight: 8 }} />
@@ -74,7 +74,7 @@ export default function ScreenDesafio() {
           />
         </View>
 
-        <View style={commonStyles.accentContainer}>
+        <View style={desafiosAppStyles.accentContainer}>
           {loading && <ActivityIndicator size="large" color="#000" />}
           {error && <Text style={{ color: 'red' }}>{error}</Text>}
           {!loading && !error && (
@@ -86,6 +86,6 @@ export default function ScreenDesafio() {
           )}
         </View>
       </View>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }

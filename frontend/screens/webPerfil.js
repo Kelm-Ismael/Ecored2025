@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { commonStyles } from '../styles/styles';
+import { commonStyles, perfilAppStyles } from '../styles/styles';
 import WebSidebar from '../components/WebSidebar';
 import { AuthContext } from '../context/AuthContext';
 import { BASE_URL } from '../config/api';
@@ -56,8 +56,8 @@ export default function WebPerfil() {
                             <ActivityIndicator size="large" color="#000" />
                         ) : perfil ? (
                         <>
-                            <Text style={commonStyles.perfilNombre}>{perfil.referencia.nombre} {perfil.referencia.apellido}</Text>
-                            <Text style={commonStyles.perfilRol}> {perfil.tipo_usuario}</Text>
+                            <Text style={perfilAppStyles.perfilNombre}>{perfil.referencia.nombre} {perfil.referencia.apellido}</Text>
+                            <Text style={perfilAppStyles.perfilRol}> {perfil.tipo_usuario}</Text>
                             <View style={{ height: 2, backgroundColor: '#ccc', marginVertical: 10 }} />
                             <Text><Text style={{ fontWeight: 'bold' }}>Dni:</Text> {perfil.referencia.dni}</Text>
                             <Text><Text style={{ fontWeight: 'bold' }}>Email:</Text> {perfil.email}</Text>

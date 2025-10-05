@@ -16,36 +16,36 @@ export default function WebMain({ role }) {
     const nombre = user?.referencia?.nombre || '';
     const apellido = user?.referencia?.apellido || '';
 
-    //  useEffect(() => {
-    //     const fetchNombreLocacion = async () => {
-    //         try {
-    //             const res = await fetch(`${BASE_URL}/locaciones/todas`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${userToken}`,
-    //                 },
-    //             });
+     useEffect(() => {
+        const fetchNombreLocacion = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/locaciones/todas`, {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`,
+                    },
+                });
 
-    //             if (!res.ok) throw new Error('Error al obtener locaciones');
+                if (!res.ok) throw new Error('Error al obtener locaciones');
 
-    //             const data = await res.json();
-    //             const locacionEncontrada = data.find(loc => loc.id === DEFAULT_ID_LOCACION);
+                const data = await res.json();
+                const locacionEncontrada = data.find(loc => loc.id === DEFAULT_ID_LOCACION);
 
-    //             if (locacionEncontrada) {
-    //                 setNombreLocacion(locacionEncontrada.nombre);
-    //             } else {
-    //                 console.warn('Locación no encontrada');
-    //                 setNombreLocacion('No encontrada');
-    //             }
-    //         } catch (err) {
-    //             console.error('Error al obtener locación:', err);
-    //             setError('No se pudo cargar la locación.');
-    //         }
-    //     };
+                if (locacionEncontrada) {
+                    setNombreLocacion(locacionEncontrada.nombre);
+                } else {
+                    console.warn('Locación no encontrada');
+                    setNombreLocacion('No encontrada');
+                }
+            } catch (err) {
+                console.error('Error al obtener locación:', err);
+                setError('No se pudo cargar la locación.');
+            }
+        };
 
-    //     if (!authLoading && userToken) {
-    //         fetchNombreLocacion();
-    //     }
-    // }, [authLoading, userToken]);
+        if (!authLoading && userToken) {
+            fetchNombreLocacion();
+        }
+    }, [authLoading, userToken]);
     
     return (
         <SafeAreaView style={commonStyles.safeArea}>

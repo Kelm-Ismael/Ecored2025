@@ -1,49 +1,44 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { commonStyles } from '../styles/styles';
 
-export default function ScreenInformacion() {
+export default function ScreenInformacion({ navigation }) {
     return (
-        <SafeAreaView style={commonStyles.safeArea}>
-            <View style={commonStyles.container}>
-                {/* <Text style={commonStyles.title}>
-                    Informacion
-                </Text> */}
+        <View style={commonStyles.container}>
+            <ScrollView contentContainerStyle={commonStyles.scroll}>
+
                 <View style={commonStyles.container}>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
+                    <TouchableOpacity 
+                        title='qué es el cambio climatico' 
+                        style={commonStyles.button} 
+                        onPress={() => navigation.navigate("InfoCambioClimatico")}
+                        >
                         <Text style={commonStyles.buttonText}>
-                            link info
+                            ¿Qué es el cambio climatico?
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
+                    <TouchableOpacity 
+                        title='qué es la economia circular' 
+                        style={commonStyles.button} 
+                        onPress={() => navigation.navigate("InfoEconomiaCircular")}
+                    >
                         <Text style={commonStyles.buttonText}>
-                            link info
+                            ¿Qué es la economía circular?
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
+                    <TouchableOpacity 
+                        title='cómo cuidamos el planeta' 
+                        style={commonStyles.button} 
+                        onPress={() => navigation.navigate("InfoComoCuidarPlaneta")}
+                        >
                         <Text style={commonStyles.buttonText}>
-                            link info
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
-                        <Text style={commonStyles.buttonText}>
-                            link info
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
-                        <Text style={commonStyles.buttonText}>
-                            link info
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity title='link info' style={commonStyles.button}>
-                        <Text style={commonStyles.buttonText}>
-                            link info
+                            ¿Cómo cuidamos el planeta?
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </SafeAreaView>
+            </ScrollView>
+        </View>
     );
 }
