@@ -17,9 +17,9 @@ export default function WebPerfil() {
         const fetchPerfil = async () => {
         try {
             const res = await fetch(`${BASE_URL}/usuarios/perfil`, {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-            },
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                },
             });
 
             if (!res.ok) throw new Error('No se pudo obtener el perfil');

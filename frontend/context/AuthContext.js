@@ -29,6 +29,12 @@ export function AuthProvider({ children }) {
         const perfilData = await perfilRes.json();
         console.log('📨 Texto completo de respuesta (login):', perfilData);
         
+        if (perfilRes.status === 401 || perfilData.error === 'Token inválido') {
+          console.warn('❌ Token inválido, cerrando sesión...');
+          await logout(); // Limpia token y estado
+          return;
+        }
+        
         setUser(perfilData);
         setUserRole(perfilData.tipo_usuario);
         setUserId(perfilData.id);

@@ -3,6 +3,7 @@ import { ActivityIndicator, Alert, ScrollView, Text, TouchableOpacity, View } fr
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
 import { commonStyles, perfilAppStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api';
 import LogoutButton from '../components/LogoutButton'

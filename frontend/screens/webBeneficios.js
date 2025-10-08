@@ -1,24 +1,116 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { commonStyles } from '../styles/styles';
+import WebSidebar from '../components/WebSidebar';
+import { BASE_URL } from '../config/api';
+import { AuthContext } from '../context/AuthContext';
+import { formatearFecha } from '../utils/formatearFecha';
 
-export default function ScreenDesafio() {
+export default function ScreenBeneficio() {
+  const navigation = useNavigation();
+  const { userToken, userRole, loading: authLoading } = useContext(AuthContext);
+
+  const [beneficios, setBeneficios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Redirección si el rol no es válido
+  useEffect(() => {
+    if (!authLoading) {
+      const rolesPermitidos = ['superadmin', 'administrador'];
+      if (!rolesPermitidos.includes(userRole?.toLowerCase())) {
+        navigation.navigate('WebMain');
+      }
+    }
+  }, [authLoading, userRole]);
+
+  // Fetch de beneficios
+  useEffect(() => {
+    const fetchBeneficios = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/beneficios/todos`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+
+        if (!res.ok) throw new Error('No se pudieron obtener los beneficios');
+
+        const data = await res.json();
+        setBeneficios(data);
+      } catch (err) {
+        console.error('Error al obtener beneficios:', err);
+        setError('No se pudieron cargar los beneficios.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!authLoading && userToken) {
+      fetchBeneficios();
+    }
+  }, [authLoading, userToken]);
+
+  if (authLoading || loading) {
     return (
-        <SafeAreaView style={commonStyles.safeArea}>
-            <View style={commonStyles.container}>
-                <Text style={commonStyles.title}>
-                    Desafios
-                </Text>
-                <TextInput></TextInput>
-                {/* agregar icono lupa buscador */}
-
-                <View style={commonStyles.accentContainer}>
-                    <Text>tabla desafios</Text>
-                </View>
-            </View>
-        </SafeAreaView>
+      <SafeAreaView style={commonStyles.safeArea}>
+        <View style={commonStyles.container}>
+          <ActivityIndicator size="large" color="#007bff" />
+          <Text style={{ marginTop: 10 }}>Cargando beneficios...</Text>
+        </View>
+      </SafeAreaView>
     );
+  }
+
+  return (
+    <SafeAreaView style={commonStyles.safeArea}>
+      <View style={commonStyles.webMainContainer}>
+        <View style={commonStyles.webSidebar}>
+          <WebSidebar />
+        </View>
+        <View style={commonStyles.webContent}>
+          <View style={commonStyles.container}>
+            <Text style={commonStyles.title}>Beneficios disponibles</Text>
+
+            {error ? (
+              <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
+            ) : beneficios.length === 0 ? (
+              <Text style={{ marginTop: 10 }}>No hay beneficios registrados.</Text>
+            ) : (
+              <View style={{ marginTop: 20 }}>
+                {/* Cabecera de la tabla */}
+                <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
+                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Tipo</Text>
+                  <Text style={{ flex: 3, fontWeight: 'bold' }}>Descripción</Text>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Puntos requeridos</Text>
+                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha creación</Text>
+                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha modificación</Text>
+                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario creador</Text>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Estado</Text>
+                </View>
+
+                {/* Filas */}
+                {beneficios.map((beneficio) => (
+                  <View key={beneficio.id} style={{ flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5 }}>
+                    <Text style={{ flex: 1 }}>{beneficio.id}</Text>
+                    <Text style={{ flex: 2 }}>{beneficio.tipo}</Text>
+                    <Text style={{ flex: 3 }}>{beneficio.descripcion}</Text>
+                    <Text style={{ flex: 1 }}>{beneficio.puntos_requeridos}</Text>
+                    <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_creacion)}</Text>
+                    <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_modificacion)}</Text>
+                    <Text style={{ flex: 2 }}>{beneficio.usuario_creador}</Text>
+                    <Text style={{ flex: 1 }}>{beneficio.estado}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }

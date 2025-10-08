@@ -522,6 +522,79 @@ export const perfilAppStyles = StyleSheet.create({
   },
 });
 
+export const webInformesStyles = StyleSheet.create({
+  accentContainer: {
+    borderWidth: 3, //borrar
+    borderColor: colors.primary, //borrar
+    borderRadius: 12,
+    padding: 10,
+    paddingHorizontal: 30,
+    marginHorizontal: 20,
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 30,
+    paddingHorizontal: 15, 
+  },
+  inputText: {
+    alignSelf: 'center',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  inputFecha: {
+    borderWidth: 2, //borrar
+    borderColor: colors.gray, //borrar
+  },
+  scrollContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 20,
+    height: 380,
+    borderWidth: 2, //borrar
+    borderColor: colors.gray, //borrar
+  },
+  error: {
+    color: 'red',
+    marginTop: 5,
+    alignSelf: 'center',
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: colors.primary,
+    // borderColor: colors.accent,
+    // borderWidth: 2,
+    borderRadius: 12,
+    marginTop: 15,
+    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  buttonText: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  rowsTabla: {
+    flexDirection: 'row', 
+    borderBottomWidth: 0.5, 
+    paddingVertical: 5,
+    borderBottomColor: colors.gray,
+    // borderWidth: 2,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+  },
+});
+
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: {

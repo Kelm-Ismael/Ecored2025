@@ -1,5 +1,4 @@
 import db from '../config/db.js';
-import { sumarPuntosUsuario } from '../models/usuario.model.js'
 
 export async function obtenerEntregas() {
     const [rows] = await db.query(`

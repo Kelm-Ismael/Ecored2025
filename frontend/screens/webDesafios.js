@@ -1,24 +1,114 @@
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { commonStyles } from '../styles/styles';
+import WebSidebar from '../components/WebSidebar';
+import { BASE_URL } from '../config/api';
+import { AuthContext } from '../context/AuthContext';
 
 export default function ScreenDesafio() {
-    return (
-        <SafeAreaView style={commonStyles.safeArea}>
-            <View style={commonStyles.container}>
-                <Text style={commonStyles.title}>
-                    Desafios
-                </Text>
-                <TextInput></TextInput>
-                {/* agregar icono lupa buscador */}
+  const navigation = useNavigation();
+  const { userToken, userRole, loading: authLoading } = useContext(AuthContext);
 
-                <View style={commonStyles.accentContainer}>
-                    <Text>tabla desafios</Text>
-                </View>
-            </View>
-        </SafeAreaView>
+  const [desafios, setDesafios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Redirección si el rol no es válido
+  useEffect(() => {
+    if (!authLoading) {
+      const rolesPermitidos = ['superadmin', 'administrador'];
+      if (!rolesPermitidos.includes(userRole?.toLowerCase())) {
+        navigation.navigate('WebMain');
+      }
+    }
+  }, [authLoading, userRole]);
+
+  // Fetch de desafíos
+  useEffect(() => {
+    const fetchDesafios = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/desafios/todos`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+
+        if (!res.ok) throw new Error('No se pudieron obtener los desafíos');
+
+        const data = await res.json();
+        setDesafios(data);
+      } catch (err) {
+        console.error('Error al obtener desafíos:', err);
+        setError('No se pudieron cargar los desafíos.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!authLoading && userToken) {
+      fetchDesafios();
+    }
+  }, [authLoading, userToken]);
+
+  if (authLoading || loading) {
+    return (
+      <SafeAreaView style={commonStyles.safeArea}>
+        <View style={commonStyles.container}>
+          <ActivityIndicator size="large" color="#007bff" />
+          <Text style={{ marginTop: 10 }}>Cargando desafíos...</Text>
+        </View>
+      </SafeAreaView>
     );
+  }
+
+  return (
+    <SafeAreaView style={commonStyles.safeArea}>
+      <View style={commonStyles.webMainContainer}>
+        <View style={commonStyles.webSidebar}>
+          <WebSidebar />
+        </View>
+        <View style={commonStyles.webContent}>
+          <View style={commonStyles.container}>
+            <Text style={commonStyles.title}>Desafíos disponibles</Text>
+
+            {error ? (
+              <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
+            ) : desafios.length === 0 ? (
+              <Text style={{ marginTop: 10 }}>No hay desafíos registrados.</Text>
+            ) : (
+              <View style={{ marginTop: 20 }}>
+                {/* Cabecera de la tabla */}
+                <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
+                  <Text style={{ flex: 4, fontWeight: 'bold' }}>Nombre</Text>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Tipo</Text>
+                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Puntos a ganar</Text>
+                </View>
+
+                {/* Filas */}
+                {desafios.map((desafio) => (
+                  <View
+                    key={desafio.id}
+                    style={{
+                      flexDirection: 'row',
+                      paddingVertical: 5,
+                      borderBottomWidth: 0.5,
+                    }}
+                  >
+                    <Text style={{ flex: 1 }}>{desafio.id}</Text>
+                    <Text style={{ flex: 4 }}>{desafio.nombre}</Text>
+                    <Text style={{ flex: 1 }}>{desafio.tipo}</Text>
+                    <Text style={{ flex: 1 }}>{desafio.puntos_a_ganar}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
