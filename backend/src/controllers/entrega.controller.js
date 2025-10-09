@@ -16,6 +16,7 @@ import { DEFAULT_ID_LOCACION, DEFAULT_ID_TIPO_LOCACION } from '../utils/constant
 import { error } from 'console';
 
 
+
 export async function getEntregas(req, res) {
     try {
         const entregas = await obtenerEntregas();
