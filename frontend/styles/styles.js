@@ -1,6 +1,5 @@
 import { act } from 'react';
 import { StyleSheet } from 'react-native';
-import webLogin from '../screens/webLogin';
 
 export const colors = {
   primary: '#D8F291',
@@ -128,6 +127,15 @@ export const scannerStyles = StyleSheet.create({
 });
 
 export const beneficiosAppStyles = StyleSheet.create({
+  accentContainer : {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+    height: 580,
+    marginTop: 8,
+  },
   card: {
     padding: 12,
     borderRadius: 8,
@@ -180,6 +188,15 @@ export const beneficiosAppStyles = StyleSheet.create({
 });
 
 export const desafiosAppStyles = StyleSheet.create({
+  accentContainer : {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+    height: 580,
+    marginTop: 8,
+  },
   card: {
     padding: 12,
     borderRadius: 8,
@@ -231,6 +248,352 @@ export const desafiosAppStyles = StyleSheet.create({
   },
 });
 
+export const informacionAppStyles = StyleSheet.create({
+  scroll: {
+    padding: 20,
+  },
+  accentContainer : {
+    marginTop: 15,
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 10,
+  },
+  card: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#f0f0f0',
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginBottom: 20,
+  },
+  subtitle: {
+    alignSelf: 'flex-start',
+    paddingLeft: 10,
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginBottom: 10,
+    marginTop: 10 ,
+  },
+  text: {
+    fontSize: 18,
+    lineHeight: 24,
+    marginBottom: 12,
+    textAlign: 'justify',
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
+  list: {
+    marginBottom: 12,
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  icon: {
+    marginLeft: 30,
+    marginRight: 15,
+    color: colors.secondary,
+  },
+  listText: {
+    fontSize: 18,
+    lineHeight: 24,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  seccion: {
+    marginBottom: 10,
+    borderRadius: 5,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  botonSeccion: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: colors.primary,
+    
+  },
+  tituloSeccion: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.secondary,
+  },
+  iconSeccion: {
+    color: colors.secondary,
+  },
+  contenidoSeccion: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+  },
+});
+
+export const mapaEcopuntosAppStyles = StyleSheet.create({
+  accentContainer : {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+    height: 580,
+    marginTop: 8,
+  },
+  webview: {
+    flex: 1,
+  },
+});
+
+export const perfilAppStyles = StyleSheet.create({
+  containerNoPadding: {
+    flex: 1,
+    padding: 0,
+  },
+  perfilContainer: {
+    backgroundColor: colors.background,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingLeft: 30,
+    paddingRight: 10,
+    // borderColor: colors.secondary,
+    // borderWidth: 2,
+  },
+  perfilRow: {
+    flexDirection: 'row',
+  },
+  box70: {
+    flex: 7,
+    alignSelf: 'center',
+  },
+  box30: {
+    flex: 3,
+    alignSelf: 'center',
+    alignItems: 'center',
+  },
+  perfilNombre: {
+    color: colors.text,
+    fontSize: 28,
+    fontWeight: 'bold',
+    paddingBottom: 2,
+    textTransform: 'capitalize',
+  },
+  perfilRol: {
+    color: colors.secondary,
+    fontSize: 18,
+    fontWeight: 'bold',
+    padding: 2,
+    marginLeft: 8,
+    textTransform: 'capitalize',
+  },
+  perfilNivel: {
+    borderWidth: 7,
+    borderColor: colors.accent,
+    height: 90,
+    width: 90,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  perfilNivelText: {
+    color: colors.secondary,
+    alignSelf: 'center',
+    fontSize: 34,
+    fontWeight: '700',
+  },
+  perfilNivelTag: {
+    color: colors.secondary,
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  containerPuntos: {
+    margin: 0,
+    paddingTop: 15,
+    paddingBottom: 0,
+    backgroundColor: colors.background,
+  },
+  perfilTitulo: {
+    color: colors.text,
+    fontWeight: '500',
+    textAlign: 'center',
+    fontSize: 22,
+    marginBottom: 12,
+  },
+  perfilPuntos: {
+    alignSelf: 'center',
+    borderWidth: 8,
+    borderColor: colors.accent,
+    borderRadius: 20,
+    backgroundColor: colors.background,
+    paddingVertical: 18,
+    paddingHorizontal: 30,
+    width: 'auto',
+    marginBottom: 20,
+    
+  },
+  perfilPuntosTexto: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  containerEntregas: {
+    flexGrow: 1,
+    margin: 0,
+    paddingTop: 20,
+    paddingBottom: 0,
+    backgroundColor: colors.background,
+    // borderColor: colors.accent,
+    // borderWidth: 2,
+  },
+  accentContainerEntregas: {
+    alignSelf: 'center',
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 12,
+    width: 350,
+    maxHeight: 250, 
+    padding: 10,
+    marginBottom: 15, 
+  },
+  cabeceraEntregas: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.accent,
+    paddingBottom: 2,
+    marginBottom: 3,
+  },
+  cabeceraTexto: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    // borderWidth: 1,
+    // borderColor: colors.accent,
+    // overflow: 'hidden',
+  },
+  rowEntregas: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    paddingBottom: 2,
+  },
+  rowEntregasTexto: {
+    flex: 1,
+    fontSize: 13,
+    // borderWidth: 1,
+    // borderColor: colors.accent,
+    textAlign: 'center',
+    textTransform: 'capitalize',
+  },
+  containerButtons: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 15,
+    paddingRight: 50,
+    paddingLeft: 50,
+    backgroundColor: colors.background,
+    justifyContent: 'space-between',
+  },
+  buttonEntrega: {
+    alignItems: 'center',
+    maxHeight: 80,
+    backgroundColor: colors.primary,
+    borderRadius: 45,
+    marginVertical: 3,
+    marginHorizontal: 20,
+    padding: 7,
+  },
+});
+
+export const webInformesStyles = StyleSheet.create({
+  accentContainer: {
+    borderWidth: 3, //borrar
+    borderColor: colors.primary, //borrar
+    borderRadius: 12,
+    padding: 10,
+    paddingHorizontal: 30,
+    marginHorizontal: 20,
+  },
+  title: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 30,
+    paddingHorizontal: 15, 
+  },
+  inputText: {
+    alignSelf: 'center',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  inputFecha: {
+    borderWidth: 2, //borrar
+    borderColor: colors.gray, //borrar
+  },
+  scrollContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 20,
+    height: 380,
+    borderWidth: 2, //borrar
+    borderColor: colors.gray, //borrar
+  },
+  error: {
+    color: 'red',
+    marginTop: 5,
+    alignSelf: 'center',
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: colors.primary,
+    // borderColor: colors.accent,
+    // borderWidth: 2,
+    borderRadius: 12,
+    marginTop: 15,
+    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  buttonText: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  rowsTabla: {
+    flexDirection: 'row', 
+    borderBottomWidth: 0.5, 
+    paddingVertical: 5,
+    borderBottomColor: colors.gray,
+    // borderWidth: 2,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
+  },
+});
 
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },
@@ -242,6 +605,9 @@ export const commonStyles = StyleSheet.create({
   },
   containerNoPadding: {
     flex: 1,
+    padding: 0,
+  },
+  scroll: {
     padding: 0,
   },
   webTitleContainer: {
@@ -470,133 +836,7 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.background,
     padding: 20,
-  },
-  perfilRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  perfilCell: {
-    padding: 5,
-  },
-  box70: {
-    flex: 7,
-  },
-  box30: {
-    flex: 3,
-    
-  },
-  perfilContainer: {
-    backgroundColor: colors.background,
-    paddingTop: 20,
-    paddingBottom: 30,
-    paddingLeft: 50,
-    paddingRight: 50,
-  },
-  perfilButtonsContainer: {
-    marginBottom: 0,
-    maxHeight: 140,
-    paddingBottom: 0,
-    paddingRight: 35,
-    paddingLeft: 35,
-    backgroundColor: colors.background,
-    justifyContent: 'space-between',
-  },
-  perfilButtonEntrega: {
-    alignItems: 'center',
-    maxHeight: 80,
-    backgroundColor: colors.primary,
-    borderRadius: 45,
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 8,
-  },
-  perfilButtonLogout: {
-    alignItems: 'center',
-    maxHeight: 80,
-    backgroundColor: colors.primary,
-    borderRadius: 45,
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 8,
-  },
-  perfilButtonText: {
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  perfilNombre: {
-    color: colors.text,
-    fontSize: 28,
-    fontWeight: 'bold',
-    paddingBottom: 2,
-    textTransform: 'capitalize',
-  },
-  perfilRol: {
-    color: colors.secondary,
-    fontSize: 22,
-    fontWeight: 'bold',
-    padding: 2,
-    textTransform: 'capitalize',
-  },
-  perfilNivel: {
-    borderWidth: 7,
-    borderColor: colors.accent,
-    height: 80,
-    width: 80,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  perfilNivelText: {
-    color: colors.secondary,
-    alignSelf: 'center',
-    fontSize: 34,
-    fontWeight: '700',
-  },
-  perfilNivelTag: {
-    color: colors.secondary,
-    alignSelf: 'left',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  perfilTitulo: {
-    color: colors.Text,
-    fontWeight: '500',
-    textAlign: 'center',
-    fontSize: 22,
-    marginBottom: 18,
-  },
-  perfilPuntos: {
-    alignSelf: 'center',
-    borderWidth: 8,
-    borderColor: colors.accent,
-    borderRadius: 20,
-    backgroundColor: colors.background,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingRight: 30,
-    paddingLeft: 30,
-    width: 'auto',
-    marginBottom: 20,
-  },
-  perfilPuntosTexto: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  perfilTransacciones: {
-    alignSelf: 'center',
-    borderWidth: 5,
-    borderColor: colors.accent,
-    borderRadius: 12,
-    width: 320,
-    padding: 8,
-    marginBottom: 15, 
-  },
+  },  
   title: {
     alignSelf: 'center',
     fontSize: 24,

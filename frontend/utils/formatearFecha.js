@@ -8,3 +8,12 @@ export const formatearFecha = (fechaStr) => {
 
   return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
 };
+
+export const formatearFechaSinHora = (fechaStr) => {
+  const fecha = new Date(fechaStr);
+  const dia = String(fecha.getDate()).padStart(2, '0');
+  const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
+  const anio = String(fecha.getFullYear()).slice(-2); 
+
+  return `${dia}/${mes}/${anio}`;
+};
