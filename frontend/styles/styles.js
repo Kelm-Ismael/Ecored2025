@@ -555,11 +555,9 @@ export const webInformesStyles = StyleSheet.create({
   },
   scrollContainer: {
     paddingVertical: 15,
-    paddingHorizontal: 30,
-    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
     height: 380,
-    borderWidth: 2, //borrar
-    borderColor: colors.gray, //borrar
   },
   error: {
     color: 'red',
@@ -595,6 +593,95 @@ export const webInformesStyles = StyleSheet.create({
   },
 });
 
+export const webNuevoUsuario = StyleSheet.create({
+  accentContainer : {
+    borderWidth: 5,
+    borderColor: colors.accent,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 20,
+    alignSelf: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    gap: 20,
+    paddingHorizontal: 10,
+    // marginLeft: 10,
+  },
+  label: {
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontSize: 16,
+    marginVertical: 10,
+    paddingBottom: 5,
+  },
+  picker: {
+    borderColor: colors.gray,
+    padding: 5,
+    maxWidth: 250,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.gray,
+    padding: 3,
+    fontSize: 16,
+    width: 250,
+  },
+  containerForm: {
+    // flexGrow: 1,
+    alignSelf: 'center',
+    margin: 5,
+    paddingVertical: 10,
+    paddingLeft: 40,
+    paddingRight: 20,
+    backgroundColor: colors.background,
+    // borderColor: colors.gray,
+    // borderWidth: 2,
+  },
+  formRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 30,
+    // borderWidth: 1,
+    // borderColor: colors.gray,
+  },
+  setLabelInput: {
+    paddingVertical: 5,
+    flexDirection: 'column',
+  },
+  formLabel: {
+    fontSize: 16,
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    marginVertical: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+  },
+  buttonText: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  check: {
+    width: 24,
+    height: 24,
+    borderWidth: 1,
+    borderColor: colors.gray,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
+
+
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },
   container: {
@@ -609,6 +696,30 @@ export const commonStyles = StyleSheet.create({
   },
   scroll: {
     padding: 0,
+  },
+  textNormal: {
+    // marginLeft: 10,
+    paddingBottom: 5,
+    fontSize: 16,
+    color: colors.text,
+    alignContent: 'center',
+  },
+  webCabeceraTabla: {
+    flexDirection: 'row', 
+    borderBottomWidth: 0.5, 
+    paddingBottom: 5,
+    alignItems: 'center',
+    alignContent: 'center'
+  },
+  webRowsTabla: {
+    flexDirection: 'row', 
+    borderBottomWidth: 0.5, 
+    paddingVertical: 5,
+    borderBottomColor: colors.gray,
+    alignItems: 'center',
+    // borderWidth: 2,
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
   },
   webTitleContainer: {
     padding: 20,
@@ -836,7 +947,14 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.background,
     padding: 20,
-  },  
+  },
+  accentContainerTablas: {
+    borderWidth: 3,
+    borderColor: colors.primary,
+    borderRadius: 15,
+    backgroundColor: colors.background,
+    padding: 15,
+  },
   title: {
     alignSelf: 'center',
     fontSize: 24,

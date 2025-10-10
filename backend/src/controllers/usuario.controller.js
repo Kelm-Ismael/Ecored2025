@@ -9,13 +9,21 @@ import {
   editarUsuario, 
   borrarUsuario, 
   obtenerPerfilDetallado, 
-  insertarUsuarioCiudadano
+  insertarUsuarioCiudadano,
+  obtenerTiposUsuario,
+  insertarUsuarioPorTipo,
 } from '../models/usuario.model.js';
 import { 
   buscarPersonaPorRefUsuario,
   buscarPersonaPorDni,
-  insertarPersona
+  insertarPersona,
+  insertarPersonaCompleto
 } from '../models/persona.model.js';
+import {
+  buscarInstitucionPorCuitCuil,
+  insertarInstitucion,
+} from '../models/institucion.model.js';
+import pool from '../config/db.js';
 
 // GET todos
 export async function getUsuarios(req, res) {
@@ -24,6 +32,16 @@ export async function getUsuarios(req, res) {
     res.json(usuarios);
   } catch (err) {
     console.error('Error al obtener usuarios:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+export async function getTiposUsuario(req, res) {
+  try {
+    const tiposUsuario = await obtenerTiposUsuario();
+    res.json(tiposUsuario);
+  } catch (err) {
+    console.error('Error al obtener tipos de usuario:', err);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
@@ -128,45 +146,36 @@ export async function perfilUsuario(req, res) {
   }
 }
 
-// POST nuevo (SIN PROBAR)
 export async function crearUsuario(req, res) {
+  const connection = await pool.getConnection();
+
   try {
-    const {
-      nombre,
-      apellido,
-      dni,
-      fechaNacimiento,
-      email,
-      contrasenia,
-    } = req.body;
+    const { nombre, apellido, dni, fechaNacimiento, email, contrasenia } = req.body;
 
     console.log('✅ Datos recibidos:', req.body);
-    // TODO if superadmin habilitar creacion con tipo
-    
+
     if (!email || !contrasenia || !nombre || !apellido || !dni || !fechaNacimiento) {
-      console.warn('⚠️ Faltan datos obligatorios');
       return res.status(400).json({ error: 'Faltan datos obligatorios' });
     }
 
-    // verificar existencia de email
+    await connection.beginTransaction();
+
     console.log('🔍 Buscando usuario por email...');
-    const usuarioExistente = await buscarUsuarioPorEmail(email);
+    const usuarioExistente = await buscarUsuarioPorEmail(connection, email);
     if (usuarioExistente) {
-      console.warn('⚠️ Email ya registrado');
+      await connection.rollback();
       return res.status(409).json({ error: 'Email ya registrado' });
     }
 
-    // verificar existencia de dni
     console.log('🔍 Buscando persona por DNI...');
-    const personaExistente = await buscarPersonaPorDni(dni);
+    const personaExistente = await buscarPersonaPorDni(connection, dni);
     if (personaExistente) {
-      console.warn('⚠️ DNI ya registrado');
+      await connection.rollback();
       return res.status(409).json({ error: 'DNI ya registrado' });
     }
 
-    // insertar nueva persona
     console.log('📥 Insertando nueva persona...');
-    const nuevaPersonaId = await insertarPersona({
+    const nuevaPersonaId = await insertarPersona(connection, {
       nombre,
       apellido,
       dni,
@@ -175,22 +184,21 @@ export async function crearUsuario(req, res) {
     });
     console.log('✅ Persona insertada con ID:', nuevaPersonaId);
 
-    // insertar nuevo usuario
     console.log('📥 Insertando nuevo usuario...');
-    const nuevoUsuarioId = await insertarUsuarioCiudadano({
+    const nuevoUsuarioId = await insertarUsuarioCiudadano(connection, {
       email,
       contrasenia,
       id_referencia: nuevaPersonaId
     });
     console.log('✅ Usuario insertado con ID:', nuevoUsuarioId);
-    
-    //generar token
-    console.log('🔐 Generando token...');
-    const token = firmarToken({id: nuevoUsuarioId});
 
-    // devolver token e id
+    await connection.commit();
+
+    console.log('🔐 Generando token...');
+    const token = firmarToken({ id: nuevoUsuarioId });
+
     console.log('🚀 Usuario creado exitosamente');
-    res.status(201).json({ 
+    res.status(201).json({
       mensaje: 'Usuario creado exitosamente',
       id_usuario: nuevoUsuarioId,
       token,
@@ -198,12 +206,150 @@ export async function crearUsuario(req, res) {
     });
 
   } catch (err) {
+    await connection.rollback();
     console.error('❌ Error al crear usuario:', err, JSON.stringify(err, Object.getOwnPropertyNames(err)));
     res.status(500).json({
       error: 'Error interno del servidor',
       detalle: err.message,
-      stack: err.stack // solo en desarrollo
+      stack: err.stack
     });
+  } finally {
+    connection.release();
+  }
+}
+
+export async function crearUsuarioAdmin(req, res) {
+  const connection = await pool.getConnection();
+
+  try {
+    const {
+      nombre,
+      apellido,
+      dni,
+      fecha_nacimiento,
+      email,
+      cuit_cuil,
+      sexo,
+      tipo_usuario,
+      id_tipo_usuario,
+      id_tipo_persona,
+      id_tipo_institucion,
+      usuario_creador,
+      is_super_admin
+    } = req.body;
+
+    console.log('✅ Datos recibidos:', req.body);
+
+    if (!email || !nombre || !cuit_cuil || !tipo_usuario || !id_tipo_usuario) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+
+    await connection.beginTransaction();
+
+    const usuarioExistente = await buscarUsuarioPorEmail(connection, email);
+    if (usuarioExistente) {
+      await connection.rollback();
+      return res.status(409).json({ error: 'Email ya registrado' });
+    }
+
+    let idReferencia = null;
+    const tipoUsuario = tipo_usuario.toLowerCase();
+
+    if (tipoUsuario === 'escuela') {
+      if (!id_tipo_institucion) {
+        await connection.rollback();
+        return res.status(400).json({ error: 'Falta tipo de institución para escuela' });
+      }
+
+      const institucionExistente = await buscarInstitucionPorCuitCuil(connection, cuit_cuil);
+      if (institucionExistente) {
+        await connection.rollback();
+        return res.status(409).json({ error: 'CUIT/CUIL ya registrado' });
+      }
+
+      // insert institucion
+      console.log('🏫 Insertando nueva institución...');
+      idReferencia = await insertarInstitucion(connection, {
+        nombre,
+        id_tipo_institucion,
+        cuit_cuil
+      });
+      console.log('✅ Institución creada con ID:', idReferencia);
+
+    } else {
+      if (!apellido || !dni || !fecha_nacimiento || !id_tipo_persona) {
+        await connection.rollback();
+        return res.status(400).json({ error: 'Faltan datos de persona' });
+      }
+
+      const personaExistente = await buscarPersonaPorDni(connection, dni);
+      if (personaExistente) {
+        await connection.rollback();
+        return res.status(409).json({ error: 'DNI ya registrado' });
+      }
+
+      // insert persona
+      console.log('👤 Insertando nueva persona...');
+      idReferencia = await insertarPersonaCompleto(connection, {
+        nombre,
+        apellido,
+        dni,
+        fechaNacimiento: fecha_nacimiento,
+        cuit_cuil,
+        sexo,
+        id_tipo_persona
+      });
+      console.log('✅ Persona creada con ID:', idReferencia);
+    }
+
+    let contrasenia;
+
+    if (tipoUsuario === 'escuela') {
+      contrasenia = cuit_cuil;
+    } else {
+      contrasenia = dni;
+    }
+
+    // insert user
+    console.log('🔐 Insertando nuevo usuario...');
+    
+    if (tipoUsuario === 'administrador' && typeof is_super_admin === 'undefined') {
+      return res.status(400).json({ error: 'Falta valor de is_super_admin para administrador' });
+    }
+
+    const isSuperAdminFinal = tipoUsuario === 'administrador' ? (is_super_admin ? 1 : 0) : 0;
+
+    const nuevoUsuarioId = await insertarUsuarioPorTipo(connection, {
+      email,
+      contrasenia,
+      id_tipo_usuario,
+      id_referencia: idReferencia,
+      usuario_creador,
+      is_super_admin: isSuperAdminFinal
+    });
+    console.log('✅ Usuario insertado con ID:', nuevoUsuarioId);
+
+    await connection.commit();
+
+    const token = firmarToken({ id: nuevoUsuarioId });
+
+    res.status(201).json({
+      mensaje: 'Usuario creado exitosamente',
+      id_usuario: nuevoUsuarioId,
+      token,
+      tipo_usuario
+    });
+
+  } catch (err) {
+    await connection.rollback();
+    console.error('❌ Error al crear usuario:', err);
+    res.status(500).json({
+      error: 'Error interno del servidor',
+      detalle: err.message,
+      stack: err.stack
+    });
+  } finally {
+    connection.release();
   }
 }
 

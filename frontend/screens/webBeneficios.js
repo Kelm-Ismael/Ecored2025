@@ -74,40 +74,40 @@ export default function ScreenBeneficio() {
         <View style={commonStyles.webContent}>
           <View style={commonStyles.container}>
             <Text style={commonStyles.title}>Beneficios disponibles</Text>
-
-            {error ? (
-              <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
-            ) : beneficios.length === 0 ? (
-              <Text style={{ marginTop: 10 }}>No hay beneficios registrados.</Text>
-            ) : (
-              <View style={{ marginTop: 20 }}>
-                {/* Cabecera de la tabla */}
-                <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>
-                  <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
-                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Tipo</Text>
-                  <Text style={{ flex: 3, fontWeight: 'bold' }}>Descripción</Text>
-                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Puntos requeridos</Text>
-                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha creación</Text>
-                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha modificación</Text>
-                  <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario creador</Text>
-                  <Text style={{ flex: 1, fontWeight: 'bold' }}>Estado</Text>
-                </View>
-
-                {/* Filas */}
-                {beneficios.map((beneficio) => (
-                  <View key={beneficio.id} style={{ flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5 }}>
-                    <Text style={{ flex: 1 }}>{beneficio.id}</Text>
-                    <Text style={{ flex: 2 }}>{beneficio.tipo}</Text>
-                    <Text style={{ flex: 3 }}>{beneficio.descripcion}</Text>
-                    <Text style={{ flex: 1 }}>{beneficio.puntos_requeridos}</Text>
-                    <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_creacion)}</Text>
-                    <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_modificacion)}</Text>
-                    <Text style={{ flex: 2 }}>{beneficio.usuario_creador}</Text>
-                    <Text style={{ flex: 1 }}>{beneficio.estado}</Text>
+            <View style={commonStyles.accentContainerTablas}>
+              {error ? (
+                <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>
+              ) : beneficios.length === 0 ? (
+                <Text style={{ marginTop: 10 }}>No hay beneficios registrados.</Text>
+              ) : (
+                <View style={{ padding: 10 }}>
+                  <View style={commonStyles.webCabeceraTabla}>
+                    <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
+                    <Text style={{ flex: 2, fontWeight: 'bold' }}>Tipo</Text>
+                    <Text style={{ flex: 4, fontWeight: 'bold' }}>Descripción</Text>
+                    <Text style={{ flex: 1, fontWeight: 'bold' }}>Puntos requeridos</Text>
+                    <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha creación</Text>
+                    <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha modificación</Text>
+                    <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario creador</Text>
+                    <Text style={{ flex: 1, fontWeight: 'bold' }}>Estado</Text>
                   </View>
-                ))}
-              </View>
-            )}
+
+                  {/* Filas */}
+                  {beneficios.map((beneficio) => (
+                    <View key={beneficio.id} style={commonStyles.webRowsTabla}>
+                      <Text style={{ flex: 1 }}>{beneficio.id}</Text>
+                      <Text style={{ flex: 2 }}>{beneficio.tipo}</Text>
+                      <Text style={{ flex: 4 }}>{beneficio.descripcion}</Text>
+                      <Text style={{ flex: 1 }}>{beneficio.puntos_requeridos}</Text>
+                      <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_creacion)}</Text>
+                      <Text style={{ flex: 2 }}>{formatearFecha(beneficio.fecha_modificacion)}</Text>
+                      <Text style={{ flex: 2 }}>{beneficio.usuario_creador}</Text>
+                      <Text style={{ flex: 1 }}>{beneficio.estado}</Text>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
           </View>
         </View>
       </View>

@@ -20,6 +20,7 @@ import InfoCambioClimatico from './screens/infoCambioClimatico';
 import WebAuthWrapper from './screens/webAuthWrapper';
 import AuthStack from './navigation/usuarioStack';
 import { AuthProvider } from './context/AuthContext';
+// import InformacionStack from './navigation/informacionStack';
 
 const Tab = createBottomTabNavigator();
 

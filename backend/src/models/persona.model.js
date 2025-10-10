@@ -6,13 +6,24 @@ export async function obtenerPersonas() {
 }
 
 // usado en crearusuario desde app
-export async function insertarPersona(persona) {
+export async function insertarPersona(conn, persona) {
   const { nombre, apellido, dni, fechaNacimiento, id_tipo_persona } = persona;
-  const [result] = await db.query(
+  const [result] = await conn.query(
     `INSERT INTO persona 
         (nombre, apellido, dni, fecha_nacimiento, id_tipo_persona) 
       VALUES (?, ?, ?, ?, ?)`,
     [nombre, apellido, dni, fechaNacimiento, id_tipo_persona]
+  );
+  return result.insertId;
+}
+
+export async function insertarPersonaCompleto(conn, persona) {
+  const { nombre, apellido, dni, fechaNacimiento, cuit_cuil, sexo, id_tipo_persona } = persona;
+  const [result] = await conn.query(
+    `INSERT INTO persona 
+        (nombre, apellido, dni, fecha_nacimiento, cuit_cuil, sexo, id_tipo_persona) 
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [nombre, apellido, dni, fechaNacimiento, cuit_cuil, sexo, id_tipo_persona]
   );
   return result.insertId;
 }
@@ -35,8 +46,8 @@ export async function buscarPersonaPorId(id) {
 }
 
 // usado en crearusuario en app
-export async function buscarPersonaPorDni(dni) {
-  const [rows] = await db.query(
+export async function buscarPersonaPorDni(conn, dni) {
+  const [rows] = await conn.query(
     `SELECT * FROM persona WHERE dni = ?`,
     [dni]
   );

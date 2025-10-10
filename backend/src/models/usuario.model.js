@@ -5,21 +5,37 @@ export async function obtenerUsuarios() {
   return rows;
 }
 
+export async function obtenerTiposUsuario() {
+  const [rows] = await db.query(`SELECT * FROM tipo_usuario`); //consulta sql va entre las comillas
+  return rows;
+}
+
 // usado en crearusuario desde app
-export async function insertarUsuarioCiudadano(usuario) {
+export async function insertarUsuarioCiudadano(conn, usuario) {
   const { email, contrasenia, id_referencia } = usuario;
-  const [result] = await db.query(
+  const [result] = await conn.query(
     `INSERT INTO usuario 
-        (email, contrasenia_hash, id_referencia, id_tipo_usuario) 
+        (email, contrasenia_hash, id_tipo_usuario, id_referencia) 
       VALUES (?, ?, ?, ?)`,
-    [email, contrasenia, id_referencia, 1]
+    [email, contrasenia, 1, id_referencia]
+  );
+  return result.insertId;
+}
+
+export async function insertarUsuarioPorTipo(conn, usuario) {
+  const { email, contrasenia, id_tipo_usuario, id_referencia, usuario_creador, is_super_admin } = usuario;
+  const [result] = await conn.query(
+    `INSERT INTO usuario 
+        (email, contrasenia_hash, id_tipo_usuario, id_referencia, usuario_creador, is_super_admin) 
+      VALUES (?, ?, ?, ?, ?, ?)`,
+    [email, contrasenia, id_tipo_usuario, id_referencia, usuario_creador, is_super_admin]
   );
   return result.insertId;
 }
 
 // Buscar por email (para login/validaciones)
-export async function buscarUsuarioPorEmail(email) {
-  const [rows] = await db.query(`
+export async function buscarUsuarioPorEmail(conn, email) {
+  const [rows] = await conn.query(`
     SELECT * FROM usuario WHERE email = ?`, 
     [email]
   );

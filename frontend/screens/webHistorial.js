@@ -112,7 +112,7 @@ export default function WebHistorial() {
                 <View style={commonStyles.webContent}>
                     <View style={commonStyles.container}>
                         <Text style={commonStyles.title}>Historial de Entregas en Ecopunto {locacionError ? 'Error' : (nombreLocacion || '...')}</Text>
-                        <View style={commonStyles.accentContainer}>
+                        <View style={commonStyles.accentContainerTablas}>
                             {error ? (
                                 <Text style={{ color: 'red' }}>{error}</Text>
                             ) : entregas.length === 0 ? (
@@ -131,7 +131,7 @@ export default function WebHistorial() {
                                     {/* Filas */}
                                     {entregas.map((entrega) => (
                                         <View key={entrega.id}>
-                                            <View style={{ flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5 }}>
+                                            <View style={commonStyles.webRowsTabla}>
                                                 <Text style={{ flex: 1 }}>{entrega.id}</Text>
                                                 <Text style={{ flex: 2 }}>{formatearFecha(entrega.fecha_hora)}</Text>
                                                 <Text style={{ flex: 2 }}>{entrega.nombre_usuario || entrega.id_usuario}</Text>

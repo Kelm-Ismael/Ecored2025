@@ -169,7 +169,7 @@ export default function WebInformes() {
                         </View>
 
                         {infoData && (
-                            <View style={{ marginTop: 20 }}>
+                            <View style={[commonStyles.accentContainerTablas, { marginTop: 15 }]}>
                                 {infoData.length > 0 ? (
                                     <ScrollView style={webInformesStyles.scrollContainer}>
                                         <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>

@@ -1,20 +1,23 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../context/AuthContext.js';
-import { commonStyles } from '../styles/styles';
+import { commonStyles, webNuevoUsuario } from '../styles/styles';
 import WebSidebar from '../components/WebSidebar.js';
 import { DEFAULT_ID_LOCACION } from '../config/constants.js';
 import { useEffect, useState, useContext } from 'react';
 import { BASE_URL } from '../config/api.js';
 
-export default function WebMain({ role }) {
-    const { user, authLoading, userToken } = useContext(AuthContext);
+export default function WebMain({ role, navigation }) {
+    const { user, userRole, authLoading, userToken } = useContext(AuthContext);
     const [nombreLocacion, setNombreLocacion] = useState('');
     const [error, setError] = useState(null);
     // console.log('Usuario en WebMain:', user);
     const nombre = user?.referencia?.nombre || '';
     const apellido = user?.referencia?.apellido || '';
+
+    const rolesPermitidos = ['superadmin', 'administrador'];
+    const estaAutorizado = !authLoading && rolesPermitidos.includes(userRole?.toLowerCase());
 
      useEffect(() => {
         const fetchNombreLocacion = async () => {
@@ -57,7 +60,18 @@ export default function WebMain({ role }) {
                     <View style={commonStyles.container}>
                         <Text style={commonStyles.title}>Bienvenidx, {nombre} {apellido}</Text>
                         <View style={commonStyles.accentContainer}>
-                            <Text style={commonStyles.Text}>Locación actual: Ecopunto {error ? error : (nombreLocacion || 'Cargando...')}</Text>
+                            <View style={commonStyles.row}>
+                                <Text style={webNuevoUsuario.label}>Locación actual:</Text>
+                                <Text style={commonStyles.textNormal}>{error ? error : (nombreLocacion || 'Cargando...')}</Text>
+                            </View>
+                            {estaAutorizado && (
+                                <TouchableOpacity
+                                    style={webNuevoUsuario.button}
+                                    onPress={() => navigation.navigate('NuevoUsuario')}
+                                >
+                                    <Text style={webNuevoUsuario.buttonText}>crear nuevo usuario</Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </View>
                 </View>

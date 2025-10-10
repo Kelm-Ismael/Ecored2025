@@ -12,6 +12,7 @@ import WebInformes from '../screens/webInformes';
 import WebHistorial from '../screens/webHistorial';
 import WebRegistro from '../screens/webRegistro'
 import WebCodigoQR from '../screens/webCodigoQR';
+import WebNuevoUsuario from '../screens/webNuevoUsuario';
 
 import { AuthContext } from '../context/AuthContext';
 import { headerStyles } from '../styles/styles';
@@ -28,11 +29,12 @@ const allScreens = {
   Informes: { component: WebInformes, title: 'Informes' },
   Registro: { component: WebRegistro, title: 'Registro' },
   CodigoQR: { component: WebCodigoQR, title: 'CodigoQR' },
+  NuevoUsuario: {component: WebNuevoUsuario, title: 'Nuevo usuario' },
 };
 
 const routesByRole = {
-    superadmin: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes', 'CodigoQR'],
-    administrador: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes', 'CodigoQR'],
+    superadmin: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes', 'CodigoQR', 'NuevoUsuario'],
+    administrador: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes', 'CodigoQR', 'NuevoUsuario'],
     alumno: ['WebMain', 'WebPerfil'],
     ciudadano: ['WebMain', 'WebPerfil'],
     empleado: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'CodigoQR'],
@@ -40,9 +42,9 @@ const routesByRole = {
 };
 
 export default function WebStack() {
-    const { loading, userRole } = useContext(AuthContext);
+  const { loading, userRole } = useContext(AuthContext);
 
-    if (loading || !userRole) {
+  if (loading || !userRole) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
@@ -50,14 +52,15 @@ export default function WebStack() {
     );
   }
 
-    const allowedRoutes = routesByRole[userRole?.toLowerCase()] || [];
-    if (allowedRoutes.length === 0) {
-        return (
+  const allowedRoutes = routesByRole[userRole?.toLowerCase()] || [];
+  if (allowedRoutes.length === 0) {
+    return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>No tenés acceso a esta sección</Text>
       </View>
     );
   }
+
   return (
     <Stack.Navigator
       initialRouteName={allowedRoutes[0]}
