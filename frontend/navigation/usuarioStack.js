@@ -8,6 +8,7 @@ import ScreenRegistro from '../screens/registroUsuario';
 import ScreenPerfil from '../screens/perfilUsuario';
 import ScreenScanner from '../screens/scannerQR';
 import ScreenValidarEntrega from '../screens/validarEntrega';
+import ScreenBuscarEscuela from '../screens/buscarEscuela';
 
 import { commonStyles, headerStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api';
@@ -98,6 +99,12 @@ export default function UsuarioStack() {
             name="ValidarEntrega"
             component={ScreenValidarEntrega}
             options={{ title: 'Escanear QR' }}
+          />
+
+          <Stack.Screen
+            name="BuscarEscuela"
+            component={ScreenBuscarEscuela}
+            options={{ title: 'Buscar Escuela',  headerShown: false}}
           />
         </>
       )}

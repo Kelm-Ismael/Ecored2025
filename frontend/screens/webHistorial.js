@@ -140,7 +140,7 @@ export default function WebHistorial() {
                                                     style={{ flex: 1 }}
                                                     onPress={() => toggleDetalles(entrega.id)}
                                                 >
-                                                    <Text style={{ color: '#007bff' }}>
+                                                    <Text style={{ color: '#00A887' }}>
                                                         {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver'}
                                                     </Text>
                                                 </TouchableOpacity>

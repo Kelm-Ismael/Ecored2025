@@ -16,6 +16,21 @@ export async function insertarInstitucion(conn, institucion) {
   return result.insertId;
 }
 
+export async function buscarInstitucionPorRefUsuario(id_referencia) {
+  const [rows] = await db.query(
+    `SELECT i.id,
+      i.nombre,
+      i.cuit_cuil,
+      tu.tipo_usuario
+    FROM institucion i 
+    INNER JOIN usuario u ON i.id = u.id_referencia AND u.id_tipo_usuario = 5
+    INNER JOIN tipo_usuario tu ON u.id_tipo_usuario = tu.id
+    WHERE u.id_referencia = ?`,
+    [id_referencia]
+  );
+  return rows[0];
+}
+
 export async function buscarInstitucionPorCuitCuil(conn, cuit_cuil) {
   const [rows] = await conn.query(
     `SELECT * FROM institucion WHERE cuit_cuil = ?`,

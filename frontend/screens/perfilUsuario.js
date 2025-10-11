@@ -149,13 +149,23 @@ export default function ScreenPerfil({ onLogout }) {
             <View style={perfilAppStyles.containerButtons}>
                 <View style={perfilAppStyles.buttonEntrega}>
                     <TouchableOpacity
-                        style={perfilAppStyles.buttonEntrega}
+                        style={perfilAppStyles.button}
                         onPress={() => navigation.navigate('Scanner')}
                     >
                         <Text style={commonStyles.buttonText}>Nueva entrega</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={perfilAppStyles.buttonEntrega}>
+                <View>
+                    <TouchableOpacity
+                        style={perfilAppStyles.button}
+                        onPress={() => navigation.navigate('BuscarEscuela', {
+                            id_usuario: usuario.id
+                        })}
+                    >
+                        <Text style={commonStyles.buttonText}>buscar escuela</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={perfilAppStyles.button}>
                     <LogoutButton onLogout={onLogout} />
                 </View>                        
             </View>

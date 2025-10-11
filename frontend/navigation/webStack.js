@@ -10,7 +10,6 @@ import WebBeneficios from '../screens/webBeneficios';
 import WebDesafios from '../screens/webDesafios';
 import WebInformes from '../screens/webInformes';
 import WebHistorial from '../screens/webHistorial';
-import WebRegistro from '../screens/webRegistro'
 import WebCodigoQR from '../screens/webCodigoQR';
 import WebNuevoUsuario from '../screens/webNuevoUsuario';
 
@@ -27,7 +26,6 @@ const allScreens = {
   Beneficios: { component: WebBeneficios, title: 'Beneficios' },
   Desafios: { component: WebDesafios, title: 'Desafíos' },
   Informes: { component: WebInformes, title: 'Informes' },
-  Registro: { component: WebRegistro, title: 'Registro' },
   CodigoQR: { component: WebCodigoQR, title: 'CodigoQR' },
   NuevoUsuario: {component: WebNuevoUsuario, title: 'Nuevo usuario' },
 };

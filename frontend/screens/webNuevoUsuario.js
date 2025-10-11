@@ -10,7 +10,7 @@ import { BASE_URL } from '../config/api';
 import { AuthContext } from '../context/AuthContext';
 import { PickerDia, PickerMes, PickerAnio } from '../components/FechaPicker';
 import { validarEmail } from '../utils/validaciones/email';
-import { esFechaValida } from '../utils/validaciones/fecha';
+import { esFechaValida } from '../utils/validaciones/fecha_nacimiento';
 
 export default function WebNuevoUsuario() {
     const navigation = useNavigation();
@@ -306,6 +306,7 @@ export default function WebNuevoUsuario() {
                 id_tipo_usuario: tipoUsuarioId,
                 tipo_usuario: selectedTipoUsuario,
                 id_tipo_institucion: selectedTipoInstitucion,
+                usuario_creador: user.id
             }
             : {
                 id_tipo_usuario: tipoUsuarioId,

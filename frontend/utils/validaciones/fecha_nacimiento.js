@@ -13,7 +13,7 @@ export function esFechaValida(dia, mes, anio) {
   if (
     day < 1 || day > 31 ||
     month < 1 || month > 12 ||
-    year < 1900 || year > new Date().getFullYear()
+    year < 1900 || 2020
   ) return false;
 
   // Fecha válida en el calendario

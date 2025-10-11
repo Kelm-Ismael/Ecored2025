@@ -511,14 +511,14 @@ export const perfilAppStyles = StyleSheet.create({
     backgroundColor: colors.background,
     justifyContent: 'space-between',
   },
-  buttonEntrega: {
+  button: {
     alignItems: 'center',
     maxHeight: 80,
     backgroundColor: colors.primary,
     borderRadius: 45,
     marginVertical: 3,
     marginHorizontal: 20,
-    padding: 7,
+    padding: 9,
   },
 });
 
@@ -681,6 +681,73 @@ export const webNuevoUsuario = StyleSheet.create({
   },
 })
 
+export const webMainStyles = StyleSheet.create({
+  subtitle: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.secondary,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  detalles: {
+    margin: 10,
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // borderColor: colors.gray,
+    // borderWidth: 1,
+  },
+  detallesNotas: {
+    flex: 8,
+  },
+  detallesBtn: {
+    flex: 3,
+  },
+  textNotas: {
+    // marginLeft: 10,
+    paddingBottom: 5,
+    fontSize: 14,
+    color: colors.text,
+    fontWeight: 'bold',
+    alignContent: 'center',
+  },
+  inputNotas: {
+    borderColor: colors.gray,
+    borderWidth: 1,
+    margin: 3
+  },
+  button: {
+    alignSelf: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: 12,
+    marginVertical: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  buttonText: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: colors.secondary,
+    fontWeight: 'bold',
+    fontSize: 13,
+  },
+  buttonRechazar: {
+    alignSelf: 'center',
+    backgroundColor: '#FF5C5C',
+    borderRadius: 12,
+    marginVertical: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+  },
+  buttonTextRechazar: {
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    color: colors.background,
+    fontWeight: 'bold',
+    fontSize: 13,
+  },
+});
 
 export const commonStyles = StyleSheet.create({
   safeArea: { flex: 1 },

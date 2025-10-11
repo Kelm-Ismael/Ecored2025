@@ -52,6 +52,13 @@ export async function buscarUsuarioPorId(id) {
   return rows[0];
 }
 
+export async function actualizarTipoUsuario(id_usuario, id_tipo_usuario) {
+  await db.query(
+    `UPDATE usuario SET id_tipo_usuario = ? WHERE id = ?`,
+    [id_tipo_usuario, id_usuario]
+  );
+}
+
 export const buscarUsuariosPorQuery = async (query) => {
   const esEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
   const esDNI = /^\d{6,}$/.test(query); // asume que los DNIs tienen al menos 6 dígitos

@@ -1,4 +1,4 @@
 UPDATE 8/OCT (que falta)
-    - crear usuarios desde web (para crear usuario escuela admin)
-    - buscar escuela + solicitar linkto escuela (usuario ciudadano a usuario alumno)
+    - crear usuarios desde web (para crear usuario escuela admin) ✓
+    - buscar escuela + solicitar linkto escuela (usuario ciudadano a usuario alumno) 
     - aceptar/rechazar alumnos -> cambio tipo user

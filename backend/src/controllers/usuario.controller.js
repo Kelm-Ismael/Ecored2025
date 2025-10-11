@@ -21,6 +21,7 @@ import {
 } from '../models/persona.model.js';
 import {
   buscarInstitucionPorCuitCuil,
+  buscarInstitucionPorRefUsuario,
   insertarInstitucion,
 } from '../models/institucion.model.js';
 import pool from '../config/db.js';
@@ -48,6 +49,8 @@ export async function getTiposUsuario(req, res) {
 
 // LOGIN
 export async function loginUsuario(req, res) {
+  const connection = await pool.getConnection();
+
   try {
     const { email, contrasenia } = req.body;
     
@@ -55,7 +58,7 @@ export async function loginUsuario(req, res) {
       return res.status(400).json({ error: 'Email y contraseña son requeridos' });
     }
     
-    const usuario = await buscarUsuarioPorEmail(email);
+    const usuario = await buscarUsuarioPorEmail(connection, email);
     if (!usuario) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
@@ -102,6 +105,8 @@ export async function loginUsuario(req, res) {
     }
     
     res.status(500).json({ error: 'Error interno del servidor' });
+  } finally {
+    connection.release();
   }
 }
 
@@ -118,16 +123,16 @@ export async function perfilUsuario(req, res) {
         datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
         break;
       case 2: // alumno
-        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
         break;
       case 3: // empleado
-        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
         break;
       case 4: // administrador
-        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia)
+        datosReferencia = await buscarPersonaPorRefUsuario(usuario.id_referencia);
         break;
       case 5: // escuela
-        //
+        datosReferencia = await buscarInstitucionPorRefUsuario(usuario.id_referencia);
         break;
       default:
         console.warn('⚠️ Tipo de usuario no manejado:', usuario.id_tipo_usuario);
@@ -222,21 +227,7 @@ export async function crearUsuarioAdmin(req, res) {
   const connection = await pool.getConnection();
 
   try {
-    const {
-      nombre,
-      apellido,
-      dni,
-      fecha_nacimiento,
-      email,
-      cuit_cuil,
-      sexo,
-      tipo_usuario,
-      id_tipo_usuario,
-      id_tipo_persona,
-      id_tipo_institucion,
-      usuario_creador,
-      is_super_admin
-    } = req.body;
+    const { nombre, apellido, dni, fecha_nacimiento, email, cuit_cuil, sexo, tipo_usuario, id_tipo_usuario, id_tipo_persona, id_tipo_institucion, usuario_creador, is_super_admin } = req.body;
 
     console.log('✅ Datos recibidos:', req.body);
 
