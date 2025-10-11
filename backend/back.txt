@@ -56,6 +56,9 @@ GUIA
 
 REF: https://medium.com/@carlosgarcia3535/c%C3%B3mo-iniciar-un-servidor-con-node-js-y-express-js-460b6fd672e6
 
+* PARA VER EL VIDEO DE YOU TUBE
+    npm install react-native-web-webview
+
 * ACTUALIZACION 11/SEP
     npm install jsonwebtoken // token de autenticacion
     npm install bcrypt // para verificar contrasenia hash

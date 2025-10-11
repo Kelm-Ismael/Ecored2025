@@ -54,11 +54,9 @@ export default function ScreenBeneficio() {
     );
 
     return (
-        <SafeAreaView style={commonStyles.safeArea}>
+        // <SafeAreaView style={commonStyles.safeArea}>
             <View style={commonStyles.container}>
-                <Text style={commonStyles.title}>
-                    Beneficios
-                </Text>
+                {/* <Text style={commonStyles.title}>Beneficios</Text> */}
                 <View style={beneficiosAppStyles.searchContainer}>
                     <Ionicons name="search" size={20} color="#888" style={{ marginRight: 8 }} />
                     <TextInput
@@ -69,7 +67,7 @@ export default function ScreenBeneficio() {
                     />
                 </View>
                 
-                <View style={commonStyles.accentContainer}>
+                <View style={beneficiosAppStyles.accentContainer}>
                     {loading && <ActivityIndicator size="large" color="#000" />}
                     {error && <Text style={{ color: 'red' }}>{error}</Text>}
                     {!loading && !error && (
@@ -83,6 +81,6 @@ export default function ScreenBeneficio() {
                     )}
                 </View>
             </View>
-        </SafeAreaView>
+        // </SafeAreaView>
     );
 }

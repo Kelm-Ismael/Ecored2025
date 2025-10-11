@@ -1,11 +1,13 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, Alert, View, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { commonStyles } from '../styles/styles';
+
+import { commonStyles, perfilAppStyles } from '../styles/styles';
 import { BASE_URL } from '../config/api';
 import LogoutButton from '../components/LogoutButton'
+import { formatearFecha } from '../utils/formatearFecha';
 
 export default function ScreenPerfil({ onLogout }) {
     const [usuario, setUsuario] = useState(null);
@@ -98,61 +100,65 @@ export default function ScreenPerfil({ onLogout }) {
     }
 
     return (
-        <SafeAreaView style={commonStyles.safeArea}>
-            <View style={commonStyles.containerNoPadding}>
-                <View style={commonStyles.perfilContainer}>
-                    <View style={commonStyles.perfilRow}>
-                        <View style={commonStyles.box70}>
-                            <Text style={commonStyles.perfilNombre}>{usuario.referencia.nombre} {usuario.referencia.apellido}</Text>
-                            <Text style={commonStyles.perfilRol}>{usuario.tipo_usuario || 'No especificado'}</Text>
+        <View style={perfilAppStyles.containerNoPadding}>
+            <View style={perfilAppStyles.perfilContainer}>
+                <View style={perfilAppStyles.perfilRow}>
+                    <View style={perfilAppStyles.box70}>
+                        <Text style={perfilAppStyles.perfilNombre}>{usuario.referencia.nombre} {usuario.referencia.apellido}</Text>
+                        <Text style={perfilAppStyles.perfilRol}>{usuario.tipo_usuario || 'No especificado'}</Text>
+                    </View>
+                    <View style={perfilAppStyles.box30}>
+                        {/* <Text style={perfilAppStyles.perfilNivelTag}>Nivel:</Text> */}
+                        <View style={perfilAppStyles.perfilNivel}>
+                            <Text style={perfilAppStyles.perfilNivelText}>{usuario.nivel || '0'}</Text>
                         </View>
-                        <View style={commonStyles.box30}>
-                            
-                            <Text style={commonStyles.perfilNivelTag}>Nivel:</Text>
-                            <View style={commonStyles.perfilNivel}>
-                                <Text style={commonStyles.perfilNivelText}>{usuario.nivel || '0'}</Text>
-                            </View>
-                            <Text style={commonStyles.perfilNivelTag}>No asignado</Text>
-                        </View>
+                        <Text style={perfilAppStyles.perfilNivelTag}>No asignado</Text>
                     </View>
                 </View>
-                <View style={commonStyles.container}>
-                    <View style={commonStyles.container}>
-                        <Text style={commonStyles.perfilTitulo}>Puntos acumulados:</Text>
-                        <View style={commonStyles.perfilPuntos}>
-                            <Text style={commonStyles.perfilPuntosTexto}>{usuario.puntos_acumulados || 0} puntos</Text>
-                        </View>
-                        <Text style={commonStyles.perfilTitulo}>Últimas transacciones:</Text>
-                        <View style={commonStyles.perfilTransacciones}>
-                            {transacciones.length === 0 ? (
-                                <Text style={commonStyles.perfilTexto}>No hay transacciones recientes.</Text>
-                            ) : (
-                                transacciones.map((t, index) => (
-                                    <View key={index} style={commonStyles.transaccionItem}>
-                                        <Text style={commonStyles.transaccionTexto}>
-                                            📍 {t.nombre_locacion} ({t.tipo_locacion}) || 📅 {new Date(t.fecha_hora).toLocaleString()} || 👤 Entregado a: {t.nombre_receptor}
-                                        </Text>
-                                    </View>
-                                ))
-                            )}
-                        </View>
-                    </View>
-                </View>
-                    <View style={commonStyles.perfilButtonsContainer}>
-                        <View style={commonStyles.perfilButtonEntrega}>
-                            <TouchableOpacity
-                                style={commonStyles.perfilButtonEntrega}
-                                onPress={() => navigation.navigate('Scanner')}
-                            >
-                                <Text style={commonStyles.buttonText}>Nueva entrega</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={commonStyles.perfilButtonLogout}>
-                            <LogoutButton onLogout={onLogout} />
-                        </View>                        
-                    </View>
-
             </View>
-        </SafeAreaView>
+            <View style={perfilAppStyles.containerPuntos}>
+                <Text style={perfilAppStyles.perfilTitulo}>Puntos acumulados:</Text>
+                <View style={perfilAppStyles.perfilPuntos}>
+                    <Text style={perfilAppStyles.perfilPuntosTexto}>{usuario.puntos_acumulados || 0} puntos</Text>
+                </View>
+            </View>
+            
+            <View style={perfilAppStyles.containerEntregas}>
+                <Text style={perfilAppStyles.perfilTitulo}>Últimas transacciones:</Text>
+                <View style={perfilAppStyles.accentContainerEntregas}>
+                    <View style={perfilAppStyles.cabeceraEntregas}>
+                        <Text style={perfilAppStyles.cabeceraTexto}>Fecha</Text>
+                        <Text style={perfilAppStyles.cabeceraTexto}>Locacion</Text>
+                        <Text style={perfilAppStyles.cabeceraTexto}>Tipo</Text>
+                        <Text style={perfilAppStyles.cabeceraTexto}>Receptor</Text>
+                    </View>
+                    {transacciones.length === 0 ? (
+                        <Text style={perfilAppStyles.cabeceraTexto}>No hay transacciones recientes.</Text>
+                    ) : (
+                        transacciones.map((entrega, index) => (
+                            <View key={index} style={perfilAppStyles.rowEntregas}>
+                                <Text style={perfilAppStyles.rowEntregasTexto}>{formatearFecha(entrega.fecha_hora)}</Text>
+                                <Text style={perfilAppStyles.rowEntregasTexto}>{entrega.nombre_locacion}</Text>
+                                <Text style={perfilAppStyles.rowEntregasTexto}>{entrega.tipo_locacion}</Text>
+                                <Text style={perfilAppStyles.rowEntregasTexto}>{entrega.nombre_receptor}</Text>
+                            </View>
+                        ))
+                    )}
+                </View>
+            </View>
+            <View style={perfilAppStyles.containerButtons}>
+                <View style={perfilAppStyles.buttonEntrega}>
+                    <TouchableOpacity
+                        style={perfilAppStyles.buttonEntrega}
+                        onPress={() => navigation.navigate('Scanner')}
+                    >
+                        <Text style={commonStyles.buttonText}>Nueva entrega</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={perfilAppStyles.buttonEntrega}>
+                    <LogoutButton onLogout={onLogout} />
+                </View>                        
+            </View>
+        </View>
     );
 }

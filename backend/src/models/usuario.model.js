@@ -108,11 +108,34 @@ export async function actualizarFotoUrl(id, url) {
   );
 }
 
-// Sumar puntos
+// pts por usuario
+export async function obtenerPuntosUsuario(id) {
+   const [rows] = await db.query(
+    `SELECT 
+      u.puntos_acumulados 
+    FROM usuario u 
+    WHERE id = ?`,
+    [id]
+  );
+  return rows[0];
+}
+
+// sumar pts
 export async function sumarPuntosUsuario(conn, id, puntos) {
   const [result] = await conn.query(
     `UPDATE usuario
      SET puntos_acumulados = COALESCE(puntos_acumulados, 0) + ?
+     WHERE id = ?`,
+    [puntos, id]
+  );
+  return result.affectedRows;
+}
+
+// restar pts
+export async function restarPuntosUsuario(conn, id, puntos) {
+  const [result] = await conn.query(
+    `UPDATE usuario
+     SET puntos_acumulados = COALESCE(puntos_acumulados, 0) - ?
      WHERE id = ?`,
     [puntos, id]
   );

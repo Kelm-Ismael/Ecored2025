@@ -124,7 +124,7 @@ export default function WebEntrega() {
                             </View>
                             {/* select de busqueda (cliente por apellido) */}
                             <View style={commonStyles.webEntregaSearchBar}>
-                                <TextInput 
+                                <TextInput
                                     style={commonStyles.webEntregaInput}
                                     placeholder="Ingrese apellido, DNI o Email"
                                     value={searchText}
@@ -143,7 +143,7 @@ export default function WebEntrega() {
                         </View>
                         <View style={commonStyles.webEntregaSearchResult}>
                             {searchResults.length === 0 ? (
-                                <Text style={{fontSize: 18}}>Sin resultados</Text>
+                                <Text>Sin resultados</Text>
                             ) : (
                                 searchResults.map((user) => (
                                 <View
@@ -152,7 +152,7 @@ export default function WebEntrega() {
                                 >
                                     <View>
 
-                                    <Text style={{fontSize: 18}}>{user.nombre} {user.apellido} ({user.tipo_usuario}) | DNI: {user.dni}</Text>
+                                    <Text>{user.nombre} {user.apellido} ({user.tipo_usuario}) | DNI: {user.dni}</Text>
                                     <Text style={{ fontSize: 12, color: '#666' }}>{user.email}</Text>
                                     </View>
                                     
@@ -178,7 +178,7 @@ export default function WebEntrega() {
                         <View style={commonStyles.webEntregaResumen}>
                             <View style={commonStyles.webEntregaInput}>
                                 <View style={commonStyles.webEntregaTipo}>
-                                    <Text style={{fontSize: 18, fontWeight: 'bold'}}>Tipo</Text>
+                                    <Text>Tipo</Text>
                                     <ResiduoPicker
                                         cantidad={cantidad}
                                         onPuntosCalculados={(puntos) => {
@@ -192,7 +192,7 @@ export default function WebEntrega() {
                                     />
                                 </View>
                                 <View style={commonStyles.webEntregaCantidad}>
-                                    <Text style={{fontSize: 18, fontWeight: 'bold'}}>Cantidad</Text>
+                                    <Text>Cantidad</Text>
                                     <TextInput
                                             keyboardType="numeric"
                                             value={cantidad}

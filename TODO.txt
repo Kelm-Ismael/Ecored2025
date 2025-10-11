@@ -1,15 +1,4 @@
-BACK
-* crud entrega
-* crud beneficios
-* crud desafios
-* armar tablas: ultimas 5 transacciones por cliente OK, tabla beneficios cargados OK, tabla desafios cargados OK
-* buscadores en beneficios y desafios OK
-* averiguar como utilizar geolocalizacion del telefono para los mapas de ecopts
-
-FRONT
-* armar los estilos segun el prototipo de figma OKish
-* empezar a armar la pag de login -> OK
-* armar componentes sueltos segun el ptototipo
-* armar articulos de info con articulos varios de la pag https://cambioclimatico.misiones.gob.ar/ -> cada articulo nuevo seria otra screen el /screens que despues se puede linkear desde informacion 
-* armar styles de botones
-* armar componentes botones
+UPDATE 8/OCT (que falta)
+    - crear usuarios desde web (para crear usuario escuela admin)
+    - buscar escuela + solicitar linkto escuela (usuario ciudadano a usuario alumno)
+    - aceptar/rechazar alumnos -> cambio tipo user

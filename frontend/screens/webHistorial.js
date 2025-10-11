@@ -22,6 +22,8 @@ export default function WebHistorial() {
     const [detallesVisibles, setDetallesVisibles] = useState({});
     const [detallesPorEntrega, setDetallesPorEntrega] = useState({});
 
+    const { nombreLocacion, locacionError } = useContext(AuthContext);
+
     useEffect(() => {
         if (!authLoading) {
             const rolesAutorizados = ['superadmin', 'administrador', 'empleado', 'escuela'];
@@ -109,7 +111,7 @@ export default function WebHistorial() {
                 </View>
                 <View style={commonStyles.webContent}>
                     <View style={commonStyles.container}>
-                        <Text style={commonStyles.title}>Historial</Text>
+                        <Text style={commonStyles.title}>Historial de Entregas en Ecopunto {locacionError ? 'Error' : (nombreLocacion || '...')}</Text>
                         <View style={commonStyles.accentContainer}>
                             {error ? (
                                 <Text style={{ color: 'red' }}>{error}</Text>
@@ -119,32 +121,33 @@ export default function WebHistorial() {
                                 <View style={{ padding: 10 }}>
                                     {/* Cabecera de la tabla */}
                                     <View style={{ flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 5 }}>
-                                        <Text style={{ flex: 1, fontWeight: 'bold', fontSize: 18 }}>ID</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18}}>Fecha</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18 }}>Usuario</Text>
-                                        <Text style={{ flex: 2, fontWeight: 'bold', fontSize: 18 }}>Receptor</Text>
+                                        <Text style={{ flex: 1, fontWeight: 'bold' }}>ID</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Fecha</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Usuario</Text>
+                                        <Text style={{ flex: 2, fontWeight: 'bold' }}>Receptor</Text>
+                                        <Text style={{ flex: 1, fontWeight: 'bold' }}>Detalles</Text>
                                     </View>
 
                                     {/* Filas */}
                                     {entregas.map((entrega) => (
                                         <View key={entrega.id}>
                                             <View style={{ flexDirection: 'row', paddingVertical: 5, borderBottomWidth: 0.5 }}>
-                                                <Text style={{ flex: 1 ,fontSize: 16}}>{entrega.id}</Text>
-                                                <Text style={{ flex: 2 ,fontSize: 16}}>{formatearFecha(entrega.fecha_hora)}</Text>
-                                                <Text style={{ flex: 2 ,fontSize: 16}}>{entrega.nombre_usuario || entrega.id_usuario}</Text>
-                                                <Text style={{ flex: 2 ,fontSize: 16}}>{entrega.nombre_receptor || entrega.id_receptor}</Text>
+                                                <Text style={{ flex: 1 }}>{entrega.id}</Text>
+                                                <Text style={{ flex: 2 }}>{formatearFecha(entrega.fecha_hora)}</Text>
+                                                <Text style={{ flex: 2 }}>{entrega.nombre_usuario || entrega.id_usuario}</Text>
+                                                <Text style={{ flex: 2 }}>{entrega.nombre_receptor || entrega.id_receptor}</Text>
                                                 <TouchableOpacity
                                                     style={{ flex: 1 }}
                                                     onPress={() => toggleDetalles(entrega.id)}
                                                 >
-                                                    <Text style={{ color: '#007bff', fontSize: 17}}>
-                                                        {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver detalles'}
+                                                    <Text style={{ color: '#007bff' }}>
+                                                        {detallesVisibles[entrega.id] ? 'Ocultar' : 'Ver'}
                                                     </Text>
                                                 </TouchableOpacity>
                                             </View>
 
                                             {/* Acordeón */}
-                                            {detallesVisibles[entrega.id] && (
+                                            {/* {detallesVisibles[entrega.id] && (
                                                 <View style={{ marginLeft: 10, marginBottom: 10 }}>
                                                     {detallesPorEntrega[entrega.id]?.length > 0 ? (
                                                         detallesPorEntrega[entrega.id].map((item, index) => (
@@ -156,6 +159,41 @@ export default function WebHistorial() {
                                                         <Text style={{ fontStyle: 'italic', marginLeft: 10 }}>Sin detalles</Text>
                                                     )}
                                                 </View>
+                                            )} */}
+                                            {detallesVisibles[entrega.id] && (//---------NUEVA TABLA---------
+                                            <View style={{ marginBottom: 10 }}>
+                                                {detallesPorEntrega[entrega.id]?.length > 0 ? (
+                                                <View style={{ borderWidth: 1, borderColor: '#D8F291', overflow: 'hidden' }}>
+                                                    {/* Encabezado de la tabla */}
+                                                    <View style={{ flexDirection: 'row', backgroundColor: '#D8F291', paddingVertical: 4 }}>
+                                                    <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>ID</Text>
+                                                    <Text style={{ flex: 2, fontWeight: 'bold', textAlign: 'center' }}>Material</Text>
+                                                    <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>Cantidad</Text>
+                                                    <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>Unidad</Text>
+                                                    <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>Puntos</Text>
+                                                    </View>
+                                                    {/* Filas de datos */}
+                                                    {detallesPorEntrega[entrega.id].map((item, index) => (
+                                                    <View
+                                                        key={index}
+                                                        style={{
+                                                        flexDirection: 'row',
+                                                        backgroundColor: index % 2 === 0 ? '#ffffffff' : '#f7f7f7',
+                                                        paddingVertical: 4,
+                                                        }}
+                                                    >
+                                                        <Text style={{ flex: 1, textAlign: 'center' }}>{item.id}</Text>
+                                                        <Text style={{ flex: 2, textAlign: 'center' }}>{item.nombre}</Text>
+                                                        <Text style={{ flex: 1, textAlign: 'center' }}>{item.cantidad}</Text>
+                                                        <Text style={{ flex: 1, textAlign: 'center' }}>{item.unidad}</Text>
+                                                        <Text style={{ flex: 1, textAlign: 'center' }}>{item.puntos}</Text>
+                                                    </View>
+                                                    ))}
+                                                </View>
+                                                ) : (
+                                                <Text style={{ fontStyle: 'italic', marginLeft: 10 }}>Sin detalles</Text>
+                                                )}
+                                            </View>
                                             )}
                                         </View>
                                     ))}

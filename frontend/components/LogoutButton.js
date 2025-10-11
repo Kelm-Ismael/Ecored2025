@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { commonStyles } from '../styles/styles.js'
+import { commonStyles, perfilAppStyles } from '../styles/styles.js'
 
 const LogoutButton = ({ onLogout }) => {
     const cerrarSesion = async () => {
@@ -39,7 +39,7 @@ const LogoutButton = ({ onLogout }) => {
 };
 
   return (
-    <TouchableOpacity style={commonStyles.perfilButtonLogout} onPress={handleLogout}>
+    <TouchableOpacity style={perfilAppStyles.buttonEntrega} onPress={handleLogout}>
   <Text style={commonStyles.buttonText}>Cerrar sesión</Text>
 </TouchableOpacity>
   );

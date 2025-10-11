@@ -15,27 +15,31 @@ export default function InformacionStack() {
       <Stack.Screen
         name="InformacionHome"
         component={ScreenInformacion}
-        options={{ title: "Información" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="MapaEcoPuntos"
         component={MapaEcoPuntos}
-        options={{ title: "Mapa EcoPuntos" }}
+        options={{ headerShown: false }}
+        // options={{ title: "Volver" }}
       />
       <Stack.Screen
         name="InfoCambioClimatico"
         component={InfoCambioClimatico}
-        options={{ title: "Cambio Climático" }}
+        // options={{ title: "Volver" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="InfoEconomiaCircular"
         component={InfoEconomiaCircular}
-        options={{ title: "Economia Circular" }}
+        // options={{ title: "Volver" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="InfoComoCuidarPlaneta" 
         component={InfoComoCuidarPlaneta} 
-        options={{ title: "Acciones climaticas positivas"}} 
+        // options={{ title: "Volver"}} 
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

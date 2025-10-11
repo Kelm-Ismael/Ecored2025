@@ -4,23 +4,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from 'react';
+import { StyleSheet, Platform, Text, View } from 'react-native';
+import { headerStyles, tabBarStyles } from './styles/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { StyleSheet, Platform, Text, View } from 'react-native';
+import InformacionStack from "./navigation/informacionStack";
+import UsuarioStack from './navigation/usuarioStack';
 
-// import ScreenInformacion from './screens/informacion' CAMBIADO
-import InformacionStack from "./navigation/informacionStack"; // 👈 importado el nuevo stack
-
+import ScreenInformacion from './screens/informacion'
 import ScreenBeneficio from './screens/beneficios'
 import ScreenDesafio from './screens/desafios'
+import MapaEcoPuntos from './screens/mapaEcoPuntos';
+import InfoCambioClimatico from './screens/infoCambioClimatico';
+
 import WebAuthWrapper from './screens/webAuthWrapper';
 import AuthStack from './navigation/usuarioStack';
 import { AuthProvider } from './context/AuthContext';
-import MapaEcoPuntos from './screens/mapaEcoPuntos';//NUEVO
-import InfoCambioClimatico from './screens/infoCambioClimatico';//NUEVO
-
-import { headerStyles, tabBarStyles } from './styles/styles';
-import UsuarioStack from './navigation/usuarioStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +28,9 @@ const tabScreenOptions = ({ route }) => ({
     let iconName;
 
     switch (route.name) {
+      case 'Mapa EcoPuntos':
+        iconName = focused ? 'map' : 'map-outline';
+        break;
       case 'Informacion':
         iconName = focused ? 'information-circle' : 'information-circle-outline';
         break;
@@ -58,6 +60,22 @@ export default function App() {
   //   clearToken();
   // }, []);
 
+  const [informacionStackLoaded, setInformacionStackLoaded] = React.useState(false);
+  const [informacionStack, setInformacionStack] = React.useState(null);
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') {
+      import('./navigation/informacionStack')
+        .then((mod) => {
+          setInformacionStack(() => mod.default);
+          setInformacionStackLoaded(true);
+        })
+        .catch((error) => {
+          console.error('❌ Error cargando InformacionStack:', error);
+        });
+    }
+  }, []);
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -70,14 +88,23 @@ export default function App() {
           // 👉 App móvil con navegación por tabs
           <Tab.Navigator screenOptions={tabScreenOptions}>
             <Tab.Screen
+              name="Mapa EcoPuntos"
+              component={MapaEcoPuntos}
+              options={{
+                title: 'Ecopuntos',
+                ...headerStyles,
+              }}
+            />
+            {informacionStack && (
+              <Tab.Screen
               name="Informacion"
-              // component={ScreenInformacion} CAMBIADO
               component={InformacionStack}
               options={{
                 title: 'Información',
                 ...headerStyles,
               }}
-            />
+              />
+            )}
             <Tab.Screen
               name="Usuario"
               component={UsuarioStack}

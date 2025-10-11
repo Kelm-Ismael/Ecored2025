@@ -8,10 +8,12 @@ import { BASE_URL } from '../config/api';
 import { DEFAULT_ID_LOCACION } from '../config/constants';
 
 const visibleRoutesByRole = {
-  admin: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes'],
-  empleado: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial'],
   superadmin: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes'],
-  ciudadano: ['WebLogin', 'WebPerfil']
+  administrador: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Beneficios', 'Desafios', 'Informes'],
+  alumno: ['WebMain', 'WebPerfil'],
+  ciudadano: ['WebMain', 'WebPerfil'],
+  empleado: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial'],
+  escuela: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'Informes'],
 };
 
 const routeTitles = {

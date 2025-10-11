@@ -2,6 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from '../config/api';
+import { DEFAULT_ID_LOCACION } from '../config/constants';
 
 export const AuthContext = createContext();
 
@@ -11,6 +12,9 @@ export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
+
+  const [nombreLocacion, setNombreLocacion] = useState('');
+  const [locacionError, setLocacionError] = useState(null);
 
   // Verifica token y obtiene perfil al iniciar la app
   const checkAuth = async () => {
@@ -24,6 +28,12 @@ export function AuthProvider({ children }) {
         });
         const perfilData = await perfilRes.json();
         console.log('📨 Texto completo de respuesta (login):', perfilData);
+        
+        if (perfilRes.status === 401 || perfilData.error === 'Token inválido') {
+          console.warn('❌ Token inválido, cerrando sesión...');
+          await logout(); // Limpia token y estado
+          return;
+        }
         
         setUser(perfilData);
         setUserRole(perfilData.tipo_usuario);
@@ -46,6 +56,38 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     checkAuth();
   }, []);
+
+  const fetchNombreLocacion = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/locaciones/todas`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      if (!res.ok) throw new Error('Error al obtener locaciones');
+
+      const data = await res.json();
+      const locacionEncontrada = data.find(loc => loc.id === DEFAULT_ID_LOCACION);
+
+      if (locacionEncontrada) {
+        setNombreLocacion(locacionEncontrada.nombre);
+      } else {
+        console.warn('Locación no encontrada');
+        setNombreLocacion('No encontrada');
+      }
+
+    } catch (err) {
+      console.error('Error al obtener locación:', err);
+      setLocacionError('No se pudo cargar la locación.');
+    }
+  };
+
+  useEffect(() => {
+    if (userToken) {
+      fetchNombreLocacion();
+    }
+  }, [userToken]);
 
   // Función para login
   const login = async (email, password) => {
@@ -98,6 +140,8 @@ export function AuthProvider({ children }) {
         user,
         login,
         logout,
+        nombreLocacion,
+        locacionError,
       }}
     >
       {children}

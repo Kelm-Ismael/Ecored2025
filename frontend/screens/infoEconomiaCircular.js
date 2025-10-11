@@ -1,41 +1,40 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, ScrollView, StyleSheet } from 'react-native';
+import YoutubeIframe from 'react-native-youtube-iframe';
+import { ScrollView, Text, View } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+import { commonStyles, informacionAppStyles } from '../styles/styles';
 
 export default function InfoEconomiaCircular() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.title}>¿Qué es la Economia Circular?</Text>
-        <Text style={styles.text}>
-          La Economía Circular es un sistema de aprovechamiento máximo de recursos donde predomina la reducción, 
-          la reutilización y el reciclaje de los elementos. Busca instalarse como un nuevo modelo de desarrollo un triple impacto: 
-          Ambiental - Económico - Social. La transición hacia este tipo de modelo debe ser justo y transversal, 
-          teniendo presente los recursos y desventajas de cada espacio.
+    <View style={commonStyles.container}>
+      <ScrollView contentContainerStyle={informacionAppStyles.scroll}>
+        <Text style={informacionAppStyles.title}>¿Qué es la Economia Circular?</Text>
+        <Text style={informacionAppStyles.text}>
+          La Economía Circular es un sistema de aprovechamiento máximo de recursos donde predomina la reducción, la reutilización y el reciclaje de los elementos. Busca instalarse como un nuevo modelo de desarrollo un triple impacto:</Text>
+        <View style={informacionAppStyles.list}>
+          <View style={informacionAppStyles.listItem}>
+            <FontAwesome name="check" size={18} style={informacionAppStyles.icon} />
+            <Text style={informacionAppStyles.listText}>Ambiental</Text>
+          </View>
+          <View style={informacionAppStyles.listItem}>
+            <FontAwesome name="check" size={18} style={informacionAppStyles.icon} />
+            <Text style={informacionAppStyles.listText}>Económico</Text>
+          </View>
+          <View style={informacionAppStyles.listItem}>
+            <FontAwesome name="check" size={18} style={informacionAppStyles.icon} />
+            <Text style={informacionAppStyles.listText}>Social</Text>
+          </View>
+        </View>
+        <Text style={informacionAppStyles.text}>
+          La transición hacia este tipo de modelo debe ser justo y transversal, teniendo presentes los recursos y desventajas de cada espacio.
         </Text>
-        <Text>
-          https://youtu.be/T3AZ2jwZ__0
-        </Text>
+        <View style={informacionAppStyles.accentContainer}>
+          <YoutubeIframe
+            height={170}
+            videoId="T3AZ2jwZ__0"
+          />
+        </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scroll: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    color:'#00A887',
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 22,
-    marginBottom: 10,
-  },
-});

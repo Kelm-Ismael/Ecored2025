@@ -11,8 +11,6 @@ import ScreenPerfil from '../screens/perfilUsuario';
 import ScreenRegistro from '../screens/registroUsuario';
 import ScreenScanner from '../screens/scannerQR';
 import ScreenValidarEntrega from '../screens/validarEntrega';
-import MapaEcoPuntos from '../screens/mapaEcoPuntos';//NUEVO
-import InfoCambioClimatico from '../screens/infoCambioClimatico';//NUEVO
 
 import { AuthContext } from '../context/AuthContext';
 import { headerStyles } from '../styles/styles';
@@ -20,8 +18,6 @@ import { headerStyles } from '../styles/styles';
 const Stack = createNativeStackNavigator();
 
 const allScreens = {
-  MapaEcoPuntos: { component: MapaEcoPuntos, title: 'MapaEcoPuntos'},//NUEVO
-  InfoCambioClimatico: { component: InfoCambioClimatico, title: 'InfoCambioClimático' },//NUEVO
   Login: { component: ScreenLogin, title: 'Login' },
   Perfil: { component: ScreenPerfil, title: 'Perfil' },
   Beneficios: { component: ScreenBeneficio, title: 'Beneficios' },
@@ -33,12 +29,12 @@ const allScreens = {
 };
 
 const routesByRole = {
-    superadmin: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Registro', 'Scanner', 'ValidarEntrega', 'MapaEcoPuntos', 'InfoCambioClimatico'],
-    administrador: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Registro', 'Scanner', 'ValidarEntrega', 'MapaEcoPuntos', 'InfoCambioClimatico'],
-    alumno: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'ValidarEntrega', 'MapaEcoPuntos', 'InfoCambioClimatico'],
-    ciudadano: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'ValidarEntrega', 'MapaEcoPuntos', 'InfoCambioClimatico'],
-    empleado: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'MapaEcoPuntos', 'InfoCambioClimatico'],
-    escuela: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'ValidarEntrega', 'MapaEcoPuntos', 'InfoCambioClimatico'],
+    superadmin: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Registro', 'Scanner', 'ValidarEntrega'],
+    administrador: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Registro', 'Scanner', 'ValidarEntrega'],
+    alumno: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'Validar entrega'],
+    ciudadano: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'Validar entrega'],
+    empleado: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion'],
+    escuela: ['Login', 'Perfil', 'Beneficios', 'Desafios', 'Informacion', 'Scanner', 'ValidarEntrega'],
 };
 
 export default function WebStack() {
