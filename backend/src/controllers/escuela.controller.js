@@ -4,6 +4,7 @@ import { firmarToken, verificarToken } from '../utils/jwt.js';
 import db from '../config/db.js';
 import { 
     obtenerEscuelas, 
+    obtenerSolicitudesPendientesPorEscuela, 
     obtenerSolicitudesPorEscuela, 
     responderSolicitud, 
     solicitarAsociacion, 
@@ -23,13 +24,29 @@ export async function getEscuelas(req, res) {
 
 export async function getSolicitudesPorEscuela(req, res) {
   try {
+    const { id_escuela, estado } = req.body;
+
+    if (!id_escuela) {
+      return res.status(400).json({ error: 'Falta el id de la escuela' });
+    }
+
+    const solicitudes = await obtenerSolicitudesPorEscuela(id_escuela, estado);
+    res.json(solicitudes);
+  } catch (err) {
+    console.error('Error al obtener solicitudes:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
+export async function getSolicitudesPendientesPorEscuela(req, res) {
+  try {
     const { id_escuela } = req.body;
 
     if (!id_escuela) {
       return res.status(400).json({ error: 'Falta el id de la escuela' });
     }
 
-    const solicitudes = await obtenerSolicitudesPorEscuela(id_escuela);
+    const solicitudes = await obtenerSolicitudesPendientesPorEscuela(id_escuela);
     res.json(solicitudes);
   } catch (err) {
     console.error('Error al obtener solicitudes:', err);

@@ -165,6 +165,17 @@ export async function restarPuntosUsuario(conn, id, puntos) {
   return result.affectedRows;
 }
 
+// sumar pts escuela
+export async function sumarPuntosEscuela(conn, id, puntos) {
+  const [result] = await conn.query(
+    `UPDATE usuario
+     SET puntos_acumulados = COALESCE(puntos_acumulados, 0) + ?
+     WHERE id_referencia = ? AND id_tipo_usuario = 5`,
+    [puntos, id]
+  );
+  return result.affectedRows;
+}
+
 // PERFIL DETALLADO (incluye id_tipo_usuario y texto)
 export async function obtenerPerfilDetallado(id) {
   const [rows] = await db.query(

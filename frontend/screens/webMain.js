@@ -158,7 +158,7 @@ export default function WebMain({ role, navigation }) {
                                     <Text style={webMainStyles.subtitle}>Solicitudes pendientes</Text>
                                     <View style={commonStyles.accentContainerTablas}>
                                         {solicitudes.length === 0 ? (
-                                            <Text style={{ marginTop: 10 }}>No hay solicitudes pendientes.</Text>
+                                            <Text style={{ alignSelf: 'center', fontSize: 16 }}>No hay solicitudes pendientes.</Text>
                                         ) : (
                                             <View style={{ padding: 10 }}>
                                                 <View style={commonStyles.webCabeceraTabla}>
@@ -221,6 +221,12 @@ export default function WebMain({ role, navigation }) {
                                             </View>
                                         )}
                                     </View>
+                                    <TouchableOpacity
+                                        style={webNuevoUsuario.button}
+                                        onPress={() => navigation.navigate('Solicitudes')}
+                                    >
+                                        <Text style={webNuevoUsuario.buttonText}>ver solicitudes verificadas</Text>
+                                    </TouchableOpacity>
                                 </>
                             )}
                         {/* </View> */}

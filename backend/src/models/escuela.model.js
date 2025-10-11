@@ -15,7 +15,7 @@ export async function obtenerEscuelas() {
   return rows;
 }
 
-export async function obtenerSolicitudesPorEscuela(id_escuela) {
+export async function obtenerSolicitudesPorEscuela(id_escuela, estado) {
   const [rows] = await db.query(`
     SELECT 
         s.id,
@@ -31,8 +31,50 @@ export async function obtenerSolicitudesPorEscuela(id_escuela) {
     INNER JOIN usuario up ON s.id_usuario = up.id
     INNER JOIN persona p ON up.id_referencia = p.id
     INNER JOIN institucion i ON s.id_institucion = i.id
-    WHERE s.id_institucion = ?
+    WHERE s.id_institucion = ? AND s.estado = ?
+    `, [id_escuela, estado]);
+  return rows;
+}
+
+export async function obtenerSolicitudesPendientesPorEscuela(id_escuela) {
+  const [rows] = await db.query(`
+    SELECT 
+        s.id,
+        s.id_usuario,
+        CONCAT(p.nombre, ' ', p.apellido) AS nombre_usuario,
+        s.id_institucion,
+        i.nombre,
+        s.estado,
+        s.fecha_solicitud,
+        s.fecha_verificacion,
+        s.notas
+    FROM solicitud_link_institucion s
+    INNER JOIN usuario up ON s.id_usuario = up.id
+    INNER JOIN persona p ON up.id_referencia = p.id
+    INNER JOIN institucion i ON s.id_institucion = i.id
+    WHERE s.id_institucion = ? AND s.estado = 'pendiente'
     `, [id_escuela]);
+  return rows;
+}
+
+export async function obtenerSolicitudesVerificadasPorEscuela(id_escuela, estado) {
+  const [rows] = await db.query(`
+    SELECT 
+        s.id,
+        s.id_usuario,
+        CONCAT(p.nombre, ' ', p.apellido) AS nombre_usuario,
+        s.id_institucion,
+        i.nombre,
+        s.estado,
+        s.fecha_solicitud,
+        s.fecha_verificacion,
+        s.notas
+    FROM solicitud_link_institucion s
+    INNER JOIN usuario up ON s.id_usuario = up.id
+    INNER JOIN persona p ON up.id_referencia = p.id
+    INNER JOIN institucion i ON s.id_institucion = i.id
+    WHERE s.id_institucion = ? AND s.estado = ?
+    `, [id_escuela, estado]);
   return rows;
 }
 

@@ -38,3 +38,21 @@ export async function buscarInstitucionPorCuitCuil(conn, cuit_cuil) {
   );
   return rows[0] || null;
 }
+
+
+export async function buscarInstitucionPorIdUsuario(conn, id_usuario) {
+  const [rows] = await conn.query(
+    `SELECT 
+      i.id,
+      i.nombre,
+      i.id_tipo_institucion,
+      ti.institucion,
+      i.cuit_cuil
+    FROM solicitud_link_institucion si 
+    JOIN institucion i ON si.id_institucion = i.id
+    JOIN tipo_institucion ti ON i.id_tipo_institucion = ti.id
+    WHERE si.id_usuario = ?`,
+    [id_usuario] 
+  );
+  return rows[0];
+}

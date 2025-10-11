@@ -12,6 +12,7 @@ import WebInformes from '../screens/webInformes';
 import WebHistorial from '../screens/webHistorial';
 import WebCodigoQR from '../screens/webCodigoQR';
 import WebNuevoUsuario from '../screens/webNuevoUsuario';
+import webSolicitudes from '../screens/webSolicitudes'
 
 import { AuthContext } from '../context/AuthContext';
 import { headerStyles } from '../styles/styles';
@@ -28,6 +29,7 @@ const allScreens = {
   Informes: { component: WebInformes, title: 'Informes' },
   CodigoQR: { component: WebCodigoQR, title: 'CodigoQR' },
   NuevoUsuario: {component: WebNuevoUsuario, title: 'Nuevo usuario' },
+  Solicitudes: {component: webSolicitudes, title: 'Solicitudes verificadas'}
 };
 
 const routesByRole = {
@@ -36,7 +38,7 @@ const routesByRole = {
     alumno: ['WebMain', 'WebPerfil'],
     ciudadano: ['WebMain', 'WebPerfil'],
     empleado: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'Historial', 'CodigoQR'],
-    escuela: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'CodigoQR'],
+    escuela: ['WebMain', 'WebPerfil', 'NuevaEntrega', 'CodigoQR', 'Solicitudes'],
 };
 
 export default function WebStack() {

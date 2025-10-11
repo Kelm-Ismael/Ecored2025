@@ -10,10 +10,11 @@ import {
     ultimasEntregasPorLocacionID,
     detallePorIdEntrega
 } from '../models/entrega.model.js'
-import { sumarPuntosUsuario } from '../models/usuario.model.js';
+import { sumarPuntosEscuela, sumarPuntosUsuario } from '../models/usuario.model.js';
 import pool from '../config/db.js';
 import { DEFAULT_ID_LOCACION, DEFAULT_ID_TIPO_LOCACION } from '../utils/constants.js';
 import { error } from 'console';
+import { buscarInstitucionPorIdUsuario } from '../models/institucion.model.js';
 
 
 
@@ -28,7 +29,7 @@ export async function getEntregas(req, res) {
 }
 
 export async function nuevaEntrega(req, res) {
-    const { fecha, id_usuario, id_receptor, detalle, id_locacion, id_tipo_locacion, total_puntos } = req.body;
+    const { fecha, id_usuario, id_receptor, tipo_usuario, detalle, id_locacion, id_tipo_locacion, total_puntos } = req.body;
     
     if (req.usuario.id_usuario !== id_usuario) {
         return res.status(403).json({ error: 'No estás autorizado para registrar esta entrega.' });
@@ -65,6 +66,18 @@ export async function nuevaEntrega(req, res) {
         const updated = await sumarPuntosUsuario(connection, id_usuario, total_puntos);
         if (updated === 0) {
             console.warn(`⚠️ No se actualizó ningún usuario con ID ${id_usuario}`);
+        }
+
+        if (tipo_usuario === 'alumno') {
+            const institucion = await buscarInstitucionPorIdUsuario(connection, id_usuario);
+            console.log('institucion: ', institucion);
+            const id_escuela = institucion.id;
+            const updated = await sumarPuntosEscuela(connection, id_escuela, total_puntos);
+            if (updated === 0) {
+                console.warn(`⚠️ No se actualizó ninguna institución (ID ${id_escuela})`);
+            } else {
+                console.log(`✅ Se sumaron ${total_puntos} puntos a la institución (ID ${id_escuela})`);
+            }
         }
 
         await connection.commit();

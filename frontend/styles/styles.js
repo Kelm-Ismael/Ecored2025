@@ -97,7 +97,7 @@ export const webSidebarStyles = StyleSheet.create ({
     backgroundColor: colors.accent,
     marginVertical: 2,
     marginHorizontal: 0,
-    paddingVertical: 14,
+    paddingVertical: 10,
   },
    buttonText: {
     textAlign: 'center',

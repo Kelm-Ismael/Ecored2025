@@ -45,7 +45,7 @@ export default function WebEntrega() {
             });
 
             const data = await res.json();
-            setSearchResults(data); // Mostrar lista en <View webEntregaSearchResult>
+            setSearchResults(data); // lista en <View webEntregaSearchResult>
         } catch (error) {
             console.error('Error al buscar usuario:', error);
         }
@@ -82,8 +82,9 @@ export default function WebEntrega() {
     }
 
     const qrPayload = {
-        id_receptor: userId, // el usuario que recibe (quien genera el QR)
-        id_usuario: selectedUser.id, // el usuario que entrega (quien escanea)
+        id_receptor: userId,
+        id_usuario: selectedUser.id,
+        tipo_usuario: selectedUser.tipo_usuario,
         detalle: detalleEntrega,
         total_puntos: totalPuntos,
         fecha: new Date().toISOString(),
